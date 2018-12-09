@@ -1,0 +1,46 @@
+// 60 Maindeck
+// 14 Creature
+4 Eidolon of the Great Revel
+4 Goblin Guide
+2 Grim Lavamancer
+4 Monastery Swiftspear
+
+// 18 Instant
+4 Boros Charm
+4 Lightning Bolt
+4 Lightning Helix
+4 Searing Blaze
+2 Skullcrack
+
+// 20 Land
+2 Arid Mesa
+4 Bloodstained Mire
+4 Inspiring Vantage
+3 Mountain
+3 Sacred Foundry
+4 Wooded Foothills
+
+// 8 Sorcery
+4 Lava Spike
+4 Rift Bolt
+
+
+// 15 Sideboard
+// 2 Artifact
+SB: 2 Ensnaring Bridge
+
+// 2 Enchantment
+SB: 2 Rest in Peace
+
+// 9 Instant
+SB: 1 Deflecting Palm
+SB: 2 Path to Exile
+SB: 2 Searing Blood
+SB: 1 Skullcrack
+SB: 2 Smash to Smithereens
+SB: 1 Wear // Tear
+
+// 2 Sorcery
+SB: 2 Exquisite Firecraft
+
+

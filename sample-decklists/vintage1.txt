@@ -1,0 +1,68 @@
+// 60 Maindeck
+// 5 Artifact
+1 Black Lotus
+1 Mox Emerald
+1 Mox Ruby
+1 Mox Sapphire
+1 Null Rod
+
+// 10 Creature
+4 Delver of Secrets
+3 Snapcaster Mage
+2 Tarmogoyf
+1 Young Pyromancer
+
+// 19 Instant
+1 Ancestral Recall
+1 Ancient Grudge
+1 Brainstorm
+1 Dig Through Time
+1 Flusterstorm
+4 Force of Will
+1 Gush
+4 Lightning Bolt
+4 Mental Misstep
+1 Pyroblast
+
+// 17 Land
+1 Flooded Strand
+1 Island
+1 Misty Rainforest
+4 Scalding Tarn
+1 Strip Mine
+2 Tropical Island
+4 Volcanic Island
+3 Wasteland
+
+// 1 Planeswalker
+1 Dack Fayden
+
+// 8 Sorcery
+1 Gitaxian Probe
+1 Ponder
+4 Preordain
+1 Time Walk
+1 Treasure Cruise
+
+
+// 15 Sideboard
+// 6 Artifact
+SB: 4 Grafdigger's Cage
+SB: 1 Null Rod
+SB: 1 Tormod's Crypt
+
+// 7 Instant
+SB: 1 Ancient Grudge
+SB: 1 Flusterstorm
+SB: 1 Hurkyl's Recall
+SB: 1 Nature's Claim
+SB: 2 Pyroblast
+SB: 1 Ravenous Trap
+
+// 1 Land
+SB: 1 Mountain
+
+// 1 Sorcery
+SB: 1 Shattering Spree
+
+

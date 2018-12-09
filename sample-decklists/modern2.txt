@@ -1,0 +1,49 @@
+// 60 Maindeck
+// 18 Artifact
+4 Chromatic Sphere
+4 Chromatic Star
+4 Expedition Map
+4 Oblivion Stone
+2 Relic of Progenitus
+
+// 7 Creature
+2 Ulamog, the Ceaseless Hunger
+2 Walking Ballista
+3 Wurmcoil Engine
+
+// 2 Instant
+2 Dismember
+
+// 19 Land
+5 Forest
+1 Ghost Quarter
+1 Sanctum of Ugin
+4 Urza's Mine
+4 Urza's Power Plant
+4 Urza's Tower
+
+// 6 Planeswalker
+4 Karn Liberated
+2 Ugin, the Spirit Dragon
+
+// 8 Sorcery
+4 Ancient Stirrings
+4 Sylvan Scrying
+
+
+// 15 Sideboard
+// 2 Artifact
+SB: 1 Crucible of Worlds
+SB: 1 Grafdigger's Cage
+
+// 6 Creature
+SB: 1 Emrakul, the Promised End
+SB: 3 Thought-Knot Seer
+SB: 2 Thragtusk
+
+// 7 Instant
+SB: 2 Gut Shot
+SB: 3 Nature's Claim
+SB: 2 Surgical Extraction
+
+
