@@ -19,3 +19,94 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#app {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+#decks-menu-main button {
+  width: 100%
+}
+
+#lobby-menu-main button {
+  width: 100%
+}
+
+.new-deck-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column; 
+}
+
+.deck-field {
+  height: 300px;
+  resize: none;
+}
+
+.cockatrice-name-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column; 
+}
+
+#lobby-navbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.lobby-navbar-selected {
+  background-color: grey
+}
+
+#lobby-navbar-options , #lobby-navbar-formats {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+
+}
+
+.lobby-navbar-item {
+  border: 1px solid black;
+  margin: 1px;
+  font-size: 14px;
+}
+
+#navbar-main {
+  width: 100%;
+  height: 30px;
+  background-color: #eee;
+  color: gray;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.nav-active {
+  border-bottom: 1px solid gray;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: gray;
+  transition: color 0.5s ease;
+  margin: 0 5px;
+}
