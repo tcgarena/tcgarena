@@ -2,7 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, SetCockatriceName, DecksMenu} from './components'
+import {
+  Login, 
+  Signup, 
+  UserHome, 
+  SetCockatriceName, 
+  DecksMenu, 
+  LobbyMenu
+} from './components'
 import {me, fetchDecks} from './store'
 
 /**
@@ -14,8 +21,8 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
-
+    const {isLoggedIn, hasCockaName} = this.props
+    console.log('hascockaname', hasCockaName)
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -27,9 +34,17 @@ class Routes extends Component {
             <Route path="/cockaName" component={SetCockatriceName} />
             <Route path="/decks" component={DecksMenu} />
             <Route path="/home" component={UserHome} />
+            {hasCockaName && (
+              <Switch>
+                {/* Routes placed here are only available after setting username */}
+                <Route path="/lobby" component={LobbyMenu} />
+              </Switch>
+            )}
+            {/* Displays set username component as a fallback */}
+            <Route component={SetCockatriceName} />
           </Switch>
         )}
-        {/* Displays our Login component as a fallback */}
+        {/* Displays our Login components as a fallback */}
         <Route component={Login} />
       </Switch>
     )
@@ -43,7 +58,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    hasCockaName: !!state.user.cockatriceName
   }
 }
 
@@ -65,5 +81,6 @@ export default withRouter(connect(mapState, mapDispatch)(Routes))
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  hasCockaName: PropTypes.bool.isRequired
 }

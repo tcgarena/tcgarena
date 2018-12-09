@@ -28,7 +28,6 @@ export const selectFormat = format => ({type: SELECT_FORMAT, format})
  */
 export const me = () => async dispatch => {
   try {
-    console.log("get me")
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {

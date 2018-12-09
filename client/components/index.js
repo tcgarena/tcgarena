@@ -14,3 +14,5 @@ export {default as DecksMenu} from './DeckComponents/DecksMenu'
 export {default as SingleDeckList} from './DeckComponents/SingleDeckList'
 export {default as AddDeckForm} from './DeckComponents/AddDeckForm'
 export {default as DecksList} from './DeckComponents/DecksList'
+
+export {default as LobbyMenu} from './LobbyComponents/LobbyMenu'
