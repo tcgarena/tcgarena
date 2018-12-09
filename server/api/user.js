@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db')
+const {User} = require('../db/models')
 const {requireLogin, requireTC} = require('../middlewares')
 
 // /api/user GET
@@ -27,7 +27,7 @@ router.post('/cockaName', requireLogin, async (req, res, next) => {
     await user.update({cockatriceName: req.body.cockatriceName})
     res.status(200).end()
   } catch(e) {
-
+    next(e)
   }
 })
 

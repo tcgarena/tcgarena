@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Deck } = require('../db')
+const { Deck } = require('../db/models')
 const {requireLogin} = require('../middlewares')
 
 // /api/decks GET

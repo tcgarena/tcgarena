@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Mini } = require('../db')
+const { Mini } = require('../db/models')
 const {
   requireLogin, 
   requireJudge1
