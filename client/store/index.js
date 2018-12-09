@@ -19,7 +19,8 @@ store.subscribe( () => {
   saveState({
     user: {
       selectedFormat: store.getState().user.selectedFormat
-    }
+    },
+    decks: store.getState().decks
   })
 })
 

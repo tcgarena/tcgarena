@@ -14,7 +14,9 @@ const DecksList = ({decks, selectedFormat, history}) => {
   return (
     <div className='deck-list'>
       { decksArr.map(deck => 
-          <p key={deck.id} onClick={()=>history.push(`/decks/${deck.id}`)}>{deck.name}</p>
+          <p key={deck.id} 
+            onClick={ () => history.push(`/decks/${deck.id}`) }
+          >{deck.name}</p>
       ) }
     </div>
   )
@@ -24,4 +26,6 @@ const mapState = ({ decks, user: {selectedFormat} })=>({
   decks, selectedFormat
 })
 
-export default withRouter(connect(mapState)(DecksList))
+export default withRouter(
+  connect(mapState)(DecksList)
+)

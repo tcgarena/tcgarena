@@ -33,12 +33,12 @@ const deckCheck = async (format, decklist, deckName) => {
     'Wastes'
   ];
   
-  const addCard = (card, amount, inMain=true) => {
+  const addCard = (card, amount, addToMain=true) => {
     cards.hasOwnProperty(card)
       ? cards[card].amount += 1
       : cards[card] = { amount }
     
-    inMain 
+    addToMain 
       ? main.hasOwnProperty(card)
         ? main[card].amount += 1
         : main[card] = { amount }
@@ -53,12 +53,18 @@ const deckCheck = async (format, decklist, deckName) => {
     .forEach( (line, idx) => {
       if(line !== '' && line.indexOf('//') === -1) {
         try {
-          regexData = line.match(/[0-9]+/);
-          let name = line.slice(regexData[0].length+regexData.index+1);
+          // used to seperate amount from name
+          regexData = line.match(/[0-9]+/)
+
+          // throws an error when card amount is improperly formatted
+          let name = line.slice(regexData[0].length+regexData.index+1)
           let amount = parseInt(regexData[0])
+
+          
           cardsToIgnore.includes(name) || cardData[name] 
             ? addCard( name, amount, line.indexOf('SB') === -1 )
             : errors.push(`${name} is not a card.`)
+
         } catch(e) {
           errors.push(`Line ${idx+1}: '${line}' is invalid`)
         }

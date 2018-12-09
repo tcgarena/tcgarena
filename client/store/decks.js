@@ -20,6 +20,7 @@ export const saveDeck = deck => {
     const { data } = await axios.post('/api/decks', deck)
     const action = gotNewDeckFromServer(data)
     dispatch(action)
+    return data
   }
 }
 
