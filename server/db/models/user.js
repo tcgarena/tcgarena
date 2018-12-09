@@ -26,7 +26,19 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
-  }
+  },
+  role: {
+    type: Sequelize.ENUM,
+    values: [
+        'user', 
+        'judge1', 'judge2', 'judge3',
+        'moderator', 'tc', 'admin'
+    ],
+    allowNull: false,
+  },
+  cockatriceName: {
+    type: Sequelize.STRING,
+  },
 })
 
 module.exports = User
@@ -36,6 +48,27 @@ module.exports = User
  */
 User.prototype.correctPassword = function(candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt()) === this.password()
+}
+
+User.prototype.getPerms = function() {
+  switch (this.role) {
+      case 'user':
+          return 0
+      case 'judge1':
+          return 1
+      case 'judge2':
+          return 2
+      case 'judge3':
+          return 3
+      case 'moderator':
+          return 5
+      case 'tc':
+          return 7
+      case 'admin':
+          return 10
+      default:
+          return -1
+  }
 }
 
 /**
