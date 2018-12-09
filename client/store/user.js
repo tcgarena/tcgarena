@@ -13,7 +13,7 @@ const SELECT_FORMAT = 'SELECT_FORMAT'
  * INITIAL STATE
  */
 const defaultUser = {
-  selectedFormat: 'standard'
+  // selectedFormat: 'standard'
 }
 
 /**

@@ -38,13 +38,8 @@ class DecksMenu extends React.Component {
         <Route exact path='/decks' render={() => 
           <NavFormats formats={formats} />
         }/>
-        <Route exact path='/decks' render={() => 
-          <DecksList 
-            decks={decksArr.filter(deck => deck.format === this.props.selectedFormat)}
-            selectDeck={this.selectDeck}
-          />
-        }/>
-        
+        <Route exact path='/decks' component={DecksList} />
+
         <Switch>
           <Route exact path='/decks/add' component={AddDeckForm} />
           <Route exact path='/decks/:id' component={SingleDeckList} />
