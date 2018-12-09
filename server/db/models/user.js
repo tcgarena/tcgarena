@@ -6,6 +6,9 @@ const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
     unique: true,
+    validate: {
+      isEmail: true
+    },
     allowNull: false
   },
   password: {
@@ -34,7 +37,7 @@ const User = db.define('user', {
         'judge1', 'judge2', 'judge3',
         'moderator', 'tc', 'admin'
     ],
-    allowNull: false,
+    defaultValue: 'user'
   },
   cockatriceName: {
     type: Sequelize.STRING,
@@ -91,6 +94,12 @@ User.encryptPassword = function(plainText, salt) {
  */
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
+    
+    if (user.password() === '')
+      throw new Error('password cannot be null')
+    else if (user.password().length < 5 )
+      throw new Error('password must be at least 5 characters')
+
     user.salt = User.generateSalt()
     user.password = User.encryptPassword(user.password(), user.salt())
   }
