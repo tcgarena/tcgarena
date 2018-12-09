@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {removeDecks, fetchDecks} from './decks'
 
 /**
  * ACTION TYPES
@@ -27,6 +28,7 @@ export const selectFormat = format => ({type: SELECT_FORMAT, format})
  */
 export const me = () => async dispatch => {
   try {
+    console.log("get me")
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {
@@ -44,6 +46,7 @@ export const auth = (email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
+    dispatch(fetchDecks())
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
@@ -54,6 +57,7 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
+    dispatch(removeDecks())
     history.push('/login')
   } catch (err) {
     console.error(err)

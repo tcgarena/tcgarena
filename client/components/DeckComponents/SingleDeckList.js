@@ -1,7 +1,10 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
-const SingleDeckList = ({deck}) => {
-  return (
+const SingleDeckList = ({decks, match}) => {
+  const id = match.params.id
+  const deck = decks[id]
+  return deck ? (
     <div className='single-decklist'>
       <h4>{deck.name}</h4>
       <div className='decklist-text'>
@@ -12,7 +15,11 @@ const SingleDeckList = ({deck}) => {
       }
       </div>
     </div>
+  ) : (
+    <div>This deck doesn't belong to you...</div>
   )
 }
 
-export default SingleDeckList
+const mapState = ({decks}) => ({decks})
+
+export default connect(mapState)(SingleDeckList)

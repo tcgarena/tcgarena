@@ -8,9 +8,6 @@ import {AddDeckForm, NavFormats, DecksList, SingleDeckList} from '../index'
 class DecksMenu extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      deck: {}
-    }
     this.selectDeck = this.selectDeck.bind(this)
     this.backButton = this.backButton.bind(this)
   }
@@ -19,18 +16,18 @@ class DecksMenu extends React.Component {
     this.props.history.push('/decks')
   }
 
-  async selectDeck(deck) {
-    await this.setState({deck})
+  selectDeck(deck) {
     this.props.history.push(`/decks/${deck.id}`)
   }
 
-  async componentDidMount() {
-    console.log(this.props)
-    await this.props.fetchDecks()
+  componentDidMount() {
+    // this.props.fetchDecks()
   }
 
   render() {
-    const formats = uniqFormats(this.props.decks)
+    const {decks} = this.props
+    const decksArr = Object.keys(decks).map(key=>decks[key])
+    const formats = uniqFormats(decksArr)
     return (
       <div id='decks-menu-main'>
         <Route exact path='/decks' render={() =>
@@ -43,20 +40,14 @@ class DecksMenu extends React.Component {
         }/>
         <Route exact path='/decks' render={() => 
           <DecksList 
-            decks={this.props.decks.filter(deck => deck.format === this.props.selectedFormat)}
+            decks={decksArr.filter(deck => deck.format === this.props.selectedFormat)}
             selectDeck={this.selectDeck}
           />
         }/>
+        
         <Switch>
-          <Route exact path='/decks/add' render={() =>
-            <AddDeckForm />  
-          }/>
-          <Route exact path='/decks/:id' render={() => 
-            <SingleDeckList 
-              deck={this.state.deck}
-              backButton={this.backButton}
-            />
-          }/>
+          <Route exact path='/decks/add' component={AddDeckForm} />
+          <Route exact path='/decks/:id' component={SingleDeckList} />
         </Switch>
 
       </div>
@@ -64,7 +55,7 @@ class DecksMenu extends React.Component {
   }
 }
 
-const mapStateToProps = ({deck: {decks}, user: {selectedFormat}}) => ({ 
+const mapStateToProps = ({decks, user: {selectedFormat}}) => ({ 
   decks, selectedFormat
 })  
 
