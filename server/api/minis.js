@@ -13,6 +13,16 @@ router.get('/', requireLogin, async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
+// /api/minis:miniId GET
+router.get('/:miniId', requireLogin, async (req, res, next) => {
+  try {
+    const mini = await Mini.findById(req.params.miniId)
+    res.json(mini)
+  } catch (e) { 
+    res.json({ message: `no mini by id ${miniId}`})
+   }
+})
+
 // /api/minis POST
 router.post('/', requireJudge1, async (req, res, next) => {
   try {

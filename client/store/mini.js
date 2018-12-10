@@ -1,56 +1,61 @@
 import axios from 'axios'
 
-const GOT_MINIS_FROM_SERVER = 'GOT_MINIS_FROM_SERVER'
-const GOT_NEW_MINI_FROM_SERVER = 'GOT_NEW_MINI_FROM_SERVER'
-const USER_REQ_JOIN_MINI = 'USER_REQ_JOIN_MINI'
-export const gotMinisFromServer = minis => ({ type: GOT_MINIS_FROM_SERVER, minis })
-export const gotNewMiniFromServer = mini => ({ type: GOT_NEW_MINI_FROM_SERVER, mini })
-export const userReqJoinMini = (miniId, userId) => ({ type: USER_REQ_JOIN_MINI, miniId, userId})
+const GOT_MINIS = 'GOT_MINIS'
+const NEW_MINI = 'NEW_MINI'
+const REMOVE_MINIS = 'REMOVE_MINIS'
+const REMOVE_MINI = 'REMOVE_MINI'
 
-export const fetchMinis = () => {
-  return async dispatch => {
-    const { data } = await axios.get('/api/minis')
-    const action = gotMinisFromServer(data)
-    dispatch(action)
+export const removeMinis = () => ({ type: REMOVE_MINIS })
+export const removeMiniById = id => ({ type: REMOVE_MINI, id })
+
+export const fetchMinis = () => async dispatch => {
+  try {
+    const { data: minis } = await axios.get('/api/minis')
+    dispatch({ type: GOT_MINIS, minis })
+  } catch (e) {
+    console.log(e)
   }
 }
 
-export const createMini = mini => {
-  return async dispatch => {
-    const { data } = await axios.post('/api/minis', mini)
-    const action = gotNewMiniFromServer(data)
-    dispatch(action)
-    // will need sockets here
+export const fetchMini = miniId => async dispatch => {
+  try {
+    const { data: mini } = await axios.get(`/api/minis/${miniId}`)
+    dispatch({ type: NEW_MINI, mini })
+  } catch (e) {
+    console.log(e)
+  }
+}
+export const createMini = newMini => async dispatch => {
+  try {
+    const mini = await axios.post('/api/minis', newMini)
+    dispatch({ type: NEW_MINI, mini })
+  } catch(e) {
+    console.log(e)
   }
 }
 
-export const joinMini = (miniId, userId) => {
-  return async dispatch => {
-    const { data } = await axios.put(`/api/minis/join/${miniId}`)
-    const action = userReqJoinMini(miniId, userId)
-    dispatch(action)
-    //sockets pls
-  }
-}
-
-const initState = {
-  minis: []
-}
+const initState = {}
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case GOT_MINIS_FROM_SERVER:
-      return { ...state, minis: action.minis }
-    case GOT_NEW_MINI_FROM_SERVER:
-      return { ...state, minis: [ ...state.minis, action.mini ] }
-    case USER_REQ_JOIN_MINI:
-      return { ...state, minis: state.minis.map(mini => {
-        if (mini.id === action.miniId) {
-          return { ...mini, participants: [ ...mini.participants, action.userId ] }
-        } else return { ...mini }
-      })}
+    case GOT_MINIS:
+      return { 
+        ...action.minis.reduce((obj, item) => {
+          obj[item.id] = item
+          return obj
+        }, {}) 
+      }
+    case NEW_MINI:
+      return {
+        ...state,
+        [action.mini.id]: action.mini
+      }
+    case REMOVE_MINI:
+      const { [action.id]: _, otherMinis } = state
+      return { ...otherMinis }
+    case REMOVE_MINIS:
+      return initState
     default:
       return state
   }
 }
-

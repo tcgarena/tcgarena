@@ -8,8 +8,9 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123', cockatriceName: 'user1', role: 'user'}),
-    User.create({email: 'murphy@email.com', password: '123', cockatriceName: 'user2', role: 'user'})
+    User.create({email: 'cody@email.com', password: '12345', cockatriceName: 'user1', role: 'user'}),
+    User.create({email: 'murphy@email.com', password: '12345', cockatriceName: 'user2', role: 'user'}),
+    User.create({email: 'ben@email.com', password: 'ben123', cockatriceName: '', role: 'admin'})
   ])
 
   const decks = await Promise.all([
@@ -19,7 +20,7 @@ async function seed() {
   ])
 
   const minis = await Promise.all([
-    Mini.create({format: 'modern', type: 'swiss', timePerRoundMins: 60, maxPlayers: 8, participants: [1]})
+    Mini.create({format: 'modern', type: 'swiss', timePerRoundMins: 60, maxPlayers: 8, participants: [1], userId: 3})
   ])
 
   console.log(`seeded ${users.length} users`)
