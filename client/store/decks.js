@@ -3,9 +3,12 @@ import axios from 'axios'
 const GOT_DECKS_FROM_SERVER = 'GOT_DECKS_FROM_SERVER'
 const GOT_NEW_DECK_FROM_SERVER = 'GOT_NEW_DECK_FROM_SERVER'
 const REMOVE_DECKS = 'REMOVE_DECKS'
+const REMOVE_DECK = 'REMOVE_DECK'
+
 export const gotDecksFromServer = decks => ({ type: GOT_DECKS_FROM_SERVER, decks })
-export const gotNewDeckFromServer = deck => ({ type: GOT_NEW_DECK_FROM_SERVER, deck})
-export const removeDecks = () => ({type: REMOVE_DECKS})
+export const gotNewDeckFromServer = deck => ({ type: GOT_NEW_DECK_FROM_SERVER, deck })
+export const removeDecks = () => ({ type: REMOVE_DECKS })
+export const removeDeckById = id => ({ type: REMOVE_DECK, id })
 
 export const fetchDecks = () => {
   return async dispatch => {
@@ -40,6 +43,9 @@ export default (state = initState, action) => {
         ...state,
         [action.deck.id]: action.deck
       }
+    case REMOVE_DECK:
+      const { [action.id]: _, otherDecks } = state
+      return { ...otherDecks }
     case REMOVE_DECKS:
       return initState
     default:
