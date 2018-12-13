@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Route, Switch, withRouter} from 'react-router-dom'
 import {fetchMinis} from '../../store'
+import { NewMiniForm } from '../index'
 
 class LobbyMenu extends React.Component {
 
@@ -10,7 +12,12 @@ class LobbyMenu extends React.Component {
 
   render() {
     return (
-      <div>Lobby</div>
+      <div>
+        <div>Lobby</div>
+        <Switch>
+          <Route exact path='/lobby/new' component={NewMiniForm} />
+        </Switch>
+      </div>
     )
   }
 }

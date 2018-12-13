@@ -10,8 +10,6 @@ socket.on('connect', () => {
     store.dispatch(fetchMini(miniId))
   )
 
-  socket.on('test', msg => console.log('weeeee'))
-
 })
 
 export default socket

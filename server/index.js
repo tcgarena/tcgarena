@@ -10,6 +10,7 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
+const MiniEngine = require('./engines/mini')
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -110,8 +111,16 @@ const startListening = () => {
 
   // set up our socket control center
   const io = socketio(server)
-  require('./socket')(io)
-  app.io = io
+  const miniEngine = new MiniEngine(io.sockets)
+  require('./socket')(io, miniEngine) 
+
+  app.use( (req,res) => {
+    console.log('wee')
+
+    req.miniEngine = miniEngine
+  })
+
+  // app.io = io
 }
 
 const syncDb = () => db.sync()

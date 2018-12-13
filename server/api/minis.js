@@ -29,6 +29,7 @@ router.post('/', requireJudge1, async (req, res, next) => {
     const newMini = req.body
     if (!newMini.userId) newMini.userId = req.user.id
     const mini = await Mini.create(newMini)
+    req.miniEngine.createMini(mini, 'api')
     res.status(200).json(mini)
   } catch (e) { next(e) }
 })

@@ -16,3 +16,4 @@ export {default as AddDeckForm} from './DeckComponents/AddDeckForm'
 export {default as DecksList} from './DeckComponents/DecksList'
 
 export {default as LobbyMenu} from './LobbyComponents/LobbyMenu'
+export {default as NewMiniForm} from './LobbyComponents/NewMiniForm'

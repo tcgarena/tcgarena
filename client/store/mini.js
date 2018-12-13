@@ -29,8 +29,10 @@ export const fetchMini = miniId => async dispatch => {
 
 export const createMini = newMini => async dispatch => {
   try {
+    console.log(newMini)
     const mini = await axios.post('/api/minis', newMini)
-    dispatch({ type: NEW_MINI, mini })
+    socket.emit('new-mini', mini)
+    // no need to dispatch, if all goes well creators client will get pinged back
   } catch(e) {
     console.log(e)
   }
