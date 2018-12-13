@@ -1,27 +1,21 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchDecks} from '../../store'
+import {fetchDecks, selectDeck} from '../../store'
 import {Route, Switch, withRouter} from 'react-router-dom'
 import uniqFormats from '../../utils/uniqFormats'
 import {AddDeckForm, NavFormats, DecksList, SingleDeckList} from '../index'
 
 class DecksMenu extends React.Component {
-  constructor(props) {
-    super(props)
-    this.selectDeck = this.selectDeck.bind(this)
-    this.backButton = this.backButton.bind(this)
-  }
 
-  backButton() {
-    this.props.history.push('/decks')
-  }
-
-  selectDeck(deck) {
+  viewDeck(deck) {
+    this.props.selectDeck(deck.id)
     this.props.history.push(`/decks/${deck.id}`)
   }
 
   componentDidMount() {
-    // this.props.fetchDecks()
+    if (this.props.selectedDeck) {
+      this.props.history.push(`/decks/${this.props.selectedDeck}`)
+    }
   }
 
   render() {
@@ -50,10 +44,10 @@ class DecksMenu extends React.Component {
   }
 }
 
-const mapStateToProps = ({decks, user: {selectedFormat}}) => ({ 
-  decks, selectedFormat
+const mapStateToProps = ({decks, user: {selectedFormat}, user: {selectedDeck}}) => ({ 
+  decks, selectedFormat, selectedDeck
 })  
 
-const mapDispatchToProps = { fetchDecks }
+const mapDispatchToProps = { fetchDecks, selectDeck }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DecksMenu))

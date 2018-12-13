@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {NavLink, withRouter} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
+const Navbar = ({handleClick, isLoggedIn, history}) => (
+  <div className='center column'>
     <h1>tcgarena</h1>
     <nav>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
           {/* <Link to="/home">Home</Link> */}
-          <Link to="/lobby">Lobby</Link>
-          <Link to="/decks">Decks</Link>
+          <NavLink to="/lobby" activeClassName='nav-active'>Lobby</NavLink>
+          <NavLink to="/decks" activeClassName='nav-active'>Decks</NavLink>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
@@ -21,8 +21,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+          <NavLink activeClassName='nav-active' to="/login">Login</NavLink>
+          <NavLink activeClassName='nav-active' to="/signup">Sign Up</NavLink>
         </div>
       )}
     </nav>
@@ -47,7 +47,9 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Navbar)
+export default withRouter(
+  connect(mapState, mapDispatch)(Navbar)
+) 
 
 /**
  * PROP TYPES

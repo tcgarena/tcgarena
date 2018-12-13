@@ -114,10 +114,11 @@ const startListening = () => {
   const miniEngine = new MiniEngine(io.sockets)
   require('./socket')(io, miniEngine) 
 
-  app.use( (req,res) => {
+  app.use( (req,res,next) => {
     console.log('wee')
 
     req.miniEngine = miniEngine
+    next()
   })
 
   // app.io = io

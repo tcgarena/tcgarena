@@ -89,6 +89,11 @@ form div {
   border-bottom: 1px solid gray;
 }
 
+.center {
+  display: flex;
+  align-items: center;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -102,6 +107,11 @@ form div {
 .container {
   height: 100%;
   width: 100%;
+}
+
+.decklist-text p {
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
 
 a {

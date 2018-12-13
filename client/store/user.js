@@ -8,6 +8,8 @@ import {removeDecks, fetchDecks} from './decks'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const SELECT_FORMAT = 'SELECT_FORMAT'
+const SELECT_DECK = 'SELECT_DECK'
+const DESELECT_DECK = 'DESELECT_DECK'
 
 /**
  * INITIAL STATE
@@ -22,6 +24,8 @@ const defaultUser = {
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 export const selectFormat = format => ({type: SELECT_FORMAT, format})
+export const selectDeck = deckId => ({type: SELECT_DECK, deckId})
+export const deselectDeck = () => ({type: DESELECT_DECK})
 
 /**
  * THUNK CREATORS
@@ -74,6 +78,12 @@ export default function(state = defaultUser, action) {
       return defaultUser
     case SELECT_FORMAT:
       return { ...state, selectedFormat: action.format }
+    case SELECT_DECK:
+      return { ...state, selectedDeck: action.deckId}
+    case DESELECT_DECK:
+      const { selectedDeck: _, ...newState } = state
+      return { ...newState }
+      return
     default:
       return state
   }

@@ -18,7 +18,8 @@ const store = createStore(reducer, persistedState, middleware)
 store.subscribe( () => {
   saveState({
     user: {
-      selectedFormat: store.getState().user.selectedFormat
+      selectedFormat: store.getState().user.selectedFormat,
+      selectedDeck: store.getState().user.selectedDeck
     },
     decks: store.getState().decks
   })
