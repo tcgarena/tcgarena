@@ -1,4 +1,5 @@
 import axios from 'axios'
+import socket from '../socket'
 
 const GOT_MINIS = 'GOT_MINIS'
 const NEW_MINI = 'NEW_MINI'
@@ -25,6 +26,7 @@ export const fetchMini = miniId => async dispatch => {
     console.log(e)
   }
 }
+
 export const createMini = newMini => async dispatch => {
   try {
     const mini = await axios.post('/api/minis', newMini)

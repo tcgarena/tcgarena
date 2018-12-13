@@ -44,6 +44,7 @@ export default (state = initState, action) => {
         [action.deck.id]: action.deck
       }
     case REMOVE_DECK:
+      // assigns the unwanted deck to lodash so we can return every deck except the unwanted one
       const { [action.id]: _, otherDecks } = state
       return { ...otherDecks }
     case REMOVE_DECKS:

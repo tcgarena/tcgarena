@@ -110,8 +110,8 @@ const startListening = () => {
 
   // set up our socket control center
   const io = socketio(server)
-  
   require('./socket')(io)
+  app.io = io
 }
 
 const syncDb = () => db.sync()
