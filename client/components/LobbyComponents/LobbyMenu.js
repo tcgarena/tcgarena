@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Route, Switch, withRouter} from 'react-router-dom'
 import {fetchMinis} from '../../store'
-import { NewMiniForm } from '../index'
+import { NewMiniForm, MiniList, LobbyJudgePanel } from '../index'
 
 class LobbyMenu extends React.Component {
 
@@ -11,10 +11,14 @@ class LobbyMenu extends React.Component {
   }
 
   render() {
+    const {pathname} = this.props.history.location
     return (
       <div>
-        <div>Lobby</div>
+        {(this.props.isJudge && pathname==='/lobby')
+          && <LobbyJudgePanel/>
+        }
         <Switch>
+          <Route exact path='/lobby' component={MiniList} />
           <Route exact path='/lobby/new' component={NewMiniForm} />
         </Switch>
       </div>
@@ -22,6 +26,12 @@ class LobbyMenu extends React.Component {
   }
 }
 
+const mapState = ({user: {accessLevel}}) => ({
+  isJudge: accessLevel > 0
+})
+
 const mapDispatch = { fetchMinis }
 
-export default connect(null, mapDispatch)(LobbyMenu)
+export default withRouter(
+  connect(mapState, mapDispatch)(LobbyMenu)
+)

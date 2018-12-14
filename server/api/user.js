@@ -9,7 +9,10 @@ router.get('/', async (req, res, next) => {
       where: {id: req.user.id},
       // include: [{all: true}]
     })
-    res.json(user)
+    res.json({
+      ...user.dataValues,
+      accessLevel: user.getPerms()
+    })
   } catch (e) { res.json({}) }
 })
 

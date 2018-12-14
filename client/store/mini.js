@@ -2,7 +2,7 @@ import axios from 'axios'
 import socket from '../socket'
 
 const GOT_MINIS = 'GOT_MINIS'
-const NEW_MINI = 'NEW_MINI'
+const FETCH_MINI = 'FETCH_MINI'
 const REMOVE_MINIS = 'REMOVE_MINIS'
 const REMOVE_MINI = 'REMOVE_MINI'
 
@@ -21,7 +21,7 @@ export const fetchMinis = () => async dispatch => {
 export const fetchMini = miniId => async dispatch => {
   try {
     const { data: mini } = await axios.get(`/api/minis/${miniId}`)
-    dispatch({ type: NEW_MINI, mini })
+    dispatch({ type: FETCH_MINI, mini })
   } catch (e) {
     console.log(e)
   }
@@ -31,6 +31,14 @@ export const createMini = newMini => async dispatch => {
   try {
     await axios.post('/api/minis', newMini)
     // no need to dispatch, if all goes well creators client will get pinged back
+  } catch(e) {
+    console.log(e)
+  }
+}
+
+export const joinMini = miniId => async dispatch => {
+  try {
+    await axios.put(`/api/minis/${miniId}/join`, {action: 'join'})
   } catch(e) {
     console.log(e)
   }
@@ -47,7 +55,7 @@ export default (state = initState, action) => {
           return obj
         }, {}) 
       }
-    case NEW_MINI:
+    case FETCH_MINI:
       return {
         ...state,
         [action.mini.id]: action.mini

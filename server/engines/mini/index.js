@@ -24,12 +24,20 @@ module.exports = class Engine {
     this.minis[miniId].start()
   }
 
+  async joinMini(userId, miniId) {
+    const {dataValues: mini} = await Mini.join(miniId, userId)
+    if (mini) {
+      this.minis[miniId] = mini
+      this.sockets.emit('fetch-mini', miniId)
+    }
+  }
+
   async createMini(mini) {
     try {
       const newMini = await Mini.create(mini)
       const miniInstance = new MiniInstance(mini)
       this.minis[miniInstance.id] = miniInstance
-      this.sockets.emit('new-mini', newMini.id)
+      this.sockets.emit('fetch-mini', newMini.id)
       return miniInstance
     } catch(e) {
       console.log(e)

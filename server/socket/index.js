@@ -6,9 +6,5 @@
       console.log(`Connection ${socket.id} has left the arena`)
     })
 
-    socket.on('new-mini', mini => {
-      miniEngine.createMini(mini, 'socket')
-    })
-
   })
 }

@@ -21,20 +21,26 @@ const Mini = db.define("mini", {
     },
     participants: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
+      defaultValue: []
     }
 })
 
 Mini.join = async function(miniId, userId) {
-  const mini = await this.findById(miniId)
-  if (mini.participants.includes(userId)) {
-    throw new Error('user is already in this tournament')
+  try {
+    const mini = await this.findById(miniId)
+    if (mini.participants.includes(userId)) {
+      throw new Error('user is already in this tournament')
+    }
+    if (mini.participants.length >= mini.maxPlayers) {
+      throw new Error('mini is full')
+    }
+    const participants = [ ...mini.participants, userId ]
+    await mini.update({participants})
+    return mini
+  } catch(e) {
+    console.log(e)
+    return false
   }
-  if (mini.participants.length >= mini.maxPlayers) {
-    throw new Error('mini is full')
-  }
-  const participants = [ ...mini.participants, userId ]
-  await mini.update({participants})
-  return mini
 }
 
 module.exports = Mini

@@ -39,9 +39,13 @@ router.post('/', requireJudge1, async (req, res, next) => {
 // /api/minis/:miniId/join PUT
 router.put('/:miniId/join', requireLogin, async (req, res, next) => {
   try {
-    const mini = await Mini.join(req.params.miniId, req.user.id)
-    res.json(mini)
-  } catch (e) { next(e) }
+    const miniEngine = req.app.get('miniEngine')
+    miniEngine.joinMini(req.user.id, req.params.miniId)
+    res.sendStatus(200)
+  } catch (e) { 
+    console.log(e)
+    res.sendStatus(500)
+   }
 })
 
 module.exports = router

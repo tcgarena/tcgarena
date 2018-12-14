@@ -17,3 +17,6 @@ export {default as DecksList} from './DeckComponents/DecksList'
 
 export {default as LobbyMenu} from './LobbyComponents/LobbyMenu'
 export {default as NewMiniForm} from './LobbyComponents/NewMiniForm'
+export {default as MiniWindowView} from './LobbyComponents/MiniWindowView'
+export {default as MiniList} from './LobbyComponents/MiniList'
+export {default as LobbyJudgePanel} from './LobbyComponents/LobbyJudgePanel'

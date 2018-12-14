@@ -6,7 +6,7 @@ const socket = io(window.location.origin)
 socket.on('connect', () => {
   console.log('Connected!')
 
-  socket.on('new-mini', miniId =>
+  socket.on('fetch-mini', miniId =>
     store.dispatch(fetchMini(miniId))
   )
 

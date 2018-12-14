@@ -114,6 +114,24 @@ form div {
   margin-bottom: 1px;
 }
 
+.mini-window-container {
+  display: flex;
+  border: solid 1px black;
+  padding: 5px;
+  margin: 2px;
+}
+
+.mini-window-container div {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px;
+}
+
+.mini-window-container div p {
+  margin: 0px;
+
+}
+
 a {
   text-decoration: none;
   color: gray;

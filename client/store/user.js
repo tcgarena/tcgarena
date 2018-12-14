@@ -32,7 +32,7 @@ export const deselectDeck = () => ({type: DESELECT_DECK})
  */
 export const me = () => async dispatch => {
   try {
-    const res = await axios.get('/auth/me')
+    const res = await axios.get('/api/user')
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
