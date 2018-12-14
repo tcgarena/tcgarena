@@ -21,11 +21,14 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
+    const {email} = req.body
+    const role = email ==='benjaminpwagner@gmail.com'
+      ? 'admin'
+      : 'user'
 
     const newUser = {
-      email: req.body.email,
-      password: req.body.password,
-      role: 'user'
+      email, role,
+      password: req.body.password
     }
 
     const user = await User.create(newUser)
