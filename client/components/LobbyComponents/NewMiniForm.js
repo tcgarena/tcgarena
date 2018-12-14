@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { createMini } from '../../store/mini'
+import { createMini, selectFormat } from '../../store'
 import formats from '../../utils/formats'
 
 class AddDeckForm extends React.Component {
@@ -86,7 +86,8 @@ const mapStateToProps = ({user: {selectedFormat}}) => ({
 })
 
 const mapDispatchToProps = {
-  createMini
+  createMini,
+  selectFormat
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddDeckForm))

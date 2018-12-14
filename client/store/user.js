@@ -15,7 +15,7 @@ const DESELECT_DECK = 'DESELECT_DECK'
  * INITIAL STATE
  */
 const defaultUser = {
-  // selectedFormat: 'standard'
+  selectedFormat: 'standard'
 }
 
 /**

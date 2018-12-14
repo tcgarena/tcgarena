@@ -1,4 +1,6 @@
-class Mini {
+const {Mini} = require("../../db/models")
+
+class MiniInstance {
   constructor(mini) {
     // mimics the attributes of whatever obj you pass it...
     // will probably change this later to be specific
@@ -7,7 +9,7 @@ class Mini {
 
   start() {
 
-    console.log(this)
+    console.log(`starting mini ${this.id}`)
 
   }
 }
@@ -20,52 +22,18 @@ module.exports = class Engine {
 
   startMini(miniId) {
     this.minis[miniId].start()
-    this.sockets.emit('new-mini', miniId)
   }
 
-  // must be called once from api route and once from socket
-  createMini (mini, source) {
-    /* mini[source] = bool =>
-        mini.socket = false
-        mini.api = false
-    */
-
-    // prevents them from creating a tournament by sending
-    // a create mini socket action with { ...mini, api: true }
-    const {
-      api: _,
-      ...cleanMini
-    } = mini
-    
-    const existingMini = this.minis[cleanMini.id]
-
-    if (existingMini) {
-
-      switch (source) {
-
-        case 'socket':
-          existingMini.socket = true
-          if (existingMini.api) 
-            // we are using existingMini here because the id comes from the secure api route
-            this.startMini(existingMini.id)
-          break
-
-        case 'api':
-          existingMini.api = true
-          if (existingMini.socket) 
-            // same here, can't trust the id coming from the socket
-            this.startMini(mini.id)
-          break
-          
-      }
-
-    } else {
-
-      this.minis[cleanMini.id] = new Mini({
-        ...cleanMini,
-        [source]: true
-      })
-      
+  async createMini(mini) {
+    try {
+      const newMini = await Mini.create(mini)
+      const miniInstance = new MiniInstance(mini)
+      this.minis[miniInstance.id] = miniInstance
+      this.sockets.emit('new-mini', newMini.id)
+      return miniInstance
+    } catch(e) {
+      console.log(e)
+      return false
     }
   }
 

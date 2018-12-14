@@ -7,15 +7,9 @@ import {AddDeckForm, NavFormats, DecksList, SingleDeckList} from '../index'
 
 class DecksMenu extends React.Component {
 
-  viewDeck(deck) {
-    this.props.selectDeck(deck.id)
-    this.props.history.push(`/decks/${deck.id}`)
-  }
-
   componentDidMount() {
-    if (this.props.selectedDeck) {
+    if (this.props.selectedDeck) 
       this.props.history.push(`/decks/${this.props.selectedDeck}`)
-    }
   }
 
   render() {

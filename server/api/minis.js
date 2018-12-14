@@ -19,7 +19,7 @@ router.get('/:miniId', requireLogin, async (req, res, next) => {
     const mini = await Mini.findById(req.params.miniId)
     res.json(mini)
   } catch (e) { 
-    res.json({ message: `no mini by id ${miniId}`})
+    res.json({ message: `no mini by id ${req.params.miniId}`})
    }
 })
 
@@ -28,10 +28,11 @@ router.post('/', requireJudge1, async (req, res, next) => {
   try {
     const newMini = req.body
     if (!newMini.userId) newMini.userId = req.user.id
-    const mini = await Mini.create(newMini)
-    req.miniEngine.createMini(mini, 'api')
-    res.status(200).json(mini)
-  } catch (e) { next(e) }
+    const miniEngine = req.app.get('miniEngine')
+    const mini = miniEngine.createMini(newMini)
+    if (mini) res.status(200).json(mini)
+    else res.sendStatus(500)
+  } catch (e) { console.log(e) }
 })
 
 
