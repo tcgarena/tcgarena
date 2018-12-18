@@ -19,14 +19,11 @@ class AddDeckForm extends React.Component {
     this.addDeck = this.addDeck.bind(this)
   }
 
-
   async addDeck() {
-    const { decklist, deckName} = this.state
+    const {decklist, deckName} = this.state
     const format = this.props.selectedFormat
 
-    const { isLegal, errors } = await deckCheck(
-      format, decklist, deckName
-    )
+    const {isLegal, errors} = await deckCheck(format, decklist, deckName)
 
     if (isLegal) {
       const deck = await this.props.saveDeck({format, decklist, deckName})
@@ -37,17 +34,14 @@ class AddDeckForm extends React.Component {
   }
 
   handleChange(event) {
-
     // selectedFormat is handled by redux so we have to deal with it seperately
-    if (event.target.name === 'selectedFormat') 
+    if (event.target.name === 'selectedFormat')
       this.props.selectFormat(event.target.value)
-
-    // every other form field is handled in local state
     else {
-      const { name, value } = event.target
+      // every other form field is handled in local state
+      const {name, value} = event.target
       this.setState({[name]: value})
     }
-
   }
 
   handleSubmit(event) {
@@ -57,31 +51,47 @@ class AddDeckForm extends React.Component {
 
   render() {
     return (
-      <div className='new-deck-form'>
-        <form className='new-deck-form' onSubmit={this.handleSubmit}>
-          <input className='deck-name-field' name='deckName' type='text' onChange={this.handleChange} value={this.state.deckName} />
-          <select name='selectedFormat' value={this.props.selectedFormat} onChange={this.handleChange}>
-            {formats.map(format => 
-              <option name='format' key={format} value={format} >{format}</option>
-            )}
+      <div className="new-deck-form">
+        <form className="new-deck-form" onSubmit={this.handleSubmit}>
+          <input
+            className="deck-name-field"
+            name="deckName"
+            type="text"
+            onChange={this.handleChange}
+            value={this.state.deckName}
+          />
+          <select
+            name="selectedFormat"
+            value={this.props.selectedFormat}
+            onChange={this.handleChange}
+          >
+            {formats.map(format => (
+              <option name="format" key={format} value={format}>
+                {format}
+              </option>
+            ))}
           </select>
-          <textarea className='deck-field' name='decklist' value={this.state.decklist} onChange={this.handleChange} />  
+          <textarea
+            className="deck-field"
+            name="decklist"
+            value={this.state.decklist}
+            onChange={this.handleChange}
+          />
           <input type="submit" value="Submit" />
         </form>
-        <ErrorList errors={this.state.errors}  />
+        <ErrorList errors={this.state.errors} />
       </div>
     )
   }
 }
 
-const mapState = ({ user: {selectedFormat} }) => ({
+const mapState = ({user: {selectedFormat}}) => ({
   selectedFormat
 })
 
 const mapDispatch = {
-  selectFormat, saveDeck
+  selectFormat,
+  saveDeck
 }
 
-export default withRouter(
-  connect(mapState, mapDispatch)(AddDeckForm)
-)
+export default withRouter(connect(mapState, mapDispatch)(AddDeckForm))
