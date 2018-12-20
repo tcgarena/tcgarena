@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+
 const GOT_DECKS_FROM_SERVER = 'GOT_DECKS_FROM_SERVER'
 const GOT_NEW_DECK_FROM_SERVER = 'GOT_NEW_DECK_FROM_SERVER'
 const REMOVE_DECKS = 'REMOVE_DECKS'
@@ -35,9 +36,7 @@ export const saveDeck = deck => {
 
 export const updateDeck = deck => {
   return async dispatch => {
-    console.log('deck', deck)
     const {data} = await axios.put('/api/decks', deck)
-    console.log('DATA', data)
     const action = gotNewDeckFromServer(data)
     dispatch(action)
     return data

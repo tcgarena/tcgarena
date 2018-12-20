@@ -12,8 +12,7 @@ export {default as NavFormats} from './NavFormats'
 
 export {default as DecksMenu} from './DeckComponents/DecksMenu'
 export {default as SingleDeckList} from './DeckComponents/SingleDeckList'
-export {default as AddDeckForm} from './DeckComponents/AddDeckForm'
-export {default as EditDeckForm} from './DeckComponents/EditDeckForm'
+export {AddDeckForm, EditDeckForm} from './DeckComponents/DeckForms'
 export {default as DecksList} from './DeckComponents/DecksList'
 
 export {default as LobbyMenu} from './LobbyComponents/LobbyMenu'

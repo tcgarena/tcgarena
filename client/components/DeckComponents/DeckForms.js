@@ -4,9 +4,9 @@ import {withRouter} from 'react-router-dom'
 import {ErrorList} from '../index'
 import formats from '../../utils/formats'
 import deckCheck from '../../utils/deckCheck'
-import {selectFormat, saveDeck} from '../../store'
+import {selectFormat, saveDeck, updateDeck, selectDeck} from '../../store'
 
-class AddDeckForm extends React.Component {
+class DeckForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,10 +26,20 @@ class AddDeckForm extends React.Component {
     const {isLegal, errors} = await deckCheck(format, decklist, deckName)
 
     if (isLegal) {
-      const deck = await this.props.saveDeck({format, decklist, deckName})
+      const {id} = this.props.match.params
+      const deck = await this.props.saveDeck({format, decklist, deckName, id})
+      
+      this.props.selectDeck(deck.id)
       this.props.history.push(`/decks/${deck.id}`)
-    } else {
-      this.setState({errors})
+    } else this.setState({errors})
+
+  }
+
+  componentDidMount() {
+    const {id} = this.props.match.params
+    if (id) {
+      const {list: decklist, name: deckName} = this.props.decks[id]
+      this.setState({decklist, deckName})
     }
   }
 
@@ -85,13 +95,25 @@ class AddDeckForm extends React.Component {
   }
 }
 
-const mapState = ({user: {selectedFormat}}) => ({
-  selectedFormat
+const mapState = ({decks, user: {selectedFormat}}) => ({
+  selectedFormat,
+  decks
 })
 
-const mapDispatch = {
+const mapAdd = {
   selectFormat,
+  selectDeck,
   saveDeck
 }
 
-export default withRouter(connect(mapState, mapDispatch)(AddDeckForm))
+const mapEdit = dispatch => ({
+  selectFormat, selectDeck,
+  saveDeck: deck => dispatch(updateDeck(deck))
+})
+
+export const AddDeckForm = withRouter(
+  connect(mapState, mapAdd)(DeckForm)
+)
+export const EditDeckForm = withRouter(
+  connect(mapState, mapEdit)(DeckForm)
+)

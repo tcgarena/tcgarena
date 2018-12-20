@@ -33,22 +33,12 @@ router.post('/', requireLogin, async (req, res, next) => {
 // /api/decks PUT
 router.put('/', requireLogin, async (req, res, next) => {
   try {
-    // console.log('req.body', req.body.id)
-    const {format, decklist, deckName} = req.body
-    const [numRows, updatedRow] = await Deck.update(
-      {
-        format,
-        list: decklist,
-        name: deckName,
-      },
-      {
-        where: {
-          id: req.body.id
-        },
-        returning: true
-      }
+    const {format, decklist: list, deckName: name, id} = req.body
+    const [_, updatedDeck] = await Deck.update(
+      {format, list, name},
+      {where: {id}, returning: true}
     )
-    res.status(200).json(updatedRow[0])
+    res.status(200).json(updatedDeck[0])
   } catch (e) {
     next(e)
   }

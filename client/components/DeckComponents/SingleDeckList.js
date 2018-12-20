@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 const SingleDeckList = ({decks, match}) => {
-  const id = match.params.id
+  const id = match.params.deckId
   const deck = decks[id]
   return deck ? (
     <div className="single-decklist">
