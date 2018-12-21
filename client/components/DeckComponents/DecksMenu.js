@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchDecks, selectDeck} from '../../store'
 import {Route, Switch, withRouter} from 'react-router-dom'
 import uniqFormats from '../../utils/uniqFormats'
-import {AddDeckForm, NavFormats, DecksList, SingleDeckList, EditDeckForm} from '../index'
+import {AddDeckForm, NavFormats, DecksList, SingleDeckList, EditDeckForm, DeleteDeck} from '../index'
 
 class DecksMenu extends React.Component {
 
@@ -31,6 +31,7 @@ class DecksMenu extends React.Component {
         <Switch>
           <Route exact path='/decks/add' component={AddDeckForm} />
           <Route exact path='/decks/:deckId' component={SingleDeckList} />
+          <Route exact path='/decks/:deckId/delete' component={DeleteDeck} />
           <Route exact path='/decks/:deckId/:action' component={EditDeckForm} />
         </Switch>
 

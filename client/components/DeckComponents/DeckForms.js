@@ -1,10 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {ErrorList} from '../index'
-import formats from '../../utils/formats'
+import {ErrorList, FormatSelect} from '../index'
 import deckCheck from '../../utils/deckCheck'
-import {selectFormat, saveDeck, updateDeck, selectDeck} from '../../store'
+import { saveDeck, updateDeck, selectDeck} from '../../store'
 
 class DeckForm extends React.Component {
   constructor(props) {
@@ -13,8 +12,7 @@ class DeckForm extends React.Component {
       decklist: '',
       deckName: '',
       errors: [],
-      isEdit: null,
-      softDelete: null
+      isEdit: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -35,37 +33,25 @@ class DeckForm extends React.Component {
         deckName,
         deckId
       })
-      // console.log('deck in react', deck)
       this.props.selectDeck(deck.id)
       this.props.history.push(`/decks/${deck.id}`)
     } else this.setState({errors})
   }
 
   componentDidMount() {
-    const {deckId, action} = this.props.match.params
-    console.log('this.props.match', this.props.match)
+    const {action} = this.props.match.params
     if (action === 'edit') {
+      const {deckId} = this.props.match.params
+      const {list: decklist, name: deckName} = this.props.decks[deckId]
       this.setState({
+        decklist, deckName,
         isEdit: true
       })
     }
-    if (deckId) {
-      const {list: decklist, name: deckName} = this.props.decks[deckId]
-      this.setState({decklist, deckName})
-    }
   }
-
   handleChange(event) {
-    // selectedFormat is handled by redux so we have to deal with it seperately
-    if (event.target.name === 'selectedFormat') {
-      console.log('event name', event.target.name)
-      console.log('event value', event.target.value)
-      this.props.selectFormat(event.target.value)
-    } else {
-      // every other form field is handled in local state
-      const {name, value} = event.target
-      this.setState({[name]: value})
-    }
+    const {name, value} = event.target
+    this.setState({[name]: value})
   }
 
   handleSubmit(event) {
@@ -74,7 +60,6 @@ class DeckForm extends React.Component {
   }
 
   render() {
-    console.log('state', this.state)
     return (
       <div className="new-deck-form">
         <form className="new-deck-form" onSubmit={this.handleSubmit}>
@@ -85,19 +70,7 @@ class DeckForm extends React.Component {
             onChange={this.handleChange}
             value={this.state.deckName}
           />
-          {this.state.isEdit !== true && (
-            <select
-              name="selectedFormat"
-              value={this.props.selectedFormat}
-              onChange={this.handleChange}
-            >
-              {formats.map(format => (
-                <option name="format" key={format} value={format}>
-                  {format}
-                </option>
-              ))}
-            </select>
-          )}
+          { !this.state.isEdit && <FormatSelect /> }
           <textarea
             className="deck-field"
             name="decklist"
@@ -118,13 +91,11 @@ const mapState = ({decks, user: {selectedFormat}}) => ({
 })
 
 const mapAdd = {
-  selectFormat,
   selectDeck,
   saveDeck
 }
 
 const mapEdit = dispatch => ({
-  selectFormat,
   selectDeck,
   saveDeck: deck => dispatch(updateDeck(deck))
 })

@@ -1,26 +1,20 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
-const SingleDeckList = ({decks, match}) => {
+const SingleDeckList = ({decks, match, history}) => {
   const id = match.params.deckId
   const deck = decks[id]
   return deck ? (
     <div className="single-decklist">
       <h4>{deck.name}</h4>
-      <Link to={`${deck.id}/edit`}>
-        <button
-          type="submit"
-          // onClick={this.handleSubmit}
-          // disabled={!isEnabled}
-          // className={!isEnabled ? 'disabled' : 'enabled'}
-        >
-          Edit Deck
-        </button>
-      </Link>
-
-
-      <h6>{deck.format}</h6>
+      <button onClick={()=>history.push(`/decks/${id}/edit`)}>
+        Edit
+      </button>
+      <button onClick={()=>history.push(`/decks/${id}/delete`)}>
+        Delete
+      </button>
+      <h5>{deck.format}</h5>
       <div className="decklist-text">
         {deck.list.split('\n').map((line, idx) => <p key={idx}>{line}</p>)}
       </div>
@@ -32,4 +26,6 @@ const SingleDeckList = ({decks, match}) => {
 
 const mapState = ({decks}) => ({decks})
 
-export default connect(mapState)(SingleDeckList)
+export default withRouter(
+  connect(mapState)(SingleDeckList)
+)
