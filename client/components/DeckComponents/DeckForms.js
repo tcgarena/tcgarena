@@ -36,7 +36,7 @@ class DeckForm extends React.Component {
   }
 
   componentDidMount() {
-    const {id} = this.props.match.params
+    const {deckId} = this.props.match.params
     if (id) {
       const {list: decklist, name: deckName} = this.props.decks[id]
       this.setState({decklist, deckName})
