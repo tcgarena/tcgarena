@@ -21,16 +21,16 @@ class DeckForm extends React.Component {
 
   async addDeck() {
     const {decklist, deckName} = this.state
-    const {deckId} = this.props.match.params
     const format = this.props.selectedFormat
+    const {deckId} = this.props.match.params
+
 
     const {isLegal, errors} = await deckCheck(format, decklist, deckName)
 
     if (isLegal) {
-      const {id} = this.props.match.params
-      const deck = await this.props.saveDeck({format, decklist, deckName, id})
-      // console.log('deck', deck)
-      this.props.selectDeck(deck.id)
+      const deck = await this.props.saveDeck({format, decklist, deckName, deckId})
+      console.log('deck in react', deck)
+      this.props.selectDeck(deckId)
       this.props.history.push(`/decks/${deckId}`)
     } else this.setState({errors})
 

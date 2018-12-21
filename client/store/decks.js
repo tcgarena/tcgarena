@@ -36,7 +36,11 @@ export const saveDeck = deck => {
 
 export const updateDeck = deck => {
   return async dispatch => {
+    console.log('update deck')
+    console.log('deck info to update', deck)
     const {data} = await axios.put('/api/decks', deck)
+    console.log('redux data response', data)
+
     const action = gotNewDeckFromServer(data)
     dispatch(action)
     return data
