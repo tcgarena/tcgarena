@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {selectDeck} from '../../store'
 
-class DecksList_SingleDeck extends React.Component {
+class DeckItem extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -57,4 +57,4 @@ const mapState = ({decks, user: {selectedFormat}}) => ({
 
 const mapDispatch = {selectDeck}
 
-export default connect(mapState, mapDispatch)(DecksList_SingleDeck)
+export default connect(mapState, mapDispatch)(DeckItem)
