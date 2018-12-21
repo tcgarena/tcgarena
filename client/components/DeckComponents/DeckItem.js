@@ -9,9 +9,11 @@ class DecksList_SingleDeck extends React.Component {
       isHovering: false,
       quickView: false
     }
+    this.handleMouseHover = this.handleMouseHover.bind(this)
   }
 
-  handleMouseHover = () => {
+  handleMouseHover = (deckId) => {
+    this.props.preview(deckId)
     this.setState(this.toggleHoverState)
   }
 
@@ -62,21 +64,20 @@ class DecksList_SingleDeck extends React.Component {
 
   render() {
     const {deck} = this.props
-    console.log(this.state)
     return (
       <div
         className="single-deck-list"
-        onMouseEnter={this.handleMouseHover}
-        onMouseLeave={this.handleMouseHover}
+        onMouseEnter={() => this.handleMouseHover(deck.id)}
+        onMouseLeave={() => this.handleMouseHover(null)}
         onClick={this.handleClick}
       >
         <p>{deck.name}</p>
         {this.state.isHovering && this.showButtons()}
-        {this.state.quickView && (
+        {/* {this.state.quickView && (
           <div className="decklist-text">
             {deck.list.split('\n').map((line, idx) => <p key={idx}>{line}</p>)}
           </div>
-        )}
+        )} */}
       </div>
     )
   }

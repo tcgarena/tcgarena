@@ -1,29 +1,47 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {selectDeck} from '../../store'
-import DecksList_SingleDeck from './DecksList_SingleDeck'
+import {DeckPreview, DeckItem} from '../index';
 
-const DecksList = ({decks, selectedFormat, selectDeck, history}) => {
-  const decksArr = Object.keys(decks)
-    // reduce = keyed obj => array filtered by selected format
-    .reduce((arr, key) => {
-      if (decks[key].format === selectedFormat) arr.push(decks[key])
-      return arr
-    }, [])
+class DecksList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      previewId: null
+    }
+    this.setPreview = this.setPreview.bind(this)
+  }
 
-  return (
-    <div className="deck-list">
-      {decksArr.map(deck => (
-        <div key={deck.id}>
-          <DecksList_SingleDeck
-            history={history}
-            deck={deck}
-          />
+  setPreview(previewId) {
+    this.setState({previewId})
+  }
+  
+  render() {
+    const {decks, selectedFormat, history} = this.props
+    const {previewId} = this.state
+    const decksArr = Object.keys(decks)
+      // reduce = keyed obj => array filtered by selected format
+      .reduce((arr, key) => {
+        if (decks[key].format === selectedFormat) arr.push(decks[key])
+        return arr
+      }, [])
+    return (
+      <div className='row'>
+        <div className="deck-list">
+          {decksArr.map(deck => (
+            <div key={deck.id}>
+              <DeckItem
+                history={history}
+                deck={deck}
+                preview={this.setPreview}
+              />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  )
+        { previewId !== null && <DeckPreview deckId={previewId}/> }
+      </div>
+    )
+  }
 }
 
 const mapState = ({decks, user: {selectedFormat}}) => ({
@@ -31,6 +49,4 @@ const mapState = ({decks, user: {selectedFormat}}) => ({
   selectedFormat
 })
 
-const mapDispatch = {selectDeck}
-
-export default withRouter(connect(mapState, mapDispatch)(DecksList))
+export default withRouter(connect(mapState)(DecksList))
