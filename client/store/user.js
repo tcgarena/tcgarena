@@ -73,17 +73,16 @@ export const logout = () => async dispatch => {
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
-      return { ...state, ...action.user }
+      return {...state, ...action.user}
     case REMOVE_USER:
       return defaultUser
     case SELECT_FORMAT:
-      return { ...state, selectedFormat: action.format }
+      return {...state, selectedFormat: action.format}
     case SELECT_DECK:
-      return { ...state, selectedDeck: action.deckId}
+      return {...state, selectedDeck: action.deckId}
     case DESELECT_DECK:
-      const { selectedDeck: _, ...newState } = state
-      return { ...newState }
-      return
+      const {selectedDeck: _, ...newState} = state
+      return {...newState}
     default:
       return state
   }
