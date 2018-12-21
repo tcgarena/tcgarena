@@ -21,6 +21,7 @@ class DeckForm extends React.Component {
 
   async addDeck() {
     const {decklist, deckName} = this.state
+    const {deckId} = this.props.match.params
     const format = this.props.selectedFormat
 
     const {isLegal, errors} = await deckCheck(format, decklist, deckName)
@@ -28,9 +29,9 @@ class DeckForm extends React.Component {
     if (isLegal) {
       const {id} = this.props.match.params
       const deck = await this.props.saveDeck({format, decklist, deckName, id})
-
+      // console.log('deck', deck)
       this.props.selectDeck(deck.id)
-      this.props.history.push(`/decks/${deck.id}`)
+      this.props.history.push(`/decks/${deckId}`)
     } else this.setState({errors})
 
   }
