@@ -6,58 +6,30 @@ class DecksList_SingleDeck extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isHovering: false,
-      quickView: false
+      isHovering: false
     }
     this.handleMouseHover = this.handleMouseHover.bind(this)
   }
 
-  handleMouseHover = (deckId) => {
+  handleMouseHover = deckId => {
     this.props.preview(deckId)
     this.setState(this.toggleHoverState)
   }
 
-  handleClick = () => {
-    this.setState(this.toggleQuickView)
-  }
-
-  toggleQuickView(state) {
-    return {
-      quickView: !state.quickView
-    }
-  }
-
-  toggleHoverState(state) {
-    return {
-      isHovering: !state.isHovering
-    }
-  }
+  toggleHoverState = state => ({ isHovering: !state.isHovering })
 
   showButtons() {
     const {deck, history} = this.props
     return (
       <div>
-        <button
-          type="button"
-          onClick={() => {
-            selectDeck(deck.id)
-            history.push(`/decks/${deck.id}`)
-          }}
-        >
-          View
-        </button>
-        <button
-          type="button"
-          onClick={() => history.push(`/decks/${deck.id}/edit`)}
-        >
-          Edit
-        </button>
-        <button
-          type="button"
-          onClick={() => history.push(`/decks/${deck.id}/delete`)}
-        >
-          Delete
-        </button>
+        <button onClick={() => {
+          selectDeck(deck.id)
+          history.push(`/decks/${deck.id}`)
+        }}>View</button>
+        <button onClick={() => history.push(`/decks/${deck.id}/edit`)}
+        >Edit</button>
+        <button onClick={() => history.push(`/decks/${deck.id}/delete`)}
+        >Delete</button>
       </div>
     )
   }
@@ -73,11 +45,6 @@ class DecksList_SingleDeck extends React.Component {
       >
         <p>{deck.name}</p>
         {this.state.isHovering && this.showButtons()}
-        {/* {this.state.quickView && (
-          <div className="decklist-text">
-            {deck.list.split('\n').map((line, idx) => <p key={idx}>{line}</p>)}
-          </div>
-        )} */}
       </div>
     )
   }
