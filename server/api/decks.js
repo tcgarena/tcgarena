@@ -34,8 +34,6 @@ router.post('/', requireLogin, async (req, res, next) => {
 router.put('/', requireLogin, async (req, res, next) => {
   try {
     const {format, decklist: list, deckName: name, deckId: id} = req.body
-
-    // console.log('format:', format, 'list:', list, 'name:', name, 'id:', id)
     const [numRows, updatedDeck] = await Deck.update(
       {format, list, name},
       {where: {id}, returning: true}

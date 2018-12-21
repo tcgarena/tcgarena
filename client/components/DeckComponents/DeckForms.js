@@ -29,9 +29,9 @@ class DeckForm extends React.Component {
 
     if (isLegal) {
       const deck = await this.props.saveDeck({format, decklist, deckName, deckId})
-      console.log('deck in react', deck)
-      this.props.selectDeck(deckId)
-      this.props.history.push(`/decks/${deckId}`)
+      // console.log('deck in react', deck)
+      this.props.selectDeck(deck.id)
+      this.props.history.push(`/decks/${deck.id}`)
     } else this.setState({errors})
 
   }
@@ -47,9 +47,11 @@ class DeckForm extends React.Component {
 
   handleChange(event) {
     // selectedFormat is handled by redux so we have to deal with it seperately
-    if (event.target.name === 'selectedFormat')
+    if (event.target.name === 'selectedFormat') {
+      console.log('event name', event.target.name)
+      console.log('event value', event.target.value)
       this.props.selectFormat(event.target.value)
-    else {
+    } else {
       // every other form field is handled in local state
       const {name, value} = event.target
       this.setState({[name]: value})
