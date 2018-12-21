@@ -13,9 +13,10 @@ export {default as FormatSelect} from './FormatSelect'
 export {default as ConfirmAction} from './ConfirmAction'
 
 export {default as DecksMenu} from './DeckComponents/DecksMenu'
-export {default as SingleDeckList} from './DeckComponents/SingleDeckList'
+export {default as SingleDeckView} from './DeckComponents/SingleDeckView'
 export {AddDeckForm, EditDeckForm} from './DeckComponents/DeckForms'
 export {default as DecksList} from './DeckComponents/DecksList'
+export {default as DecksList_SingleDeck} from './DeckComponents/DecksList_SingleDeck'
 export {default as DeleteDeck} from './DeckComponents/DeleteDeck'
 
 export {default as LobbyMenu} from './LobbyComponents/LobbyMenu'

@@ -2,16 +2,16 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
-const SingleDeckList = ({decks, match, history}) => {
+const SingleDeckView = ({decks, match, history}) => {
   const id = match.params.deckId
   const deck = decks[id]
   return deck ? (
     <div className="single-decklist">
       <h4>{deck.name}</h4>
-      <button onClick={()=>history.push(`/decks/${id}/edit`)}>
+      <button type="button" onClick={() => history.push(`/decks/${id}/edit`)}>
         Edit
       </button>
-      <button onClick={()=>history.push(`/decks/${id}/delete`)}>
+      <button type="button" onClick={() => history.push(`/decks/${id}/delete`)}>
         Delete
       </button>
       <h5>{deck.format}</h5>
@@ -26,6 +26,4 @@ const SingleDeckList = ({decks, match, history}) => {
 
 const mapState = ({decks}) => ({decks})
 
-export default withRouter(
-  connect(mapState)(SingleDeckList)
-)
+export default withRouter(connect(mapState)(SingleDeckView))

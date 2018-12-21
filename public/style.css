@@ -20,6 +20,18 @@ form div {
   display: inline-block;
 }
 
+.single-deck-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.single-deck-list > button {
+  width: 1px;
+  height: 30%;
+}
+
 #app {
   display: flex;
   align-items: flex-start;
@@ -29,17 +41,17 @@ form div {
 }
 
 #decks-menu-main button {
-  width: 100%
+  width: 100%;
 }
 
 #lobby-menu-main button {
-  width: 100%
+  width: 100%;
 }
 
 .new-deck-form {
   display: flex;
   justify-content: center;
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 .deck-field {
@@ -50,7 +62,7 @@ form div {
 .cockatrice-name-form {
   display: flex;
   justify-content: center;
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 #lobby-navbar {
@@ -59,15 +71,15 @@ form div {
 }
 
 .lobby-navbar-selected {
-  background-color: grey
+  background-color: grey;
 }
 
-#lobby-navbar-options , #lobby-navbar-formats {
+#lobby-navbar-options,
+#lobby-navbar-formats {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
-
 }
 
 .lobby-navbar-item {
@@ -114,6 +126,12 @@ form div {
   margin-bottom: 1px;
 }
 
+
+
+.single-deck-list:hover {
+  background-color: lightblue;
+}
+
 .mini-window-container {
   display: flex;
   border: solid 1px black;
@@ -129,7 +147,6 @@ form div {
 
 .mini-window-container div p {
   margin: 0px;
-
 }
 
 a {
