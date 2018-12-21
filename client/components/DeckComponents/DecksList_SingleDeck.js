@@ -68,8 +68,9 @@ class DecksList_SingleDeck extends React.Component {
         className="single-deck-list"
         onMouseEnter={this.handleMouseHover}
         onMouseLeave={this.handleMouseHover}
+        onClick={this.handleClick}
       >
-        <p onClick={this.handleClick}>{deck.name}</p>
+        <p>{deck.name}</p>
         {this.state.isHovering && this.showButtons()}
         {this.state.quickView && (
           <div className="decklist-text">
