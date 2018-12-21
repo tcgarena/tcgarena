@@ -28,7 +28,7 @@ class DeckForm extends React.Component {
     if (isLegal) {
       const {id} = this.props.match.params
       const deck = await this.props.saveDeck({format, decklist, deckName, id})
-      
+
       this.props.selectDeck(deck.id)
       this.props.history.push(`/decks/${deck.id}`)
     } else this.setState({errors})
@@ -36,9 +36,10 @@ class DeckForm extends React.Component {
   }
 
   componentDidMount() {
-    const {id} = this.props.match.params
-    if (id) {
-      const {list: decklist, name: deckName} = this.props.decks[id]
+    const {deckId} = this.props.match.params
+
+    if (deckId) {
+      const {list: decklist, name: deckName} = this.props.decks[deckId]
       this.setState({decklist, deckName})
     }
   }
