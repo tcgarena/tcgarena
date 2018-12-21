@@ -12,7 +12,9 @@ class DeckForm extends React.Component {
     this.state = {
       decklist: '',
       deckName: '',
-      errors: []
+      errors: [],
+      isEdit: null,
+      softDelete: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -24,21 +26,29 @@ class DeckForm extends React.Component {
     const format = this.props.selectedFormat
     const {deckId} = this.props.match.params
 
-
     const {isLegal, errors} = await deckCheck(format, decklist, deckName)
 
     if (isLegal) {
-      const deck = await this.props.saveDeck({format, decklist, deckName, deckId})
+      const deck = await this.props.saveDeck({
+        format,
+        decklist,
+        deckName,
+        deckId
+      })
       // console.log('deck in react', deck)
       this.props.selectDeck(deck.id)
       this.props.history.push(`/decks/${deck.id}`)
     } else this.setState({errors})
-
   }
 
   componentDidMount() {
-    const {deckId} = this.props.match.params
-
+    const {deckId, action} = this.props.match.params
+    console.log('this.props.match', this.props.match)
+    if (action === 'edit') {
+      this.setState({
+        isEdit: true
+      })
+    }
     if (deckId) {
       const {list: decklist, name: deckName} = this.props.decks[deckId]
       this.setState({decklist, deckName})
@@ -64,6 +74,7 @@ class DeckForm extends React.Component {
   }
 
   render() {
+    console.log('state', this.state)
     return (
       <div className="new-deck-form">
         <form className="new-deck-form" onSubmit={this.handleSubmit}>
@@ -74,17 +85,19 @@ class DeckForm extends React.Component {
             onChange={this.handleChange}
             value={this.state.deckName}
           />
-          <select
-            name="selectedFormat"
-            value={this.props.selectedFormat}
-            onChange={this.handleChange}
-          >
-            {formats.map(format => (
-              <option name="format" key={format} value={format}>
-                {format}
-              </option>
-            ))}
-          </select>
+          {this.state.isEdit !== true && (
+            <select
+              name="selectedFormat"
+              value={this.props.selectedFormat}
+              onChange={this.handleChange}
+            >
+              {formats.map(format => (
+                <option name="format" key={format} value={format}>
+                  {format}
+                </option>
+              ))}
+            </select>
+          )}
           <textarea
             className="deck-field"
             name="decklist"
@@ -111,13 +124,10 @@ const mapAdd = {
 }
 
 const mapEdit = dispatch => ({
-  selectFormat, selectDeck,
+  selectFormat,
+  selectDeck,
   saveDeck: deck => dispatch(updateDeck(deck))
 })
 
-export const AddDeckForm = withRouter(
-  connect(mapState, mapAdd)(DeckForm)
-)
-export const EditDeckForm = withRouter(
-  connect(mapState, mapEdit)(DeckForm)
-)
+export const AddDeckForm = withRouter(connect(mapState, mapAdd)(DeckForm))
+export const EditDeckForm = withRouter(connect(mapState, mapEdit)(DeckForm))

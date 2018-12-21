@@ -31,7 +31,7 @@ class DecksMenu extends React.Component {
         <Switch>
           <Route exact path='/decks/add' component={AddDeckForm} />
           <Route exact path='/decks/:deckId' component={SingleDeckList} />
-          <Route exact path='/decks/:deckId/edit' component={EditDeckForm} />
+          <Route exact path='/decks/:deckId/:action' component={EditDeckForm} />
         </Switch>
 
       </div>
