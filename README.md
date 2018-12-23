@@ -1,5 +1,7 @@
 # Boilermaker
 
+[![Join the chat at https://gitter.im/tcg-arena/community](https://badges.gitter.im/tcg-arena/community.svg)](https://gitter.im/tcg-arena/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 _Good things come in pairs_
 
 Looking to mix up a backend with express/sequelize and a frontend with react/redux? That's `boilermaker`!
