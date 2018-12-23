@@ -16,4 +16,9 @@ const Deck = db.define("deck", {
     }
 })
 
+Deck.edit = function(deckId, userId, newDeck) {
+  const deck = Deck.findById(deckId)
+  console.log(deck)
+}
+
 module.exports = Deck

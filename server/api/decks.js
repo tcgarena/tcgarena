@@ -29,13 +29,13 @@ router.post('/', requireLogin, async (req, res, next) => {
 // /api/decks PUT
 router.put('/', requireLogin, async (req, res, next) => {
   try {
-    const {format, decklist: list, deckName: name, deckId: id} = req.body
-    // I really prefer lodash for unused vars that we have to no choice but to assign to something
-    const [_, updatedDeck] = await Deck.update(
-      {format, list, name},
-      {where: {id}, returning: true}
-    )
-    res.status(200).json(updatedDeck[0])
+    const {
+      decklist: list, 
+      deckName: name, 
+      deckId
+    } = req.body
+    const updatedDeck = Deck.edit(deckId, req.user.id, {list, name})
+    res.status(200).json(updatedDeck)
   } catch (e) { next(e) }
 })
 
@@ -49,3 +49,4 @@ router.delete('/:id', requireLogin, async (req, res, next) => {
 })
 
 module.exports = router
+
