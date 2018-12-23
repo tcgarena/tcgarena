@@ -4,7 +4,7 @@ TCGArena is an open source replacement for the once popular (offline since Nov 2
 
 Our goal is to create a friendly, yet competitive community where players can participate in ranked tournaments and single matches. Just like magic-league, TCGArena will have weekly trial tournaments, and larger free-to-enter monthly tournaments with cash prizes. 
 
-We will be using cockatrice (rooster ranges server) as our we develop the core features of our app, but we plan to support other platforms in the future.
+We will be using cockatrice (rooster ranges server) as we develop the core features of our app, but we plan to support other platforms in the future.
 
 ## Core Features
 
