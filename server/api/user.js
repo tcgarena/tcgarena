@@ -1,24 +1,23 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
-const {requireLogin, requireTC} = require('../middlewares')
+const {requireLogin, requireJudge3, requireTC} = require('../middlewares')
 
 // /api/user GET
-router.get('/', async (req, res, next) => {
+router.get('/', requireJudge3, async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {id: req.user.id},
-      // include: [{all: true}]
+      include: [{all: true}]
     })
     res.json({
       ...user.dataValues,
       accessLevel: user.getPerms()
     })
-  } catch (e) { res.json({}) }
+  } catch (e) {
+    res.sendStatus(404)
+   }
 })
 
-router.get('/tc', requireTC, (req, res) => {
-  res.json('success!')
-})
 
 // /api/user/cockaName POST
 router.post('/cockaName', requireLogin, async (req, res, next) => {
