@@ -7,7 +7,7 @@ const postgresPassword = 'postgres'
 
 const db = new Sequelize(
   process.env.DATABASE_URL || `postgres://localhost:5432/${databaseName}`,
-  postgresUsername, postgresPassword, // for linux
+  // postgresUsername, postgresPassword, // for linux development
   {logging: false}
 )
 module.exports = db

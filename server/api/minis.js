@@ -27,12 +27,14 @@ router.get('/:miniId', requireLogin, async (req, res, next) => {
 router.post('/', requireJudge1, async (req, res, next) => {
   try {
     const newMini = req.body
-    if (!newMini.userId) newMini.userId = req.user.id
+    if (newMini.userId === undefined) newMini.userId = req.user.id
     const miniEngine = req.app.get('miniEngine')
-    const mini = miniEngine.createMini(newMini)
+    const mini = await miniEngine.createMini(newMini)
     if (mini) res.status(200).json(mini)
     else res.sendStatus(500)
-  } catch (e) { console.log(e) }
+  } catch (e) { 
+    res.sendStatus(403)
+   }
 })
 
 
@@ -40,10 +42,10 @@ router.post('/', requireJudge1, async (req, res, next) => {
 router.put('/:miniId/join', requireLogin, async (req, res, next) => {
   try {
     const miniEngine = req.app.get('miniEngine')
-    miniEngine.joinMini(req.user.id, req.params.miniId)
+    await miniEngine.joinMini(req.user.id, req.params.miniId)
     res.sendStatus(200)
   } catch (e) { 
-    console.log(e)
+    console.error(e)
     res.sendStatus(500)
    }
 })
