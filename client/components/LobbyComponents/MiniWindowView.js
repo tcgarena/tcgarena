@@ -10,8 +10,8 @@ class MiniWindowView extends React.Component {
   }
 
   async join() {
-    await this.props.joinMini(this.props.mini.id)
-    // this.props.history.push(`/lobby/mini/${mini.id}`)
+    // await this.props.joinMini(this.props.mini.id)
+    this.props.history.push(`/lobby/${this.props.mini.id}`)
   }
 
   render() {
