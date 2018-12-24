@@ -1,14 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {} from '../../store'
+// import {} from '../../store'
 
 const MiniJudgePanel = ({history}) => {
   return (
     <div>
-      <button onClick={()=>
-        history.push('/lobby/new')
-      }>New Mini</button>
+      mini judge panel
     </div>
   )
 }
