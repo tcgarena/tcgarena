@@ -34,17 +34,17 @@ class DeckItem extends React.Component {
     const {deck, history, actionButton} = this.props
     const {isDeleting} = this.state
     return (
-      <div>
+      <div className='deck-item-container'>
         { isDeleting 
             ? <ConfirmAction 
                 confirm={this.deleteDeck}
                 deny ={this.toggleDeleteState}
               />
-            : <div>
+            : <div className='deck-item'>
 
                 {/* action button is the first button */}
 
-                <button onClick={() => 
+                <button className='small-button' onClick={() => 
                   actionButton.action(deck.id)
                 }>
                   {actionButton.text}

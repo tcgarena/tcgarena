@@ -20,17 +20,16 @@ form div {
   display: inline-block;
 }
 
+.decks-list {
+  position: fixed;
+}
 
 .single-deck-list {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  width: 100%;
-}
-
-.single-deck-list > button {
-  width: 1px;
-  height: 30%;
+  justify-content: space-between;
+  position: fixed;
+  /* width: 100px; */
 }
 
 #app {
@@ -127,12 +126,41 @@ form div {
   margin-bottom: 1px;
 }
 
-.decklist-preview {
-  margin-top: 1px;
-  margin-bottom: 1px;
-  font-size: 10px;
+.decklist-preview-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 100px;
+  
 }
 
+.decklist-preview {
+  height: 600px;
+  border: 1px solid black;
+}
+
+.decklist-preview p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 0.8em;
+}
+
+.deck-item-container {
+
+}
+
+.deck-item {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.deck-item button {
+  width: 5px;
+}
+
+.small-button {
+  width: 20px;
+}
 
 
 .single-deck-list:hover {

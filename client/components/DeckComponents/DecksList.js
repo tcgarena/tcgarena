@@ -27,7 +27,7 @@ class DecksList extends React.Component {
       }, [])
     return (
       <div className='row'>
-        <div className="deck-list">
+        <div className="decks-list">
           {decksArr.map(deck => (
             <div key={deck.id}>
               <DeckItem
