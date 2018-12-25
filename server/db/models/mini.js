@@ -18,14 +18,6 @@ const Mini = db.define("mini", {
     maxPlayers: {
       type: Sequelize.INTEGER,
       allowNull: false
-    },
-    participants: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER),
-      defaultValue: []
-    },
-    decklists: {
-      type: Sequelize.ARRAY(Sequelize.TEXT),
-      defaultValue: []
     }
 })
 
