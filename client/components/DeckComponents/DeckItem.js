@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {selectDeck, deleteDeck} from '../../store'
+import {selectDeck, deleteDeck, deselectDeck} from '../../store'
 import {ConfirmAction} from '../index'
 
 class DeckItem extends React.Component {
@@ -26,7 +26,8 @@ class DeckItem extends React.Component {
   deleteDeck() {
     const {deck, history} = this.props
     this.props.deleteDeck(deck.id)
-
+    this.props.deselectDeck()
+    history.push('/decks')
   }
 
   showButtons() {
@@ -85,7 +86,8 @@ const mapState = ({decks, user: {selectedFormat}}) => ({
 
 const mapDispatch = {
   selectDeck,
-  deleteDeck
+  deleteDeck,
+  deselectDeck
 }
 
 export default connect(mapState, mapDispatch)(DeckItem)

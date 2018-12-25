@@ -17,13 +17,15 @@ class JoinMiniForm extends React.Component {
   
   toggleAdd = () => this.setState({isAdding: !this.state.isAdding})
 
-  joinButton = () => {
-    const {joinMini} = this.props
+  joinButton = () => ({
+    text: 'Choose deck',
+    action: this.join.bind(this)
+  })
+
+  join = async deckId => {
     const {miniId} = this.props.match.params
-    return {
-      text: 'Choose deck',
-      action: deckId => joinMini(miniId, deckId)
-    }
+    await this.props.joinMini(miniId, deckId)
+    this.props.history.push(`/lobby/${miniId}`)
   }
 
   render() {
