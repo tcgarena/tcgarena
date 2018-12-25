@@ -1,7 +1,7 @@
 import React from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux';
-import {joinMini} from '../../store'
+import {joinMini, selectFormat} from '../../store'
 
 class MiniWindowView extends React.Component {
   constructor(props) {
@@ -10,12 +10,13 @@ class MiniWindowView extends React.Component {
   }
 
   async join() {
-    // await this.props.joinMini(this.props.mini.id)
-    this.props.history.push(`/lobby/${this.props.mini.id}`)
+    const {history, mini, selectFormat} = this.props
+    selectFormat(mini.format)
+    history.push(`/lobby/${mini.id}/join`)
   }
 
   render() {
-    const { mini } = this.props
+    const {mini} = this.props
     const currentPlayersAmt = mini.participants.length
 
     return (
@@ -33,7 +34,7 @@ class MiniWindowView extends React.Component {
 }
 
 const mapDispatchToProps = {
-  joinMini
+  joinMini, selectFormat
 }
 
 export default withRouter(

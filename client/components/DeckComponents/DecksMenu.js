@@ -7,10 +7,24 @@ import {AddDeckForm, NavFormats, DecksList, SingleDeckView, EditDeckForm, Delete
 
 class DecksMenu extends React.Component {
 
+  constructor(props) {
+    super(props)
+    if (props.actionButton) 
+      this.actionButton = props.actionButton.apply(this)
+    else 
+      this.actionButton = this.viewButton.apply(this)
+  
+  }
+
   // componentDidMount() {
   //   if (this.props.selectedDeck)
   //     this.props.history.push(`/decks/${this.props.selectedDeck}`)
   // }
+
+  viewButton = () => ({
+    text: 'View',
+    action: deckId => this.props.history.push(`/decks/${deckId}`)
+  })
 
   render() {
     const {decks} = this.props
@@ -26,7 +40,9 @@ class DecksMenu extends React.Component {
         <Route exact path='/decks' render={() =>
           <NavFormats formats={formats} />
         }/>
-        <Route exact path='/decks' component={DecksList} />
+        <Route exact path='/decks' component={() => 
+          <DecksList actionButton={this.actionButton} />
+        }/>
 
         <Switch>
           <Route exact path='/decks/add' component={AddDeckForm} />

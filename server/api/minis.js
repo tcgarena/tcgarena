@@ -42,7 +42,11 @@ router.post('/', requireJudge1, async (req, res, next) => {
 router.put('/:miniId/join', requireLogin, async (req, res, next) => {
   try {
     const miniEngine = req.app.get('miniEngine')
-    await miniEngine.joinMini(req.user.id, req.params.miniId)
+    await miniEngine.joinMini(
+      req.user.id, 
+      req.params.miniId, 
+      req.body.decklist
+    )
     res.sendStatus(200)
   } catch (e) { 
     console.error(e)

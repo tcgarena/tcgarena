@@ -30,8 +30,9 @@ class DeckItem extends React.Component {
   }
 
   showButtons() {
-    const {deck, history} = this.props
+    const {deck, history, actionButton} = this.props
     const {isDeleting} = this.state
+    console.log(actionButton)
     return (
       <div>
         { isDeleting 
@@ -40,11 +41,13 @@ class DeckItem extends React.Component {
                 deny ={this.toggleDeleteState}
               />
             : <div>
-                <button onClick={() => {
-                  selectDeck(deck.id)
-                  history.push(`/decks/${deck.id}`)
-                }}>
-                  View
+
+                {/* action button is the first button */}
+
+                <button onClick={() => 
+                  actionButton.action(deck.id)
+                }>
+                  {actionButton.text}
                 </button>
 
                 <button onClick={() => history.push(`/decks/${deck.id}/edit`)}>

@@ -23,18 +23,20 @@ class DeckForm extends React.Component {
     const {decklist, deckName} = this.state
     const format = this.props.selectedFormat
     const {deckId} = this.props.match.params
+    const {history, selectDeck, saveDeck, redirect} = this.props
 
     const {isLegal, errors} = await deckCheck(format, decklist, deckName)
 
     if (isLegal) {
-      const deck = await this.props.saveDeck({
+      const deck = await saveDeck({
         format,
         decklist,
         deckName,
         deckId
       })
-      this.props.selectDeck(deck.id)
-      this.props.history.push(`/decks/${deck.id}`)
+      selectDeck(deck.id)
+      if (redirect) redirect()
+      else history.push(`/decks/${deck.id}`)
     } else this.setState({errors})
   }
 
