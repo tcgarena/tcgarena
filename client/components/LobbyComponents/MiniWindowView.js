@@ -1,41 +1,64 @@
 import React from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux';
-import {joinMini} from '../../store'
+import {joinMini, selectFormat} from '../../store'
 
 class MiniWindowView extends React.Component {
-  constructor(props) {
-    super(props)
-    this.join = this.join.bind(this)
-  }
+
+  viewButton = () => ({
+    text: 'view',
+    action: () => this.props.history.push(`/lobby/${this.props.mini.id}`)
+  })
+
+  joinButton = () => ({
+    text: 'join',
+    action: this.join.bind(this)
+  })
 
   async join() {
-    await this.props.joinMini(this.props.mini.id)
-    // this.props.history.push(`/lobby/mini/${mini.id}`)
+    const {history, mini, selectFormat} = this.props
+    selectFormat(mini.format)
+    history.push(`/lobby/${mini.id}/join`)
+  }
+
+  chooseAction() {
+    const {userId, mini} = this.props 
+    if (mini.participants.length === mini.maxPlayers) {
+      return this.viewButton.apply(this)
+    } else if (mini.participants.includes(userId)) {
+      return this.viewButton.apply(this)
+    } else {
+      return this.joinButton.apply(this)
+    }
   }
 
   render() {
-    const { mini } = this.props
+    const {mini} = this.props
+    const actionButton = this.chooseAction.apply(this)
     const currentPlayersAmt = mini.participants.length
-
     return (
       <div className='column mini-window-container'>
         <div className='row'>
           <p>{mini.format} {mini.type}</p>
           <p>{`${currentPlayersAmt}/${mini.maxPlayers}`}</p>
         </div>
-        <button onClick={this.join} >
-          join
+
+        <button onClick={actionButton.action} >
+          {actionButton.text}
         </button>
       </div>
     )
   }
 }
 
+const mapState = ({user: {id}}) => ({
+  userId: id
+})
+
 const mapDispatchToProps = {
-  joinMini
+  joinMini, selectFormat
 }
 
 export default withRouter(
-  connect(null, mapDispatchToProps)(MiniWindowView)
+  connect(mapState, mapDispatchToProps)(MiniWindowView)
 )

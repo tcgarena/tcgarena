@@ -24,8 +24,8 @@ module.exports = class Engine {
     this.minis[miniId].start()
   }
 
-  async joinMini(userId, miniId) {
-    const {dataValues: mini} = await Mini.join(miniId, userId)
+  async joinMini(userId, miniId, decklist) {
+    const {dataValues: mini} = await Mini.join(miniId, userId, decklist)
     if (mini) {
       this.minis[miniId] = mini
       this.sockets.emit('fetch-mini', miniId)

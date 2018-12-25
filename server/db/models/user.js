@@ -41,7 +41,7 @@ const User = db.define('user', {
   },
   cockatriceName: {
     type: Sequelize.STRING,
-  },
+  }
 })
 
 module.exports = User

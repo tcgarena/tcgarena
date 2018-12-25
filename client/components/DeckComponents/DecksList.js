@@ -17,7 +17,7 @@ class DecksList extends React.Component {
   }
   
   render() {
-    const {decks, selectedFormat, history} = this.props
+    const {decks, selectedFormat, history, actionButton} = this.props
     const {previewId} = this.state
     const decksArr = Object.keys(decks)
       // reduce = keyed obj => array filtered by selected format
@@ -27,10 +27,11 @@ class DecksList extends React.Component {
       }, [])
     return (
       <div className='row'>
-        <div className="deck-list">
+        <div className="decks-list">
           {decksArr.map(deck => (
             <div key={deck.id}>
               <DeckItem
+                actionButton={actionButton}
                 history={history}
                 deck={deck}
                 preview={this.setPreview}
@@ -38,7 +39,10 @@ class DecksList extends React.Component {
             </div>
           ))}
         </div>
-        { previewId !== null && <DeckPreview deckId={previewId}/> }
+
+        {/* { previewId !== null && <DeckPreview deckId={previewId}/> } */}
+        {/* always show preview area until styling is fixed */}
+        <DeckPreview deckId={previewId}/>
       </div>
     )
   }

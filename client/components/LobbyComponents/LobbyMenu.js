@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Route, Switch, withRouter} from 'react-router-dom'
 import {fetchMinis} from '../../store'
-import { NewMiniForm, MiniList, LobbyJudgePanel } from '../index'
+import {SingleMiniView, NewMiniForm, MiniList, LobbyJudgePanel, JoinMiniForm} from '../index'
 
 class LobbyMenu extends React.Component {
 
@@ -20,6 +20,8 @@ class LobbyMenu extends React.Component {
         <Switch>
           <Route exact path='/lobby' component={MiniList} />
           <Route exact path='/lobby/new' component={NewMiniForm} />
+          <Route exact path='/lobby/:miniId' component={SingleMiniView} />
+          <Route exact path='/lobby/:miniId/join' component={JoinMiniForm} />
         </Switch>
       </div>
     )

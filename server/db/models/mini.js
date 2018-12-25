@@ -22,10 +22,14 @@ const Mini = db.define("mini", {
     participants: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
       defaultValue: []
+    },
+    decklists: {
+      type: Sequelize.ARRAY(Sequelize.TEXT),
+      defaultValue: []
     }
 })
 
-Mini.join = async function(miniId, userId) {
+Mini.join = async function(miniId, userId, decklist) {
   try {
     const mini = await this.findById(miniId)
     if (mini.participants.includes(userId)) {

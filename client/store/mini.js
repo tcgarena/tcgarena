@@ -36,9 +36,9 @@ export const createMini = newMini => async dispatch => {
   }
 }
 
-export const joinMini = miniId => async dispatch => {
+export const joinMini = (miniId, decklist) => async dispatch => {
   try {
-    await axios.put(`/api/minis/${miniId}/join`, {action: 'join'})
+    await axios.put(`/api/minis/${miniId}/join`, {decklist})
   } catch(e) {
     console.log(e)
   }
