@@ -62,6 +62,8 @@ class DeckForm extends React.Component {
   }
 
   render() {
+    const showFormat = this.props.showFormat === undefined 
+      ? true : this.props.showFormat
     return (
       <div className="new-deck-form">
         <form className="new-deck-form" onSubmit={this.handleSubmit}>
@@ -72,7 +74,7 @@ class DeckForm extends React.Component {
             onChange={this.handleChange}
             value={this.state.deckName}
           />
-          { !this.state.isEdit && <FormatSelect /> }
+          { (!this.state.isEdit && showFormat) && <FormatSelect /> }
           <textarea
             className="deck-field"
             name="decklist"
