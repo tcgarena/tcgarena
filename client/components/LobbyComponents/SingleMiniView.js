@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Route, Switch, withRouter} from 'react-router-dom'
 import {MiniJudgePanel, JoinMiniForm} from '../index'
 
-const SingleDeckView = ({isJudge, minis, match, history}) => {
+const SingleMiniView = ({isJudge, minis, match, history}) => {
   const id = match.params.miniId
   const mini = minis[id]
   const currentPlayersAmt = mini.participants.length
@@ -31,4 +31,4 @@ const mapState = ({mini, user: {accessLevel}}) => ({
   isJudge: accessLevel > 0
 })
 
-export default withRouter(connect(mapState)(SingleDeckView))
+export default withRouter(connect(mapState)(SingleMiniView))
