@@ -126,7 +126,6 @@ const deckCheck = async (format, decklist, deckName) => {
       console.log(side[curr])
       return prev + side[curr].amount
     }, 0)
-    console.log(maindeckSize, sideboardSize)
     if (maindeckSize < 60) errors.push( `Maindeck has less than 60 cards.` )
     if (sideboardSize > 15) errors.push( `Sideboard has more than 15 cards.` )
   }
