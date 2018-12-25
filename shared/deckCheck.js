@@ -1,8 +1,4 @@
-import axios from 'axios'
-
-const deckCheck = async (format, decklist, deckName) => {
-  const {data: cardData } = await axios.get('/api/data/cards')
-  const {data: historic} = format === 'historic' ? await axios.get('/api/data/historic') : {data: undefined}
+const deckCheck = async (format, decklist, deckName, cardData, historic) => {
   let cards = {}
   let main = {}
   let side = {}
@@ -139,4 +135,4 @@ const deckCheck = async (format, decklist, deckName) => {
   )
 }
 
-export default deckCheck
+module.exports = deckCheck
