@@ -9,11 +9,7 @@ class DecksMenu extends React.Component {
 
   constructor(props) {
     super(props)
-    if (props.actionButton) 
-      this.actionButton = props.actionButton.apply(this)
-    else 
-      this.actionButton = this.viewButton.apply(this)
-  
+    this.actionButton = this.viewButton.apply(this)
   }
 
   // componentDidMount() {
