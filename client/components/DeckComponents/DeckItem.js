@@ -32,7 +32,6 @@ class DeckItem extends React.Component {
   showButtons() {
     const {deck, history, actionButton} = this.props
     const {isDeleting} = this.state
-    console.log(actionButton)
     return (
       <div>
         { isDeleting 
