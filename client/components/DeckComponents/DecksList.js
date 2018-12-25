@@ -39,7 +39,10 @@ class DecksList extends React.Component {
             </div>
           ))}
         </div>
-        { previewId !== null && <DeckPreview deckId={previewId}/> }
+
+        {/* { previewId !== null && <DeckPreview deckId={previewId}/> } */}
+        {/* always show preview area until styling is fixed */}
+        <DeckPreview deckId={previewId}/>
       </div>
     )
   }

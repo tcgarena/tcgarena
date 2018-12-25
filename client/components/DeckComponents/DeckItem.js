@@ -34,7 +34,7 @@ class DeckItem extends React.Component {
     const {deck, history, actionButton} = this.props
     const {isDeleting} = this.state
     return (
-      <div className='deck-item-container'>
+      <div className=''>
         { isDeleting 
             ? <ConfirmAction 
                 confirm={this.deleteDeck}
@@ -67,7 +67,7 @@ class DeckItem extends React.Component {
     const {deck} = this.props
     return (
       <div
-        className="single-deck-list"
+        className="deck-item-container"
         onMouseEnter={() => this.handleMouseHover(deck.id)}
         onMouseLeave={() => this.handleMouseHover(null)}
         onClick={this.handleClick}

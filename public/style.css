@@ -24,14 +24,6 @@ form div {
   position: fixed;
 }
 
-.single-deck-list {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  position: fixed;
-  /* width: 100px; */
-}
-
 #app {
   display: flex;
   align-items: flex-start;
@@ -130,12 +122,14 @@ form div {
   display: flex;
   flex-direction: row;
   margin-left: 100px;
-  
+  width: 300px;
+  left: -200px;
+
 }
 
 .decklist-preview {
   height: 600px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 .decklist-preview p {
@@ -145,7 +139,10 @@ form div {
 }
 
 .deck-item-container {
-
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  width: 100px;
 }
 
 .deck-item {
@@ -163,7 +160,7 @@ form div {
 }
 
 
-.single-deck-list:hover {
+.deck-item-container:hover {
   background-color: lightblue;
 }
 
