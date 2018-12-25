@@ -23,7 +23,7 @@ class MiniWindowView extends React.Component {
 
   chooseAction() {
     const {userId, mini} = this.props 
-    if (mini.participants === mini.maxPlayers) {
+    if (mini.participants.length === mini.maxPlayers) {
       return this.viewButton.apply(this)
     } else if (mini.participants.includes(userId)) {
       return this.viewButton.apply(this)

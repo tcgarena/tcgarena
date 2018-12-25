@@ -27,7 +27,7 @@ class DecksMenu extends React.Component {
     const decksArr = Object.keys(decks).map(key=>decks[key])
     const formats = uniqFormats(decksArr)
     return (
-      <div id='decks-menu-main'>
+      <div className='decks-menu-main'>
         <Route exact path='/decks' render={() =>
           <button onClick={() => {
             this.props.history.push('/decks/add')

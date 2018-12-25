@@ -53,7 +53,7 @@ class JoinMiniForm extends React.Component {
           <AddDeckForm redirect={this.toggleAdd}/>
         </div>
       ) : (
-        <div>
+        <div className='decks-menu-main'>
           <button onClick={this.toggleAdd}>
             Add Deck
           </button>
@@ -63,13 +63,14 @@ class JoinMiniForm extends React.Component {
   }
 }
 
-const mapState = state => ({
-  hasDecks: Object.keys(state.decks).reduce( 
-    (prev, curr) => state.decks[curr].format === state.user.selectedFormat 
+const mapState = ({decks, user: {selectedFormat}}) => ({
+  hasDecks: Object.keys(decks).reduce( 
+    (prev, curr) => decks[curr].format === selectedFormat 
       ? true : prev
     , false
   )
 })
+
 const mapDispatch = { joinMini }
 
 export default withRouter(
