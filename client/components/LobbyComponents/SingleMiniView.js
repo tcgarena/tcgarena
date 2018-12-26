@@ -6,7 +6,8 @@ import {MiniJudgePanel, JoinMiniForm} from '../index'
 const SingleMiniView = ({isJudge, minis, match, history}) => {
   const id = match.params.miniId
   const mini = minis[id]
-  const currentPlayersAmt = mini.participants.length
+  // const currentPlayersAmt = mini.participants.length 
+  const currentPlayersAmt = 2
   
   return mini ? (
     <div className="single-mini">

@@ -1,5 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require('../db')
+const Deck = require('./deck')
+const UserMini = require('./userMini')
 
 const Mini = db.define("mini", {
     format: {
@@ -21,17 +23,34 @@ const Mini = db.define("mini", {
     }
 })
 
-Mini.join = async function(miniId, userId, decklist) {
+Mini.join = async function(miniId, userId, deckId) {
   try {
+    const {dataValues: deck} = await Deck.findById(deckId)
+    
+    if (!deck)
+      throw new Error(`no deck by id ${deckId}`)
+    
+    if (deck.userId !== userId)
+      throw new Error(`deck ${deckId} does not belong to user ${userId}`)
+    
     const mini = await this.findById(miniId)
-    if (mini.participants.includes(userId)) {
-      throw new Error('user is already in this tournament')
+    
+    if (deck.format !== mini.dataValues.format) 
+      throw new Error(`cannot use a ${deck.format} deck in a ${mini.dataValues.format} tournament`)
+    
+    const userMini = await UserMini.findAll({where: {miniId}})
+    const userIds = userMini.map(row => row.dataValues.userId)
+
+    if (userMini.length >= mini.dataValues.maxPlayers) {
+      throw new Error(`mini ${miniId} is full`)
+    } else if (userIds.includes(userId)) {
+      throw new Error(`user ${userId} in already in mini ${miniId}`)
+    } else {
+      const {list: decklist} = deck
+      UserMini.create({
+        userId, miniId, decklist
+      })
     }
-    if (mini.participants.length >= mini.maxPlayers) {
-      throw new Error('mini is full')
-    }
-    const participants = [ ...mini.participants, userId ]
-    await mini.update({participants})
     return mini
   } catch(e) {
     console.log(e)

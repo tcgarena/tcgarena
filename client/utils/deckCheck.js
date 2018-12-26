@@ -123,7 +123,7 @@ const deckCheck = async (format, decklist, deckName) => {
     const maindeckSize = Object.keys(main).reduce( (prev, curr) => prev + main[curr].amount, 0)
     const sideboardSize = Object.keys(side).reduce( (prev, curr) => {
       // looks like `wear // tear ` isn't getting picked up as a card, probably true for other split cards
-      console.log(side[curr])
+      // console.log(side[curr])
       return prev + side[curr].amount
     }, 0)
     if (maindeckSize < 60) errors.push( `Maindeck has less than 60 cards.` )

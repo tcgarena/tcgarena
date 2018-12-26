@@ -3,11 +3,10 @@ const {User} = require('../db/models')
 const {requireLogin, requireJudge3, requireTC} = require('../middlewares')
 
 // /api/user GET
-router.get('/', requireJudge3, async (req, res, next) => {
+router.get('/', requireLogin, async (req, res, next) => {
   try {
     const user = await User.findOne({
-      where: {id: req.user.id},
-      include: [{all: true}]
+      where: {id: req.user.id}
     })
     res.json({
       ...user.dataValues,
@@ -17,6 +16,20 @@ router.get('/', requireJudge3, async (req, res, next) => {
     res.sendStatus(404)
    }
 })
+// router.get('/', requireJudge3, async (req, res, next) => {
+//   try {
+//     const user = await User.findOne({
+//       where: {id: req.user.id},
+//       include: [{all: true}]
+//     })
+//     res.json({
+//       ...user.dataValues,
+//       accessLevel: user.getPerms()
+//     })
+//   } catch (e) {
+//     res.sendStatus(404)
+//    }
+// })
 
 
 // /api/user/cockaName POST

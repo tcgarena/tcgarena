@@ -6,6 +6,9 @@ const userMini = db.define('user-minis', {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
+  },
+  decklist: {
+    type: Sequelize.TEXT
   }
 })
 
