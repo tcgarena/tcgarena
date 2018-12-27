@@ -8,7 +8,7 @@ const {
 // /api/minis GET
 router.get('/', requireLogin, async (req, res, next) => {
   try {
-    const mini = await Mini.findActive()
+    const mini = await Mini.fetchActive()
     res.json(mini)
   } catch (e) { next(e) }
 })
