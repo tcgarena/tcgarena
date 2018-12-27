@@ -12,7 +12,7 @@ Hello, I'm trying to find the code or algo used to generate deck hash from deckl
 
 Gavin Bisesi @Daenyth Aug 07 07:26
 
-`
+```
 void DeckList::updateDeckHash()
 {
     QStringList cardList;
@@ -47,7 +47,7 @@ void DeckList::updateDeckHash()
 
     emit deckHashChanged();
 }
-`
+```
 
 so basically
 for each card in main zone or sideboard zone in the decklist
@@ -133,11 +133,11 @@ if the card name starts with a number it's just ascii-like ordering
 if you mean card count you need to duplicate
 a deck of 2 island hashes IslandIsland
 
-`
+```
 for (int k = 0; k < card->getNumber(); ++k) {
     cardList.append((node->getName() == DECK_ZONE_SIDE ? "SB:" : "") + card->getName().toLower());
 }
-`
+```
 
 lowercase also
 and with the SB: prepend if it's that zone
