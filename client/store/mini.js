@@ -49,12 +49,7 @@ const initState = {}
 export default (state = initState, action) => {
   switch (action.type) {
     case GOT_MINIS:
-      return { 
-        ...action.minis.reduce((obj, item) => {
-          obj[item.id] = item
-          return obj
-        }, {}) 
-      }
+      return action.minis
     case FETCH_MINI:
       return {
         ...state,

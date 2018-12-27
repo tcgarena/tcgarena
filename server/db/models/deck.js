@@ -16,8 +16,7 @@ const Deck = db.define("deck", {
       allowNull: false
     },
     hash: {
-      type: Sequelize.STRING,
-      // allowNull: false
+      type: Sequelize.STRING
     }
 })
 
