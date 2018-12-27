@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Mini } = require('../db/models')
+const { Mini, UserMini } = require('../db/models')
 const {
   requireLogin, 
   requireJudge1
@@ -8,8 +8,7 @@ const {
 // /api/minis GET
 router.get('/', requireLogin, async (req, res, next) => {
   try {
-    const mini = await Mini.findAll()
-    // attach UserMini values
+    const mini = await Mini.findActive()
     res.json(mini)
   } catch (e) { next(e) }
 })

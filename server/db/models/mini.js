@@ -4,6 +4,11 @@ const Deck = require('./deck')
 const UserMini = require('./userMini')
 
 const Mini = db.define("mini", {
+    state: {
+      type: Sequelize.ENUM,
+      values: ['active', 'open', 'closed'],
+      defaultValue: 'open'
+    },
     format: {
       type: Sequelize.STRING,
       allowNull: false
@@ -22,6 +27,23 @@ const Mini = db.define("mini", {
       allowNull: false
     }
 })
+
+Mini.fetchActive = async function() {
+  const {dataValues: minis} = await Mini.findAll()
+  console.log(
+    minis.reduce( (prev, curr) => {
+      if (curr.state === 'active'){
+        prev.push(curr)
+      } else if (curr.state === 'open') {
+        prev.push(curr)
+      }
+      return prev
+    },[])
+  )
+
+  return minis
+
+}
 
 Mini.join = async function(miniId, userId, deckId) {
   try {
