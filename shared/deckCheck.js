@@ -1,8 +1,8 @@
 const deckHash = require('./deckHash')
+const cardData = require('../server/api/data/cardData')
+const historic = require('../server/api/data/historic')
 
-const deckCheck = async (format, decklist, deckName) => {
-  const {data: cardData } = await axios.get('/api/data/cards')
-  const {data: historic} = format === 'historic' ? await axios.get('/api/data/historic') : {data: undefined}
+const deckCheck = (format, decklist, deckName) => {
   let cards = {}
   let main = {}
   let side = {}

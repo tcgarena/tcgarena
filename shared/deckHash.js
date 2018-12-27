@@ -44,4 +44,4 @@ const deckHash = (main, side) => {
   return hash
 }
 
-export default deckHash
+module.exports = deckHash
