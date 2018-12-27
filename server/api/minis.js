@@ -9,6 +9,7 @@ const {
 router.get('/', requireLogin, async (req, res, next) => {
   try {
     const mini = await Mini.findAll()
+    // attach UserMini values
     res.json(mini)
   } catch (e) { next(e) }
 })

@@ -13,6 +13,10 @@ const Deck = db.define("deck", {
     list: {
       type: Sequelize.TEXT,
       allowNull: false
+    },
+    hash: {
+      type: Sequelize.STRING,
+      // allowNull: false
     }
 })
 
