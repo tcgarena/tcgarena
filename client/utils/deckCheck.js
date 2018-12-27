@@ -1,5 +1,4 @@
 import axios from 'axios'
-import deckHash from './deckHash'
 
 const deckCheck = async (format, decklist, deckName) => {
   const {data: cardData } = await axios.get('/api/data/cards')
@@ -134,10 +133,8 @@ const deckCheck = async (format, decklist, deckName) => {
   // if no errors were found, the deck must be legal
   if (errors.length === 0) isLegal = true
 
-  const hash = deckHash(main, side)
-  
   return ( 
-    { cards, main, side, size, errors, isLegal, format, hash }
+    { cards, main, side, size, errors, isLegal, format }
   )
 }
 
