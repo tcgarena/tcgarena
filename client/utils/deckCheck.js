@@ -32,13 +32,13 @@ const deckCheck = async (format, decklist, deckName) => {
     'Mountain',
     'Wastes'
   ];
-  
+
   const addCard = (card, amount, addToMain=true) => {
     cards.hasOwnProperty(card)
       ? cards[card].amount += 1
       : cards[card] = { amount }
-    
-    addToMain 
+
+    addToMain
       ? main.hasOwnProperty(card)
         ? main[card].amount += 1
         : main[card] = { amount }
@@ -46,7 +46,7 @@ const deckCheck = async (format, decklist, deckName) => {
         ? side[card].amount += 1
         : side[card] = { amount }
   }
-  
+
   let regexData
   decklist
     .split('\n')
@@ -60,8 +60,8 @@ const deckCheck = async (format, decklist, deckName) => {
           let name = line.slice(regexData[0].length+regexData.index+1)
           let amount = parseInt(regexData[0])
 
-          
-          cardsToIgnore.includes(name) || cardData[name] 
+
+          cardsToIgnore.includes(name) || cardData[name]
             ? addCard( name, amount, line.indexOf('SB') === -1 )
             : errors.push(`${name} is not a card.`)
 
@@ -70,11 +70,11 @@ const deckCheck = async (format, decklist, deckName) => {
         }
       }
     })
-  
+
   if (format === 'historic' || format === 'pauper') {
     window.alert(`${format} not yet supported`)
   }
-  
+
   // do checks for all other formats
   else {
     for (let card in cards) {
@@ -133,7 +133,7 @@ const deckCheck = async (format, decklist, deckName) => {
   // if no errors were found, the deck must be legal
   if (errors.length === 0) isLegal = true
 
-  return ( 
+  return (
     { cards, main, side, size, errors, isLegal, format }
   )
 }
