@@ -48,7 +48,7 @@ const eagerloadParticipants = async minis => {
       return obj
     },{})
 
-    // sudo eagerload target.participants
+    // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
       miniObjs[row.dataValues.miniId].participants.push({ 
         ...userObjs[row.dataValues.userId],

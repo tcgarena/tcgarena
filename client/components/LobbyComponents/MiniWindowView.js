@@ -22,10 +22,11 @@ class MiniWindowView extends React.Component {
   }
 
   chooseAction() {
-    const {userId, mini} = this.props 
+    const {cockatriceName, mini} = this.props 
+    const usernames = mini.participants.map(participant => participant.cockatriceName)
     if (mini.participants.length === mini.maxPlayers) {
       return this.viewButton.apply(this)
-    } else if (mini.participants.includes(userId)) {
+    } else if (usernames.includes(cockatriceName)) {
       return this.viewButton.apply(this)
     } else {
       return this.joinButton.apply(this)
@@ -51,8 +52,8 @@ class MiniWindowView extends React.Component {
   }
 }
 
-const mapState = ({user: {id}}) => ({
-  userId: id
+const mapState = ({user: {cockatriceName}}) => ({
+  cockatriceName
 })
 
 const mapDispatchToProps = {
