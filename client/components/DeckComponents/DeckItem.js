@@ -30,7 +30,6 @@ class DeckItem extends React.Component {
     this.props.deleteDeck(deck.id.toString())
     history.push('/decks')
     this.props.deselectDeck()
-    console.log('delete deck props', this.props)
 
   }
 
@@ -38,14 +37,14 @@ class DeckItem extends React.Component {
     const {deck, history, actionButton} = this.props
     const {isDeleting} = this.state
     return (
-      <div className="">
+      <div>
         {isDeleting ? (
           <ConfirmAction
             confirm={this.deleteDeck}
             deny={this.toggleDeleteState}
           />
         ) : (
-          <div className="deck-item">
+          <div className='deck-item-buttons'>
             {/* action button is the first button */}
 
             <button
@@ -74,7 +73,6 @@ class DeckItem extends React.Component {
 
   render() {
     const {deck} = this.props
-    // console.log('re-render props', this.props)
     return (
       <div
         className="deck-item-container"
