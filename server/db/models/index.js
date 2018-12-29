@@ -142,8 +142,27 @@ Mini.join = async function(miniId, userId, deckId) {
 
 /*************
  * 
- * placeholder for hooks that reference outside models
+ * Hooks that reference outside models go here
  */
+
+// untested - unit tests would be nice
+const rejectEntryUpdate = async row => {
+  try {
+    const {userId, miniId} = row.dataValues
+    const {dataValues: mini} = await Mini.findById(miniId)
+    if (mini.state !== 'open') {
+      throw new Error(`${userId} cannot update their entry for ${miniId}`)
+    } else {
+      return row
+    }
+  } catch (e) {
+    console.error(e)
+  }
+
+}
+
+UserMini.beforeUpdate(rejectEntryUpdate)
+
 
  //
 
