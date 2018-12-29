@@ -63,17 +63,6 @@ const eagerloadParticipants = async minis => {
   }
 }
 
-Mini.fetchById = async function(miniId) {
-  try  {
-    const mini = await Mini.findById(miniId)
-    // takes an array, easier to workaround it
-    const miniObjs = await eagerloadParticipants([mini])
-    // de-nest the mini from the returned obj
-    return Object.keys(miniObjs).reduce( (_, miniId) => miniObjs[miniId], {})
-  } catch (e) {
-    console.error(e)
-  }
-}
 
 Mini.fetchActive = async function() {
   try {
@@ -84,6 +73,19 @@ Mini.fetchActive = async function() {
     
     const miniObjs = await eagerloadParticipants(minis)
     return miniObjs
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+Mini.fetchById = async function(miniId) {
+  try  {
+    const mini = await Mini.findById(miniId)
+    // takes an array, easier to workaround it
+    const miniObjs = await eagerloadParticipants([mini])
+    // de-nest the mini from the returned obj collection
+    const miniObj = Object.keys(miniObjs).reduce( (_, miniId) => miniObjs[miniId], {})
+    return miniObj
   } catch (e) {
     console.error(e)
   }
