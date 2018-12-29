@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require('../db')
+const deckCheck = require('../../../shared/deckCheck')
 
 const Deck = db.define("deck", {
     name: {
@@ -13,8 +14,28 @@ const Deck = db.define("deck", {
     list: {
       type: Sequelize.TEXT,
       allowNull: false
+    },
+    hash: {
+      type: Sequelize.STRING
     }
 })
+
+const checkAndHash = deck => {
+  if (deck.changed('list')) {
+    const {format, list, name} = deck.dataValues
+    const {isLegal, hash} = deckCheck(format, list, name)
+    if (isLegal) {
+      deck.hash = hash
+    } else {
+      // client side deck checker prevents this from happening
+      // log this malicious attempt
+      throw new Error(`${deck.id} is not legal for ${deck.format}`)
+    }
+  }
+}
+
+Deck.beforeCreate(checkAndHash)
+Deck.beforeUpdate(checkAndHash)
 
 Deck.edit = async function(deckId, userId, newDeck) {
   try {

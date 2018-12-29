@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Mini } = require('../db/models')
+const { Mini, UserMini } = require('../db/models')
 const {
   requireLogin, 
   requireJudge1
@@ -8,7 +8,7 @@ const {
 // /api/minis GET
 router.get('/', requireLogin, async (req, res, next) => {
   try {
-    const mini = await Mini.findAll()
+    const mini = await Mini.fetchActive()
     res.json(mini)
   } catch (e) { next(e) }
 })
@@ -16,7 +16,7 @@ router.get('/', requireLogin, async (req, res, next) => {
 // /api/minis:miniId GET
 router.get('/:miniId', requireLogin, async (req, res, next) => {
   try {
-    const mini = await Mini.findById(req.params.miniId)
+    const mini = await Mini.fetchById(req.params.miniId)
     res.json(mini)
   } catch (e) { 
     res.json({ message: `no mini by id ${req.params.miniId}`})
@@ -45,7 +45,7 @@ router.put('/:miniId/join', requireLogin, async (req, res, next) => {
     await miniEngine.joinMini(
       req.user.id, 
       req.params.miniId, 
-      req.body.decklist
+      req.body.deckId
     )
     res.sendStatus(200)
   } catch (e) { 

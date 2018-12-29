@@ -20,7 +20,8 @@ async function seed() {
   ])
 
   const minis = await Promise.all([
-    Mini.create({format: 'modern', type: 'swiss', timePerRoundMins: 60, maxPlayers: 8, participants: [1], userId: 3})
+    Mini.create({format: 'modern', type: 'swiss', timePerRoundMins: 60, maxPlayers: 4, userId: 3}),
+    Mini.create({state: 'closed', format: 'modern', type: 'swiss', timePerRoundMins: 60, maxPlayers: 8, userId: 3})
   ])
 
   console.log(`seeded ${users.length} users`)

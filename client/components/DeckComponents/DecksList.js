@@ -15,7 +15,7 @@ class DecksList extends React.Component {
   setPreview(previewId) {
     this.setState({previewId})
   }
-  
+
   render() {
     const {decks, selectedFormat, history, actionButton} = this.props
     const {previewId} = this.state

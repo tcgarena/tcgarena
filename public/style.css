@@ -22,6 +22,8 @@ form div {
 
 .decks-list {
   position: fixed;
+  display: flex;
+  flex-direction: column;
 }
 
 #app {
@@ -121,7 +123,7 @@ form div {
 .decklist-preview-container {
   display: flex;
   flex-direction: row;
-  margin-left: 100px;
+  margin-left: 140px;
   width: 300px;
   left: -200px;
 
@@ -141,12 +143,11 @@ form div {
 .deck-item-container {
   display: flex;
   flex-direction: row;
-  position: fixed;
-  width: 100px;
+  justify-content: space-between;
+  width: 140px;
 }
 
-.deck-item {
-  width: 100px;
+.deck-item-buttons {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

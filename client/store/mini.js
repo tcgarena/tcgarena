@@ -36,9 +36,9 @@ export const createMini = newMini => async dispatch => {
   }
 }
 
-export const joinMini = (miniId, decklist) => async dispatch => {
+export const joinMini = (miniId, deckId) => async dispatch => {
   try {
-    await axios.put(`/api/minis/${miniId}/join`, {decklist})
+    await axios.put(`/api/minis/${miniId}/join`, {deckId})
   } catch(e) {
     console.log(e)
   }
@@ -49,12 +49,7 @@ const initState = {}
 export default (state = initState, action) => {
   switch (action.type) {
     case GOT_MINIS:
-      return { 
-        ...action.minis.reduce((obj, item) => {
-          obj[item.id] = item
-          return obj
-        }, {}) 
-      }
+      return action.minis
     case FETCH_MINI:
       return {
         ...state,

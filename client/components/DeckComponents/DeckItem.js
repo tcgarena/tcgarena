@@ -20,45 +20,53 @@ class DeckItem extends React.Component {
     this.setState(this.toggleHoverState)
   }
 
-  toggleHoverState = state => ({ isHovering: !state.isHovering })
-  toggleDeleteState = () => { this.setState({isDeleting: !this.state.isDeleting}) }
+  toggleHoverState = state => ({isHovering: !state.isHovering})
+  toggleDeleteState = () => {
+    this.setState({isDeleting: !this.state.isDeleting})
+  }
 
   deleteDeck() {
     const {deck, history} = this.props
-    this.props.deleteDeck(deck.id)
-    this.props.deselectDeck()
+    this.props.deleteDeck(deck.id.toString())
     history.push('/decks')
+    this.props.deselectDeck()
+
   }
 
   showButtons() {
     const {deck, history, actionButton} = this.props
     const {isDeleting} = this.state
     return (
-      <div className=''>
-        { isDeleting 
-            ? <ConfirmAction 
-                confirm={this.deleteDeck}
-                deny ={this.toggleDeleteState}
-              />
-            : <div className='deck-item'>
+      <div>
+        {isDeleting ? (
+          <ConfirmAction
+            confirm={this.deleteDeck}
+            deny={this.toggleDeleteState}
+          />
+        ) : (
+          <div className='deck-item-buttons'>
+            {/* action button is the first button */}
 
-                {/* action button is the first button */}
+            <button
+              type="button"
+              className="small-button"
+              onClick={() => actionButton.action(deck.id)}
+            >
+              {actionButton.text}
+            </button>
 
-                <button className='small-button' onClick={() => 
-                  actionButton.action(deck.id)
-                }>
-                  {actionButton.text}
-                </button>
+            <button
+              type="button"
+              onClick={() => history.push(`/decks/${deck.id}/edit`)}
+            >
+              Edit
+            </button>
 
-                <button onClick={() => history.push(`/decks/${deck.id}/edit`)}>
-                  Edit
-                </button>
-
-                <button onClick={this.toggleDeleteState}>
-                  Delete
-                </button>
-            </div>
-        }
+            <button type="button" onClick={this.toggleDeleteState}>
+              Delete
+            </button>
+          </div>
+        )}
       </div>
     )
   }

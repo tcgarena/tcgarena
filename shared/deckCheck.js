@@ -1,4 +1,8 @@
-const deckCheck = async (format, decklist, deckName, cardData, historic) => {
+const deckHash = require('./deckHash')
+const cardData = require('../server/api/data/cardData')
+const historic = require('../server/api/data/historic')
+
+const deckCheck = (format, decklist, deckName) => {
   let cards = {}
   let main = {}
   let side = {}
@@ -119,10 +123,9 @@ const deckCheck = async (format, decklist, deckName, cardData, historic) => {
     const maindeckSize = Object.keys(main).reduce( (prev, curr) => prev + main[curr].amount, 0)
     const sideboardSize = Object.keys(side).reduce( (prev, curr) => {
       // looks like `wear // tear ` isn't getting picked up as a card, probably true for other split cards
-      console.log(side[curr])
+      // console.log(side[curr])
       return prev + side[curr].amount
     }, 0)
-    console.log(maindeckSize, sideboardSize)
     if (maindeckSize < 60) errors.push( `Maindeck has less than 60 cards.` )
     if (sideboardSize > 15) errors.push( `Sideboard has more than 15 cards.` )
   }
@@ -130,8 +133,10 @@ const deckCheck = async (format, decklist, deckName, cardData, historic) => {
   // if no errors were found, the deck must be legal
   if (errors.length === 0) isLegal = true
 
+  const hash = deckHash(main, side)
+  
   return ( 
-    { cards, main, side, size, errors, isLegal, format }
+    { cards, main, side, size, errors, isLegal, format, hash }
   )
 }
 
