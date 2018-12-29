@@ -40,6 +40,7 @@ export const updateDeck = deck => async dispatch => {
 export const deleteDeck = deckId => async dispatch => {
   try {
     await axios.delete(`/api/decks/${deckId}`)
+    console.log('delete deck,', typeof deckId)
     dispatch(removeDeckById(deckId))
   } catch(e) {console.error(e)}
 }
@@ -62,7 +63,9 @@ export default (state = initState, action) => {
       }
     case REMOVE_DECK:
       // assigns the unwanted deck to lodash so we can return every deck except the unwanted one
+      console.log('store state', state)
       const {[action.id]: _, ...otherDecks} = state
+      console.log('OTHER DECKS', otherDecks, 'action.id', action.id)
       return {...otherDecks}
     case REMOVE_DECKS:
       return initState

@@ -15,8 +15,9 @@ class DecksList extends React.Component {
   setPreview(previewId) {
     this.setState({previewId})
   }
-  
+
   render() {
+    console.log('DecksList re-render props', this.props)
     const {decks, selectedFormat, history, actionButton} = this.props
     const {previewId} = this.state
     const decksArr = Object.keys(decks)

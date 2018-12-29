@@ -35,7 +35,7 @@ class DeleteDeck extends React.Component {
   }
 }
 
-const mapDispatch = { 
+const mapDispatch = {
   deleteDeck, deselectDeck
 }
 
