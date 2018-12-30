@@ -57,15 +57,21 @@ module.exports = class Engine {
 
   startMini(userId, miniId) {
     // will probably add some userId checks later on
-    this.minis[miniId].start()
+    try {
+      if (this.minis[miniId].state === 'open') {
+        this.minis[miniId].start()
+        this.sockets.emit('update-mini', miniId, {state: 'active'})
+      } else if (this.minis[miniId].state === 'active') {
+        throw new Error(`mini ${miniId} already active`)
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   async joinMini(userId, miniId, deckId) {
     try {
       const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
-      console.log(miniId, this.minis[miniId])
-      console.log('424233123351')
-      console.log(this.minis)
       if (this.minis[miniId]) {
         this.minis[miniId].participants[userId] = {
           userId, miniId, 
@@ -76,7 +82,6 @@ module.exports = class Engine {
           {participants: this.minis[miniId].participants}
         )
       }
-
     } catch (e) {
       console.error(e)
     }

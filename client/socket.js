@@ -11,7 +11,6 @@ socket.on('connect', () => {
   )
 
   socket.on('update-mini', (miniId, update) => {
-    console.log('updatemini')
     store.dispatch(socketUpdate(miniId, update))
   })
 
