@@ -13,6 +13,15 @@ const MiniJudgePanel = ({match, getMini}) => {
     const roundOver = 'placeholder'
 
     const buttons = []
+    Object.defineProperty(buttons, 'addButton', {
+      value: (text, fn) => {buttons.push(
+        <button type='button' key={text} onClick={fn}>
+          {text}
+        </button>
+      )},
+      writable: false
+    })
+
     // tournament is ongoing
     if (isActive) {
 
@@ -27,18 +36,10 @@ const MiniJudgePanel = ({match, getMini}) => {
     else {
 
       if (isFull) {
-        buttons.push(
-          <button key='start'>
-            Start
-          </button>
-        )
+        buttons.addButton('Start')
       }
 
-      buttons.push(
-        <button key='cancel'>
-          Cancel
-        </button>
-      )
+      buttons.addButton('Cancel', () => console.log('cancel'))
     }
 
     return buttons
