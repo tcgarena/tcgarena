@@ -7,10 +7,12 @@ class MiniInstance {
     Object.keys(mini).forEach( key => this[key] = mini[key] )
   }
 
-  start() {
-
-    console.log(`starting mini ${this.id}`)
-
+  async start() {
+    try {
+      const mini = await Mini.startMini(this.id)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
 
@@ -20,7 +22,22 @@ module.exports = class Engine {
     this.minis = {}
   }
 
-  startMini(miniId) {
+  async loadMinis() {
+    // reload minis just in case the server restarts/crashes while there are active minis
+    try {
+      const minis = await Mini.fetchActive()
+      Object.keys(minis).forEach(key => {
+        const mini = minis[key]
+        const miniInstance = new MiniInstance(mini)
+        this.minis[miniInstance.id] = miniInstance
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  startMini(userId, miniId) {
+    // will probably add some userId checks later on
     this.minis[miniId].start()
   }
 

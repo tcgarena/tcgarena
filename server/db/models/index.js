@@ -91,6 +91,22 @@ Mini.fetchById = async function(miniId) {
   }
 }
 
+Mini.startMini = async function(id) {
+  try {
+    const mini = await Mini.update(
+      {state: 'active'},
+      {where: {id}}
+    )
+    const miniObjs = await eagerloadParticipants([mini])
+    const miniObj = Object.keys(miniObjs).reduce( (_, miniId) => miniObjs[miniId], {})
+    return miniObj
+  } catch (e) {
+    console.error(e)
+  }
+
+}
+
+
 Mini.join = async function(miniId, userId, deckId) {
   try {
     const {dataValues: deck} = await Deck.findById(deckId)

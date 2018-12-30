@@ -45,6 +45,14 @@ export const joinMini = (miniId, deckId) => async dispatch => {
   }
 }
 
+export const startMini = miniId => async dispatch => {
+  try {
+    await axios.put(`/api/minis/${miniId}/start`)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 const initState = {}
 
 export default (state = initState, action) => {

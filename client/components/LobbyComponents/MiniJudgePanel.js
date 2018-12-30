@@ -1,9 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {getMini} from '../../store'
+import {getMini, startMini} from '../../store'
 
-const MiniJudgePanel = ({match, getMini}) => {
+const MiniJudgePanel = ({match, getMini, startMini}) => {
   const mini = getMini(match.params.miniId)
 
   const showButtons = () => {
@@ -14,7 +14,7 @@ const MiniJudgePanel = ({match, getMini}) => {
 
     const buttons = []
     Object.defineProperty(buttons, 'addButton', {
-      value: (text, fn) => {buttons.push(
+      value: (text, fn=()=>console.log(text)) => {buttons.push(
         <button type='button' key={text} onClick={fn}>
           {text}
         </button>
@@ -36,10 +36,10 @@ const MiniJudgePanel = ({match, getMini}) => {
     else {
 
       if (isFull) {
-        buttons.addButton('Start')
+        buttons.addButton('Start', () => startMini(mini.id))
       }
 
-      buttons.addButton('Cancel', () => console.log('cancel'))
+      buttons.addButton('Cancel')
     }
 
     return buttons
@@ -57,6 +57,10 @@ const mapState = state => ({
   getMini: miniId => getMini(state, miniId)
 })
 
+const mapDispatch = {
+  startMini
+}
+
 export default withRouter(
-  connect(mapState)(MiniJudgePanel)
+  connect(mapState, mapDispatch)(MiniJudgePanel)
 )
