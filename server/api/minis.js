@@ -13,7 +13,7 @@ router.get('/', requireLogin, async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
-// /api/minis:miniId GET
+// /api/minis/:miniId GET
 router.get('/:miniId', requireLogin, async (req, res, next) => {
   try {
     const mini = await Mini.fetchById(req.params.miniId)

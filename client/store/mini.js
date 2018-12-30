@@ -8,6 +8,7 @@ const REMOVE_MINI = 'REMOVE_MINI'
 
 export const removeMinis = () => ({ type: REMOVE_MINIS })
 export const removeMiniById = id => ({ type: REMOVE_MINI, id })
+export const getMini = (state, miniId) => state.mini[miniId]
 
 export const fetchMinis = () => async dispatch => {
   try {
