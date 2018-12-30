@@ -41,6 +41,11 @@ const User = db.define('user', {
   },
   cockatriceName: {
     type: Sequelize.STRING,
+  },
+  ELO: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 1200
   }
 })
 

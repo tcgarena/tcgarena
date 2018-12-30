@@ -37,7 +37,7 @@ const eagerloadParticipants = async minis => {
     const users = await User.findAll({
       where: {id: userIds},
       // we need id for this function but don't want to expose it to the client
-      attributes: ['cockatriceName', 'id']
+      attributes: ['cockatriceName', 'id', 'ELO']
     })
 
     // key the user array by id for easy access
@@ -52,8 +52,7 @@ const eagerloadParticipants = async minis => {
     userMinis.forEach( row => {
       miniObjs[row.dataValues.miniId].participants[row.dataValues.userId] = { 
         ...userObjs[row.dataValues.userId],
-        decklist: row.dataValues.decklist,
-        deckhash: row.dataValues.deckhash
+        deckhash: row.dataValues.deckhash,
       }
     })
 
@@ -94,7 +93,7 @@ Mini.fetchById = async function(miniId) {
 Mini.join = async function(miniId, userId, deckId) {
   try {
     const {dataValues: deck} = await Deck.findById(deckId)
-    
+    const {dataValues: user} = await User.findById(userId)
     // deck not found
     if (!deck) {
       throw new Error(`no deck by id ${deckId}`)
@@ -127,10 +126,11 @@ Mini.join = async function(miniId, userId, deckId) {
     
     // user can join mini
     } else {
+      const {ELO, cockatriceName} = user
       const decklist = deck.list
       const deckhash = deck.hash || 'placeholder'
       const userMini = await UserMini.create({
-        userId, miniId, decklist, deckhash
+        userId, miniId, decklist, deckhash, ELO, cockatriceName
       })
       return userMini
     }

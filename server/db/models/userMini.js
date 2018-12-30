@@ -12,6 +12,12 @@ const userMini = db.define('user-minis', {
   },
   deckhash: {
     type: Sequelize.STRING
+  },
+  ELO: {
+    type: Sequelize.INTEGER
+  },
+  cockatriceName: {
+    type: Sequelize.STRING
   }
 })
 

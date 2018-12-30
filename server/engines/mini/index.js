@@ -9,8 +9,30 @@ class MiniInstance {
   }
 
   pair() {
-
+    const playersByELO = Object.keys(this.participants)
+      .reduce( (players, key) => {
+        players.push(this.participants[key])
+        return players
+      }, [])
+      .sort( (prev, curr) => prev.ELO > curr.ELO ? -1 : 1 )
+  
+    const pairs = []
+    const pairPlayer = player => {
+      const lastPairIdx = pairs.length-1
+      if (!pairs[lastPairIdx]) {
+        pairs.push([player])
+      } else if (pairs[lastPairIdx].length === 2) {
+        pairs.push([player])
+      } else if (pairs[lastPairIdx].length === 1) {
+        pairs[lastPairIdx].push(player)
+      }
+    }
+  
+    playersByELO.forEach(player => pairPlayer(player))
+  
+    console.log(pairs)
   }
+  
 
   async refresh() {
     try {
@@ -24,10 +46,14 @@ class MiniInstance {
   async start() {
     try {
       await Mini.update(
-        {state: 'active'},
+        {
+          state: 'active',
+          round: 1
+        },
         {where: {id: this.id}}
       )
-      await this.refresh()
+      this.state = 'active'
+      this.round = 1
       this.pair()
     } catch (e) {
       console.error(e)
@@ -60,7 +86,10 @@ module.exports = class Engine {
     try {
       if (this.minis[miniId].state === 'open') {
         this.minis[miniId].start()
-        this.sockets.emit('update-mini', miniId, {state: 'active'})
+        this.sockets.emit('update-mini', miniId, {
+          state: 'active',
+          round: 1
+        })
       } else if (this.minis[miniId].state === 'active') {
         throw new Error(`mini ${miniId} already active`)
       }
@@ -69,18 +98,18 @@ module.exports = class Engine {
     }
   }
 
-  async joinMini(userId, miniId, deckId) {
+  async joinMini(userId, miniId, deckId, cockatriceName) {
     try {
       const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
       if (this.minis[miniId]) {
         this.minis[miniId].participants[userId] = {
-          userId, miniId, 
-          decklist: userMini.decklist,
-          deckhash: userMini.deckhash
+          cockatriceName: userMini.cockatriceName,
+          ELO: userMini.ELO,
+          deckhash: userMini.deckhash,
         }
-        this.sockets.emit('update-mini', miniId, 
-          {participants: this.minis[miniId].participants}
-        )
+        this.sockets.emit('update-mini', miniId, {
+          participants: this.minis[miniId].participants
+        })
       }
     } catch (e) {
       console.error(e)

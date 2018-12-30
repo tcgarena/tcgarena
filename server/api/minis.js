@@ -45,7 +45,8 @@ router.put('/:miniId/join', requireLogin, async (req, res, next) => {
     await miniEngine.joinMini(
       req.user.id, 
       req.params.miniId, 
-      req.body.deckId
+      req.body.deckId,
+      req.user.cockatriceName
     )
     res.sendStatus(200)
   } catch (e) { 
