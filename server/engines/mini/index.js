@@ -1,10 +1,12 @@
 const {Mini} = require("../../db/models")
 
 class MiniInstance {
-  constructor(mini) {
+  constructor(mini, sockets) {
     // mimics the attributes of whatever obj you pass it...
     // will probably change this later to be specific
     this.participants = {}
+    this.pairings = []
+    this.sockets = sockets
     Object.keys(mini).forEach( key => this[key] = mini[key] )
   }
 
@@ -16,21 +18,23 @@ class MiniInstance {
       }, [])
       .sort( (prev, curr) => prev.ELO > curr.ELO ? -1 : 1 )
   
-    const pairs = []
+    this.pairings = []
     const pairPlayer = player => {
-      const lastPairIdx = pairs.length-1
-      if (!pairs[lastPairIdx]) {
-        pairs.push([player])
-      } else if (pairs[lastPairIdx].length === 2) {
-        pairs.push([player])
-      } else if (pairs[lastPairIdx].length === 1) {
-        pairs[lastPairIdx].push(player)
+      const lastPairIdx = this.pairings.length-1
+      if (!this.pairings[lastPairIdx]) {
+        this.pairings.push([player])
+      } else if (this.pairings[lastPairIdx].length === 2) {
+        this.pairings.push([player])
+      } else if (this.pairings[lastPairIdx].length === 1) {
+        this.pairings[lastPairIdx].push(player)
       }
     }
   
     playersByELO.forEach(player => pairPlayer(player))
-  
-    console.log(pairs)
+
+    this.sockets.emit('update-mini', this.id, {
+      pairings: this.pairings
+    })
   }
   
 
@@ -73,7 +77,7 @@ module.exports = class Engine {
       const minis = await Mini.fetchActive()
       Object.keys(minis).forEach(key => {
         const mini = minis[key]
-        const miniInstance = new MiniInstance(mini)
+        const miniInstance = new MiniInstance(mini, this.sockets)
         this.minis[miniInstance.id] = miniInstance
       })
     } catch (e) {
@@ -119,7 +123,7 @@ module.exports = class Engine {
   async createMini(mini) {
     try {
       const newMini = await Mini.create(mini)
-      const miniInstance = new MiniInstance(mini)
+      const miniInstance = new MiniInstance(mini, this.sockets)
       this.minis[newMini.id] = miniInstance
       this.sockets.emit('fetch-mini', newMini.id)
       return miniInstance
