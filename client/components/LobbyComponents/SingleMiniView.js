@@ -9,8 +9,8 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
   const mini = getMini(match.params.miniId)
 
   const showMini = () => {
-
-    const currentPlayersAmt = mini.participants.length || 0
+    const participantsArr = Object.keys(mini.participants).map(key => mini.participants[key])
+    const currentPlayersAmt = participantsArr.length
 
     return (
       <div className="single-mini">

@@ -23,8 +23,9 @@ class MiniWindowView extends React.Component {
 
   chooseAction() {
     const {cockatriceName, mini} = this.props 
-    const usernames = mini.participants.map(participant => participant.cockatriceName)
-    if (mini.participants.length === mini.maxPlayers) {
+    const participants = Object.keys(mini.participants).map(key => mini.participants[key])
+    const usernames = participants.map(participant => participant.cockatriceName)
+    if (participants.length === mini.maxPlayers) {
       return this.viewButton.apply(this)
     } else if (usernames.includes(cockatriceName)) {
       return this.viewButton.apply(this)
@@ -35,8 +36,9 @@ class MiniWindowView extends React.Component {
 
   render() {
     const {mini} = this.props
+    const participants = Object.keys(mini.participants).map(key => mini.participants[key])
     const actionButton = this.chooseAction.apply(this)
-    const currentPlayersAmt = mini.participants.length
+    const currentPlayersAmt = participants.length
     return (
       <div className='column mini-window-container'>
         <div className='row'>

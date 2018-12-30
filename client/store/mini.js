@@ -5,10 +5,12 @@ const GOT_MINIS = 'GOT_MINIS'
 const FETCH_MINI = 'FETCH_MINI'
 const REMOVE_MINIS = 'REMOVE_MINIS'
 const REMOVE_MINI = 'REMOVE_MINI'
+const SOCKET_UPDATE = 'SOCKET_UPDATE'
 
 export const removeMinis = () => ({ type: REMOVE_MINIS })
 export const removeMiniById = id => ({ type: REMOVE_MINI, id })
 export const getMini = (state, miniId) => state.mini[miniId]
+export const socketUpdate = (miniId, update) => ({ type: SOCKET_UPDATE, miniId, update})
 
 export const fetchMinis = () => async dispatch => {
   try {
@@ -63,6 +65,14 @@ export default (state = initState, action) => {
       return {
         ...state,
         [action.mini.id]: action.mini
+      }
+    case SOCKET_UPDATE:
+      return {
+        ...state,
+        [action.miniId]: {
+          ...state[action.miniId],
+          ...action.update
+        }
       }
     case REMOVE_MINI:
       const { [action.id]: _, otherMinis } = state

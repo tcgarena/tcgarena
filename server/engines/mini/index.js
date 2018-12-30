@@ -4,12 +4,31 @@ class MiniInstance {
   constructor(mini) {
     // mimics the attributes of whatever obj you pass it...
     // will probably change this later to be specific
+    this.participants = {}
     Object.keys(mini).forEach( key => this[key] = mini[key] )
+  }
+
+  pair() {
+
+  }
+
+  async refresh() {
+    try {
+      const mini = await Mini.fetchById(this.id)
+      Object.keys(mini).forEach( key => this[key] = mini[key] )
+    } catch (e) {
+      console.error()
+    }
   }
 
   async start() {
     try {
-      const mini = await Mini.startMini(this.id)
+      await Mini.update(
+        {state: 'active'},
+        {where: {id: this.id}}
+      )
+      await this.refresh()
+      this.pair()
     } catch (e) {
       console.error(e)
     }
@@ -41,11 +60,25 @@ module.exports = class Engine {
     this.minis[miniId].start()
   }
 
-  async joinMini(userId, miniId, decklist) {
-    const {dataValues: mini} = await Mini.join(miniId, userId, decklist)
-    if (mini) {
-      this.minis[miniId] = mini
-      this.sockets.emit('fetch-mini', miniId)
+  async joinMini(userId, miniId, deckId) {
+    try {
+      const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
+      console.log(miniId, this.minis[miniId])
+      console.log('424233123351')
+      console.log(this.minis)
+      if (this.minis[miniId]) {
+        this.minis[miniId].participants[userId] = {
+          userId, miniId, 
+          decklist: userMini.decklist,
+          deckhash: userMini.deckhash
+        }
+        this.sockets.emit('update-mini', miniId, 
+          {participants: this.minis[miniId].participants}
+        )
+      }
+
+    } catch (e) {
+      console.error(e)
     }
   }
 
@@ -53,7 +86,7 @@ module.exports = class Engine {
     try {
       const newMini = await Mini.create(mini)
       const miniInstance = new MiniInstance(mini)
-      this.minis[miniInstance.id] = miniInstance
+      this.minis[newMini.id] = miniInstance
       this.sockets.emit('fetch-mini', newMini.id)
       return miniInstance
     } catch(e) {

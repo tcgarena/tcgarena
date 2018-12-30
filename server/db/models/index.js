@@ -17,7 +17,7 @@ const eagerloadParticipants = async minis => {
     // turn the array into an obj
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
-      obj[mini.dataValues.id] = { ...mini.dataValues, participants: []}
+      obj[mini.dataValues.id] = { ...mini.dataValues, participants: {}}
       return obj
     },{})
 
@@ -50,11 +50,11 @@ const eagerloadParticipants = async minis => {
 
     // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
-      miniObjs[row.dataValues.miniId].participants.push({ 
+      miniObjs[row.dataValues.miniId].participants[row.dataValues.userId] = { 
         ...userObjs[row.dataValues.userId],
         decklist: row.dataValues.decklist,
         deckhash: row.dataValues.deckhash
-      })
+      }
     })
 
     return miniObjs
@@ -90,22 +90,6 @@ Mini.fetchById = async function(miniId) {
     console.error(e)
   }
 }
-
-Mini.startMini = async function(id) {
-  try {
-    const mini = await Mini.update(
-      {state: 'active'},
-      {where: {id}}
-    )
-    const miniObjs = await eagerloadParticipants([mini])
-    const miniObj = Object.keys(miniObjs).reduce( (_, miniId) => miniObjs[miniId], {})
-    return miniObj
-  } catch (e) {
-    console.error(e)
-  }
-
-}
-
 
 Mini.join = async function(miniId, userId, deckId) {
   try {
@@ -145,10 +129,10 @@ Mini.join = async function(miniId, userId, deckId) {
     } else {
       const decklist = deck.list
       const deckhash = deck.hash || 'placeholder'
-      UserMini.create({
+      const userMini = await UserMini.create({
         userId, miniId, decklist, deckhash
       })
-      return mini
+      return userMini
     }
   } catch(e) {
     console.error(e)

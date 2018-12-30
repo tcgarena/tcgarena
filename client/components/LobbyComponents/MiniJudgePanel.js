@@ -7,7 +7,7 @@ const MiniJudgePanel = ({match, getMini, startMini}) => {
   const mini = getMini(match.params.miniId)
 
   const showButtons = () => {
-    const isFull = mini.participants.length >= mini.maxPlayers
+    const isFull = Object.keys(mini.participants).length >= mini.maxPlayers
     const isActive = mini.state === 'active'
     const isClosed = mini.state === 'closed'
     const roundOver = 'placeholder'
