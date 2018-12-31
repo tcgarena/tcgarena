@@ -45,7 +45,7 @@ const User = db.define('user', {
   ELO: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: 1200
+    defaultValue: 1600
   }
 })
 
