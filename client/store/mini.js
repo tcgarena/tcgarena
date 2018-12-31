@@ -5,7 +5,7 @@ const GOT_MINIS = 'GOT_MINIS'
 const FETCH_MINI = 'FETCH_MINI'
 const REMOVE_MINIS = 'REMOVE_MINIS'
 const REMOVE_MINI = 'REMOVE_MINI'
-const SOCKET_UPDATE = 'SOCKET_UPDATE'
+const SOCKET_UPDATE = 'MINI_SOCKET_UPDATE'
 
 export const removeMinis = () => ({ type: REMOVE_MINIS })
 export const removeMiniById = id => ({ type: REMOVE_MINI, id })

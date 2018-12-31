@@ -146,17 +146,22 @@ Mini.join = async function(miniId, userId, deckId) {
  */
 
 // untested - unit tests would be nice
+// prevents users from changing their decklist/hash once tournament has started
 const rejectEntryUpdate = async row => {
-  try {
-    const {userId, miniId} = row.dataValues
-    const {dataValues: mini} = await Mini.findById(miniId)
-    if (mini.state !== 'open') {
-      throw new Error(`${userId} cannot update their entry for ${miniId}`)
-    } else {
-      return row
+  if (row.changed('decklist') || row.changed('deckhash')) {
+    try {
+      const {userId, miniId} = row.dataValues
+      const {dataValues: mini} = await Mini.findById(miniId)
+      if (mini.state !== 'open') {
+        throw new Error(`${userId} cannot update their entry for ${miniId}`)
+      } else {
+        return row
+      }
+    } catch (e) {
+      console.error(e)
     }
-  } catch (e) {
-    console.error(e)
+  } else {
+    return row
   }
 
 }
