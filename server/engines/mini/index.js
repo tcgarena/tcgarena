@@ -1,69 +1,5 @@
+const MiniInstance = require('./Mini')
 const {Mini} = require("../../db/models")
-
-class MiniInstance {
-  constructor(mini, sockets) {
-    // mimics the attributes of whatever obj you pass it...
-    // will probably change this later to be specific
-    this.participants = {}
-    this.pairings = []
-    this.sockets = sockets
-    Object.keys(mini).forEach( key => this[key] = mini[key] )
-  }
-
-  pair() {
-    const playersByELO = Object.keys(this.participants)
-      .reduce( (players, key) => {
-        players.push(this.participants[key])
-        return players
-      }, [])
-      .sort( (prev, curr) => prev.ELO > curr.ELO ? -1 : 1 )
-  
-    this.pairings = []
-    const pairPlayer = player => {
-      const lastPairIdx = this.pairings.length-1
-      if (!this.pairings[lastPairIdx]) {
-        this.pairings.push([player])
-      } else if (this.pairings[lastPairIdx].length === 2) {
-        this.pairings.push([player])
-      } else if (this.pairings[lastPairIdx].length === 1) {
-        this.pairings[lastPairIdx].push(player)
-      }
-    }
-  
-    playersByELO.forEach(player => pairPlayer(player))
-
-    this.sockets.emit('update-mini', this.id, {
-      pairings: this.pairings
-    })
-  }
-  
-
-  async refresh() {
-    try {
-      const mini = await Mini.fetchById(this.id)
-      Object.keys(mini).forEach( key => this[key] = mini[key] )
-    } catch (e) {
-      console.error()
-    }
-  }
-
-  async start() {
-    try {
-      await Mini.update(
-        {
-          state: 'active',
-          round: 1
-        },
-        {where: {id: this.id}}
-      )
-      this.state = 'active'
-      this.round = 1
-      this.pair()
-    } catch (e) {
-      console.error(e)
-    }
-  }
-}
 
 module.exports = class Engine {
   constructor(sockets) {
@@ -73,8 +9,7 @@ module.exports = class Engine {
 
   getMinis() {
     return Object.keys(this.minis).reduce( (obj, key) => {
-      const {sockets: _, ...miniData} = this.minis[key]
-      obj[key] = miniData
+      obj[key] = this.minis[key].clientData
       return obj
     }, {})
   }
@@ -94,15 +29,16 @@ module.exports = class Engine {
   }
 
   startMini(userId, miniId) {
+    console.log('hellooo')
     // will probably add some userId checks later on
     try {
-      if (this.minis[miniId].state === 'open') {
+      if (this.minis[miniId].clientData.state === 'open') {
         this.minis[miniId].start()
         this.sockets.emit('update-mini', miniId, {
           state: 'active',
           round: 1
         })
-      } else if (this.minis[miniId].state === 'active') {
+      } else if (this.minis[miniId].clientData.state === 'active') {
         throw new Error(`mini ${miniId} already active`)
       }
     } catch (e) {
@@ -115,11 +51,12 @@ module.exports = class Engine {
       const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
       const {cockatriceName, ELO, deckhash} = userMini
       if (this.minis[miniId]) {
-        this.minis[miniId].participants[userId] = {
+        this.minis[miniId].users[userId] = {
           cockatriceName, ELO, deckhash
         }
+        this.minis[miniId].buildClientData()
         this.sockets.emit('update-mini', miniId, {
-          participants: this.minis[miniId].participants
+          participants: this.minis[miniId].clientData.participants
         })
       }
     } catch (e) {

@@ -30,11 +30,11 @@ class MatchResultForm extends React.Component {
         <form className='row' onSubmit={this.handleSubmit}>
           <div className='column'>
             <p>{username}</p>
-            <input type="text" name='myScore' value={this.state.myScore} onChange={this.handleChange} />
+            <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
           </div>
           <div className='column'>
             <p>{opponent.cockatriceName}</p>          
-            <input type="text" name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
+            <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
           </div>
           <input type="submit" value="Report" />
         </form>

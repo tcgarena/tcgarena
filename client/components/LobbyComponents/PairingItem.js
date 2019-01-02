@@ -4,6 +4,7 @@ import {MatchResultForm} from '../index'
 
 const PairingItem = ({pair, myUsername}) => {
   let opponent
+  console.log(pair)
   const myPairing = pair.reduce( (prev, player) => {
     if (player.cockatriceName === myUsername) {
       return true

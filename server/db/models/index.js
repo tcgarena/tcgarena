@@ -1,6 +1,7 @@
 const User = require('./user')
 const Deck = require('./deck')
 const UserMini = require('./userMini')
+const Match = require('./match')
 const Mini = require('./mini')
 
 /*****************
@@ -17,7 +18,7 @@ const eagerloadParticipants = async minis => {
     // turn the array into an obj
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
-      obj[mini.dataValues.id] = { ...mini.dataValues, participants: {}}
+      obj[mini.dataValues.id] = { ...mini.dataValues, users: {}}
       return obj
     },{})
 
@@ -36,23 +37,21 @@ const eagerloadParticipants = async minis => {
     // grab the relevant users
     const users = await User.findAll({
       where: {id: userIds},
-      // we need id for this function but don't want to expose it to the client
       attributes: ['cockatriceName', 'id', 'ELO']
     })
 
     // key the user array by id for easy access
     const userObjs = users.reduce( (obj, user) => {
-      // remove the id from the obj
-      const {id: _, ...userObj} = user.dataValues
-      obj[user.dataValues.id] = userObj
+      obj[user.dataValues.id] = user.dataValues
       return obj
     },{})
 
     // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
-      miniObjs[row.dataValues.miniId].participants[row.dataValues.userId] = { 
+      miniObjs[row.dataValues.miniId].users[row.dataValues.userId] = { 
         ...userObjs[row.dataValues.userId],
         deckhash: row.dataValues.deckhash,
+        decklist: row.dataValues.decklist
       }
     })
 
@@ -179,6 +178,9 @@ UserMini.beforeUpdate(rejectEntryUpdate)
 Deck.belongsTo(User)
 User.hasMany(Deck)
 
+Match.belongsTo(Mini)
+Mini.hasMany(Match)
+
 // anticipating a few more associations of this type
 const manyToManyThroughAssociationTable = (tableA, tableB, associationTable) => {
   tableA.belongsToMany(tableB, {
@@ -198,9 +200,12 @@ Mini.belongsTo(User)
 // second association says which users are in a mini + stores their decklist/hash
 manyToManyThroughAssociationTable(User, Mini, UserMini)
 
+
+
 module.exports = {
   User,
   Deck,
   Mini,
-  UserMini
+  UserMini,
+  Match
 }
