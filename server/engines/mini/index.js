@@ -71,6 +71,14 @@ module.exports = class Engine {
     this.minis = {}
   }
 
+  getMinis() {
+    return Object.keys(this.minis).reduce( (obj, key) => {
+      const {sockets: _, ...miniData} = this.minis[key]
+      obj[key] = miniData
+      return obj
+    }, {})
+  }
+
   async loadMinis() {
     // reload minis just in case the server restarts/crashes while there are active minis
     try {

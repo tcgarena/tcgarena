@@ -8,18 +8,19 @@ const {
 // /api/minis GET
 router.get('/', requireLogin, async (req, res, next) => {
   try {
-    const mini = await Mini.fetchActive()
-    res.json(mini)
+    const miniEngine = req.app.get('miniEngine')
+    const minis = miniEngine.getMinis()
+    res.json(minis)
   } catch (e) { next(e) }
 })
 
 // /api/minis/:miniId GET
 router.get('/:miniId', requireLogin, async (req, res, next) => {
   try {
-    const mini = await Mini.fetchById(req.params.miniId)
-    res.json(mini)
+    const miniEngine = req.app.get('miniEngine')
+    res.json(miniEngine.minis[req.params.miniId])
   } catch (e) { 
-    res.json({ message: `no mini by id ${req.params.miniId}`})
+    res.json({ message: `no active mini by id ${req.params.miniId}`})
    }
 })
 
