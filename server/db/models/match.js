@@ -2,11 +2,11 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Match = db.define('match', {
-  userId1: {
+  user1Id: {
     type: Sequelize.INTEGER,
     allowNull: false
   },
-  userId2: {
+  user2Id: {
     type: Sequelize.INTEGER,
     allowNull: false
   },
@@ -22,6 +22,13 @@ const Match = db.define('match', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
+  user1score: {
+    type: Sequelize.INTEGER,
+    validate: {
+      isIn: [0,1,2]
+    },
+    allowNull: true
+  },
   user2decklist: {
     type: Sequelize.TEXT,
     allowNull: true
@@ -34,6 +41,13 @@ const Match = db.define('match', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
+  user2score: {
+    type: Sequelize.INTEGER,
+    validate: {
+      isIn: [0,1,2]
+    },
+    allowNull: true
+  },
   score: {
     type: Sequelize.TEXT,
     defaultValue: null
@@ -45,10 +59,14 @@ const Match = db.define('match', {
 })
 
 const preventDuplicateData = match => {
-  console.log('miniId', match)
+  // console.log('miniId', match)
 }
 
 Match.beforeCreate(preventDuplicateData)
 Match.beforeUpdate(preventDuplicateData)
+
+Match.prototype.result = function(userId, result) {
+
+}
 
 module.exports = Match

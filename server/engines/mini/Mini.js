@@ -76,18 +76,20 @@ MiniInstance.prototype.pair = async function () {
   this.buildClientData()
 
   this.sockets.emit('update-mini', this.id, {
-    pairings: this.clientData.pairings
+    pairings: this.clientData.pairings,
+    state: 'active',
+    round: 1
   })
 
   try {
     const pairs = await Promise.all(this.pairings.map(pair => {
       Match.create({
         miniId: this.id,
-        userId1: pair[0].id,
+        user1Id: pair[0].id,
         user1decklist: pair[0].decklist,
         user1deckhash: pair[0].deckhash,
         user1ELO: pair[0].ELO,
-        userId2: pair[1].id,
+        user2Id: pair[1].id,
         user2decklist: pair[1].decklist,
         user2deckhash: pair[1].deckhash,
         user2ELO: pair[1].ELO

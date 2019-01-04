@@ -36,7 +36,7 @@ class MatchResultForm extends React.Component {
             <p>{opponent.cockatriceName}</p>          
             <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
           </div>
-          <input type="submit" value="Report" />
+          <input type="submit" value="Submit" />
         </form>
       </div>
     )
