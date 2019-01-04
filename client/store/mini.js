@@ -17,7 +17,7 @@ export const fetchMinis = () => async dispatch => {
     const { data: minis } = await axios.get('/api/minis')
     dispatch({ type: GOT_MINIS, minis })
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 
@@ -26,7 +26,7 @@ export const fetchMini = miniId => async dispatch => {
     const { data: mini } = await axios.get(`/api/minis/${miniId}`)
     dispatch({ type: FETCH_MINI, mini })
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 
@@ -35,7 +35,7 @@ export const createMini = newMini => async dispatch => {
     await axios.post('/api/minis', newMini)
     // no need to dispatch, if all goes well creators client will get pinged back
   } catch(e) {
-    console.log(e)
+    console.error(e)
   }
 }
 
@@ -43,7 +43,7 @@ export const joinMini = (miniId, deckId) => async dispatch => {
   try {
     await axios.put(`/api/minis/${miniId}/join`, {deckId})
   } catch(e) {
-    console.log(e)
+    console.error(e)
   }
 }
 
@@ -51,7 +51,7 @@ export const startMini = miniId => async dispatch => {
   try {
     await axios.put(`/api/minis/${miniId}/start`)
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 

@@ -68,7 +68,7 @@ module.exports = class Engine {
       this.sockets.emit('fetch-mini', newMini.id)
       return miniInstance
     } catch(e) {
-      console.log(e)
+      console.error(e)
       return false
     }
   }

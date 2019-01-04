@@ -40,7 +40,7 @@ class AddDeckForm extends React.Component {
       }
       await this.props.createMini(newMini)
       this.props.history.push('/lobby')
-    } catch(e) { console.log(e) }
+    } catch(e) { console.error(e) }
   }
 
   render() {
