@@ -23,8 +23,10 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
         </div>
 
         <div className='column'>
-        { mini.pairings.length ? 
+        { mini.pairings.length ? <div>
+            {/* <MatchResultForm opponent={opponent} matchId={} /> */}
             <PairingsList pairings={mini.pairings} />
+            </div>
             : participantsArr.map(user => <div key={user.id}>
               {user.ELO} {user.cockatriceName}
             </div> )

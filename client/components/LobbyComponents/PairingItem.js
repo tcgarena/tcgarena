@@ -21,7 +21,6 @@ const PairingItem = ({pair, myUsername}) => {
   return (
     <div>
       {me.cockatriceName} ({me.deckhash}) vs {opponent.cockatriceName} ({opponent.deckhash})
-      {myPairing && <MatchResultForm opponent={opponent} />}
     </div>
   )
 }

@@ -66,7 +66,7 @@ Match.beforeCreate(preventDuplicateData)
 Match.beforeUpdate(preventDuplicateData)
 
 Match.prototype.result = function(userId, result) {
-
+  
 }
 
 module.exports = Match

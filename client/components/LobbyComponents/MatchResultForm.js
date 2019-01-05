@@ -13,9 +13,9 @@ class MatchResultForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault()
-    console.log(this.state)
+    // const response = await axios.post(`/api/match/${}/`)
   }
 
   handleChange(e) {
