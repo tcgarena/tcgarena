@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Route, Switch, withRouter} from 'react-router-dom'
-import {MiniJudgePanel, JoinMiniForm, PairingsList} from '../index'
+import {MiniJudgePanel, JoinMiniForm, PairingsList, MatchResultForm} from '../index'
 import {getMini} from '../../store'
 
 const SingleMiniView = ({isJudge, getMini, match}) => {
@@ -23,8 +23,8 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
         </div>
 
         <div className='column'>
-        { mini.pairings.length ? <div>
-            {/* <MatchResultForm opponent={opponent} matchId={} /> */}
+        { Object.keys(mini.pairings).length ? <div>
+            <MatchResultForm />
             <PairingsList pairings={mini.pairings} />
             </div>
             : participantsArr.map(user => <div key={user.id}>
@@ -50,7 +50,8 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
 
 const mapState = state => ({
   getMini: miniId => getMini(state, miniId),
-  isJudge: state.user.accessLevel > 0
+  isJudge: state.user.accessLevel > 0,
+  myUsername: state.user.cockatriceName
 })
 
 export default withRouter(connect(mapState)(SingleMiniView))

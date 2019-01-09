@@ -5,7 +5,7 @@ import {MiniWindowView} from '../index'
 const MiniList = ({ minis }) => (
   <div>
     { minis.map(mini => (
-      <MiniWindowView mini={mini} key={mini.id} />
+      <MiniWindowView mini={mini} key={mini.uuid} />
     ))}
   </div> 
 )

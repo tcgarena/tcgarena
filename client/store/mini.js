@@ -8,9 +8,9 @@ const REMOVE_MINI = 'REMOVE_MINI'
 const SOCKET_UPDATE = 'MINI_SOCKET_UPDATE'
 
 export const removeMinis = () => ({ type: REMOVE_MINIS })
-export const removeMiniById = id => ({ type: REMOVE_MINI, id })
-export const getMini = (state, miniId) => state.mini[miniId]
-export const socketUpdate = (miniId, update) => ({ type: SOCKET_UPDATE, miniId, update})
+export const removeMiniById = uuid => ({ type: REMOVE_MINI, uuid })
+export const getMini = (state, miniUuid) => state.mini[miniUuid]
+export const socketUpdate = (miniUuid, update) => ({ type: SOCKET_UPDATE, miniUuid, update})
 
 export const fetchMinis = () => async dispatch => {
   try {
@@ -21,9 +21,9 @@ export const fetchMinis = () => async dispatch => {
   }
 }
 
-export const fetchMini = miniId => async dispatch => {
+export const fetchMini = miniUuid => async dispatch => {
   try {
-    const { data: mini } = await axios.get(`/api/minis/${miniId}`)
+    const { data: mini } = await axios.get(`/api/minis/${miniUuid}`)
     dispatch({ type: FETCH_MINI, mini })
   } catch (e) {
     console.error(e)
@@ -39,17 +39,17 @@ export const createMini = newMini => async dispatch => {
   }
 }
 
-export const joinMini = (miniId, deckId) => async dispatch => {
+export const joinMini = (miniUuid, deckId) => async dispatch => {
   try {
-    await axios.put(`/api/minis/${miniId}/join`, {deckId})
+    await axios.put(`/api/minis/${miniUuid}/join`, {deckId})
   } catch(e) {
     console.error(e)
   }
 }
 
-export const startMini = miniId => async dispatch => {
+export const startMini = miniUuid => async dispatch => {
   try {
-    await axios.put(`/api/minis/${miniId}/start`)
+    await axios.put(`/api/minis/${miniUuid}/start`)
   } catch (e) {
     console.error(e)
   }
@@ -64,22 +64,43 @@ export default (state = initState, action) => {
     case FETCH_MINI:
       return {
         ...state,
-        [action.mini.id]: action.mini
+        [action.mini.uuid]: action.mini
       }
     case SOCKET_UPDATE:
       return {
         ...state,
-        [action.miniId]: {
-          ...state[action.miniId],
+        [action.miniUuid]: {
+          ...state[action.miniUuid],
           ...action.update
         }
       }
     case REMOVE_MINI:
-      const { [action.id]: _, otherMinis } = state
+      const { [action.uuid]: _, otherMinis } = state
       return { ...otherMinis }
     case REMOVE_MINIS:
       return initState
     default:
       return state
   }
+}
+
+
+export const getMyMatch = (state, miniUuid) => {
+  const myUsername = state.user.cockatriceName
+  let me, opponent
+  const pairings = state.mini[miniUuid].pairings
+  const pair = Object.keys(pairings).reduce( (pairing, key) => {
+    let myPair
+    for (let i=0; i<2; i++) 
+      if (pairings[key][i].cockatriceName === myUsername)
+        myPair = true
+    return myPair ? pairings[key] : pairing
+  }, {})
+
+  for (let i=0; i<2; i++) 
+    pair[i].cockatriceName === myUsername
+      ? me = pair[i]
+      : opponent = pair[i]
+
+  return {me: {...me}, opponent: {...opponent}, uuid: pair.uuid}
 }

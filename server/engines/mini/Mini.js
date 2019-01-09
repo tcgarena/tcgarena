@@ -1,7 +1,10 @@
 const {Mini, Match} = require("../../db/models")
+const uuidv4 = require('uuid/v4');
 
 class MiniInstance {
   constructor(dataValues, sockets) {
+
+    this.uuid = uuidv4()
 
     const serverValues = [
       'id', 
@@ -16,11 +19,11 @@ class MiniInstance {
     
     this.clientData = {
       participants: {},
-      pairings: []
+      pairings: [],
+      uuid: this.uuid
     }
     
     const clientValues = [
-      'id',
       'state', 
       'format',
       'type',
@@ -36,19 +39,21 @@ class MiniInstance {
 
 MiniInstance.prototype.buildClientData = function () {
   
-  this.clientData.participants = Object.keys(this.users).reduce( (obj, key) => {
-    const {id: _, ...userData} = this.users[key]
-    obj[userData.cockatriceName] = userData
+  this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
+    const {cockatriceName, deckhash, ELO} = this.users[user]
+    obj[user] = {cockatriceName, deckhash, ELO}
     return obj
   }, {})
 
-  this.clientData.pairings = this.pairings.map(
-    pair => pair.map( ({
+  this.clientData.pairings = Object.keys(this.pairings).reduce( (obj, pairing) => {
+    const clientPair = this.pairings[pairing].pair.map( ({
       cockatriceName, ELO, deckhash
     }) => ({
       cockatriceName, ELO, deckhash
-    })
-  ))
+    }))
+    obj[pairing] = {...clientPair, uuid: pairing}
+    return obj
+  }, {})
 }
 
 MiniInstance.prototype.pair = async function () {
@@ -72,29 +77,37 @@ MiniInstance.prototype.pair = async function () {
   }
 
   playersByELO.forEach(player => pairPlayer(player))
+  this.pairings = this.pairings.reduce( (obj, pair) => {
+    const uuid = uuidv4()
+    obj[uuid] = {pair, uuid}
+    return obj
+  }, {})
 
   this.buildClientData()
 
-  this.sockets.emit('update-mini', this.id, {
+  this.sockets.emit('update-mini', this.uuid, {
     pairings: this.clientData.pairings,
     state: 'active',
     round: 1
   })
 
   try {
-    const pairs = await Promise.all(this.pairings.map(pair => {
-      Match.create({
-        miniId: this.id,
-        user1Id: pair[0].id,
-        user1decklist: pair[0].decklist,
-        user1deckhash: pair[0].deckhash,
-        user1ELO: pair[0].ELO,
-        user2Id: pair[1].id,
-        user2decklist: pair[1].decklist,
-        user2deckhash: pair[1].deckhash,
-        user2ELO: pair[1].ELO
-      })
-    }))
+    const pairs = await Promise.all( 
+      Object.keys(this.pairings).map( pairing => {
+        const {pair} = this.pairings[pairing]
+        Match.create({
+          miniId: this.id,
+          user1Id: pair[0].id,
+          user1decklist: pair[0].decklist,
+          user1deckhash: pair[0].deckhash,
+          user1ELO: pair[0].ELO,
+          user2Id: pair[1].id,
+          user2decklist: pair[1].decklist,
+          user2deckhash: pair[1].deckhash,
+          user2ELO: pair[1].ELO
+        })
+      }
+    ))
   } catch (e) {
     console.error(e)
   }

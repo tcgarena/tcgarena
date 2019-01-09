@@ -1,18 +1,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {MatchResultForm} from '../index'
 
 const PairingItem = ({pair, myUsername}) => {
-  let me, opponent
-  const myPairing = pair.reduce( (prev, player) => {
-    if (player.cockatriceName === myUsername) {
-      me = player
-      return true
+  let me, opponent, myPairing = false
+  
+  for (let i=0; i<2; i++) {
+    if (pair[i].cockatriceName === myUsername) {
+      me = pair[i]
+      myPairing = true
     } else {
-      opponent = player
-      return prev
+      opponent = pair[i]
     }
-  }, false)
+  }
+
   if (!myPairing) {
     me = pair[0]
     opponent = pair[1]

@@ -21,38 +21,38 @@ module.exports = class Engine {
       Object.keys(minis).forEach(key => {
         const mini = minis[key]
         const miniInstance = new MiniInstance(mini, this.sockets)
-        this.minis[miniInstance.id] = miniInstance
+        this.minis[miniInstance.uuid] = miniInstance
       })
     } catch (e) {
       console.error(e)
     }
   }
 
-  startMini(userId, miniId) {
+  startMini(userId, uuid) {
     // will probably add some userId checks later on
     try {
-      if (this.minis[miniId].clientData.state === 'open') {
-        this.minis[miniId].start()
-      } else if (this.minis[miniId].clientData.state === 'active') {
-        throw new Error(`mini ${miniId} already active`)
+      if (this.minis[uuid].clientData.state === 'open') {
+        this.minis[uuid].start()
+      } else if (this.minis[uuid].clientData.state === 'active') {
+        throw new Error(`mini ${uuid} already active`)
       }
     } catch (e) {
       console.error(e)
     }
   }
 
-  async joinMini(userId, miniId, deckId) {
+  async joinMini(userId, uuid, deckId) {
     try {
-      const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
+      const {dataValues: userMini} = await Mini.join(uuid, userId, deckId)
       const {cockatriceName, ELO, deckhash, decklist} = userMini
-      if (this.minis[miniId]) {
-        this.minis[miniId].users[userId] = {
+      if (this.minis[uuid]) {
+        this.minis[uuid].users[userId] = {
           cockatriceName, ELO, deckhash, decklist,
           id: userId
         }
-        this.minis[miniId].buildClientData()
-        this.sockets.emit('update-mini', miniId, {
-          participants: this.minis[miniId].clientData.participants
+        this.minis[uuid].buildClientData()
+        this.sockets.emit('update-mini', uuid, {
+          participants: this.minis[uuid].clientData.participants
         })
       }
     } catch (e) {
@@ -64,12 +64,43 @@ module.exports = class Engine {
     try {
       const newMini = await Mini.create(mini)
       const miniInstance = new MiniInstance(mini, this.sockets)
-      this.minis[newMini.id] = miniInstance
-      this.sockets.emit('fetch-mini', newMini.id)
+      this.minis[newMini.uuid] = miniInstance
+      this.sockets.emit('fetch-mini', newMini.uuid)
       return miniInstance
     } catch(e) {
       console.error(e)
       return false
+    }
+  }
+
+  async results(userId, miniUuid, matchUuid, result) {
+    try {
+      const mini = this.minis[miniUuid]
+      if (this.minis[miniUuid]) {
+        const pairing = mini.pairings[matchUuid]
+        if (pairing) {
+          const pair = pairing.pair
+          let myMatch = false
+          for (let i=0; i<2; i++)
+            myMatch = pair[i].id === userId
+              ? true : myMatch
+
+          if (myMatch) {
+
+            console.log('result',result)
+
+          } else {
+            // should log malicious attempt
+            throw new Error(`user ${userId} is not in match ${matchUuid} mini ${miniUuid}`)
+          }
+        } else {
+          throw new Error(`no match by uuid ${matchUuid} in mini ${miniUuid}`)
+        }
+      } else {
+        throw new Error(`no mini by uuid ${miniUuid}`)
+      }
+    } catch (e) {
+      console.error(e)
     }
   }
 

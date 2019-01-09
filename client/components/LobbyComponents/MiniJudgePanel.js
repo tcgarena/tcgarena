@@ -36,7 +36,7 @@ const MiniJudgePanel = ({match, getMini, startMini}) => {
     else {
 
       if (isFull) {
-        buttons.addButton('Start', () => startMini(mini.id))
+        buttons.addButton('Start', () => startMini(mini.uuid))
       }
 
       buttons.addButton('Cancel')

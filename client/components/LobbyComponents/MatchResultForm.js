@@ -1,5 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
+import {getMyMatch} from '../../store'
 import axios from 'axios'
 
 class MatchResultForm extends React.Component {
@@ -13,9 +15,18 @@ class MatchResultForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  async handleSubmit(e) {
+  async handleSubmit(e, miniUuid, matchUuid) {
     e.preventDefault()
-    // const response = await axios.post(`/api/match/${}/`)
+    try {
+      const {data: response} = await axios.post(`/api/match/result`, {
+        ...this.state,
+        miniUuid,
+        matchUuid
+      })
+      console.log('result response',response)
+    } catch(e) {
+      console.error(e)
+    }
   }
 
   handleChange(e) {
@@ -24,16 +35,19 @@ class MatchResultForm extends React.Component {
   }
 
   render() {
-    const {username, opponent} = this.props
+    const {username, getMyMatch, match} = this.props
+    const miniUuid = match.params.miniId
+    const myMatch = getMyMatch(miniUuid)
+
     return (
       <div className='match-report-form'>
-        <form className='row' onSubmit={this.handleSubmit}>
+        <form className='row' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
           <div className='column'>
             <p>{username}</p>
             <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
           </div>
           <div className='column'>
-            <p>{opponent.cockatriceName}</p>          
+            <p>{myMatch.opponent.cockatriceName}</p>          
             <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
           </div>
           <input type="submit" value="Submit" />
@@ -43,8 +57,9 @@ class MatchResultForm extends React.Component {
   }
 }
 
-const mapState = ({user}) => ({
-  username: user.cockatriceName
+const mapState = state => ({
+  username: state.user.cockatriceName,
+  getMyMatch: miniUuid => getMyMatch(state, miniUuid)
 })
 
-export default connect(mapState)(MatchResultForm)
+export default withRouter(connect(mapState)(MatchResultForm))

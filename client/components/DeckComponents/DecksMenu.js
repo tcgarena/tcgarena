@@ -17,7 +17,7 @@ class DecksMenu extends React.Component {
   //     this.props.history.push(`/decks/${this.props.selectedDeck}`)
   // }
 
-  viewButton = () => ({
+  Button = () => ({
     text: 'View',
     action: deckId => this.props.history.push(`/decks/${deckId}`)
   })

@@ -6,12 +6,12 @@ const socket = io(window.location.origin)
 socket.on('connect', () => {
   console.log('Connected!')
 
-  socket.on('fetch-mini', miniId =>
-    store.dispatch(fetchMini(miniId))
+  socket.on('fetch-mini', uuid =>
+    store.dispatch(fetchMini(uuid))
   )
 
-  socket.on('update-mini', (miniId, update) => {
-    store.dispatch(socketUpdate(miniId, update))
+  socket.on('update-mini', (uuid, update) => {
+    store.dispatch(socketUpdate(uuid, update))
   })
 
 })
