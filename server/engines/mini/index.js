@@ -44,7 +44,8 @@ module.exports = class Engine {
 
   async joinMini(userId, uuid, deckId) {
     try {
-      const {dataValues: userMini} = await Mini.join(uuid, userId, deckId)
+      const miniId = this.minis[uuid].id
+      const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
       const {cockatriceName, ELO, deckhash, decklist} = userMini
       if (this.minis[uuid]) {
         this.minis[uuid].users[userId] = {
@@ -65,6 +66,7 @@ module.exports = class Engine {
     try {
       const newMini = await Mini.create(mini)
       const miniInstance = new MiniInstance(mini, this.sockets)
+      await miniInstance.getUuid()
       this.minis[newMini.uuid] = miniInstance
       this.sockets.emit('fetch-mini', newMini.uuid)
       return miniInstance
@@ -77,8 +79,12 @@ module.exports = class Engine {
   async results(userId, miniUuid, matchUuid, result) {
     try {
       const mini = this.minis[miniUuid]
+
+      // make sure mini is being tracked by engine
       if (this.minis[miniUuid]) {
         const pairing = mini.pairings[matchUuid]
+        
+        // make sure match is being tracked
         if (pairing) {
           const pair = pairing.pair
           let myMatch = false
@@ -86,9 +92,10 @@ module.exports = class Engine {
             myMatch = pair[i].id === userId
               ? true : myMatch
 
+          // make sure reporting user is in the match
           if (myMatch) {
 
-            console.log('result',result)
+            return mini.reportResult(userId, matchUuid, result.myScore, result.opponentScore)
 
           } else {
             // should log malicious attempt

@@ -14,11 +14,13 @@ class MiniInstance {
     serverValues.forEach(key => this[key] = dataValues[key] )
 
     this.sockets = sockets
-    this.pairings = []
+    this.pairings = {}
+    this.results = {}
     
     this.clientData = {
       participants: {},
-      pairings: []    }
+      pairings: []    
+    }
     
     const clientValues = [
       'state', 
@@ -34,31 +36,63 @@ class MiniInstance {
   }
 }
 
+MiniInstance.prototype.reportResult = function (userId, matchId, score1, score2) {
+  if (score1.score + score2 !== 2 || score1 + score2 !== 3) {
+    return 'score invalid'
+  } else if (score1 === 1 && score2 === 1) {
+    return 'score invalid'
+  } else {
+    const match = this.results[matchId]
+    if (match) {
+      if (score1 !== match.score2 || score2 !== match.score1) {
+
+        // do other thing
+
+      } else {
+
+        // do thing
+
+      }
+    } else {
+      this.results[matchId] = {
+        reportedBy: userId,
+        score1, score2,
+        uuid: matchId
+      }
+      return 'score reported'
+    }
+  }
+}
+
 MiniInstance.prototype.getUuid = async function() {
   this.uuid = await generate()
   this.clientData.uuid = this.uuid
 }
 
 MiniInstance.prototype.buildClientData = function () {
-  
-  this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
-    const {cockatriceName, deckhash, ELO} = this.users[user]
-    obj[user] = {cockatriceName, deckhash, ELO}
-    return obj
-  }, {})
+  if (this.users) {
+    this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
+      const {cockatriceName, deckhash, ELO} = this.users[user]
+      obj[user] = {cockatriceName, deckhash, ELO}
+      return obj
+    }, {})
+  }
 
-  this.clientData.pairings = Object.keys(this.pairings).reduce( (obj, pairing) => {
-    const clientPair = this.pairings[pairing].pair.map( ({
-      cockatriceName, ELO, deckhash
-    }) => ({
-      cockatriceName, ELO, deckhash
-    }))
-    obj[pairing] = {...clientPair, uuid: pairing}
-    return obj
-  }, {})
+  if (this.pairings) {
+    this.clientData.pairings = Object.keys(this.pairings).reduce( (obj, pairing) => {
+      const clientPair = this.pairings[pairing].pair.map( ({
+        cockatriceName, ELO, deckhash
+      }) => ({
+        cockatriceName, ELO, deckhash
+      }))
+      obj[pairing] = {...clientPair, uuid: pairing}
+      return obj
+    }, {})
+  }
 }
 
 MiniInstance.prototype.pair = async function () {
+  this.results = {}
   const playersByELO = Object.keys(this.users)
     .reduce( (players, key) => {
       players.push(this.users[key])
