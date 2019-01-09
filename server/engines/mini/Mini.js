@@ -1,10 +1,9 @@
 const {Mini, Match} = require("../../db/models")
 const uuidv4 = require('uuid/v4');
+var generate = require("adjective-adjective-animal");
 
 class MiniInstance {
   constructor(dataValues, sockets) {
-
-    this.uuid = uuidv4()
 
     const serverValues = [
       'id', 
@@ -19,9 +18,7 @@ class MiniInstance {
     
     this.clientData = {
       participants: {},
-      pairings: [],
-      uuid: this.uuid
-    }
+      pairings: []    }
     
     const clientValues = [
       'state', 
@@ -35,6 +32,11 @@ class MiniInstance {
     clientValues.forEach(key => this.clientData[key] = dataValues[key] )
     this.buildClientData()
   }
+}
+
+MiniInstance.prototype.getUuid = async function() {
+  this.uuid = await generate()
+  this.clientData.uuid = this.uuid
 }
 
 MiniInstance.prototype.buildClientData = function () {

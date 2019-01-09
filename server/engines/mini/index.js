@@ -18,9 +18,10 @@ module.exports = class Engine {
     // reload minis just in case the server restarts/crashes while there are active minis
     try {
       const minis = await Mini.fetchActive()
-      Object.keys(minis).forEach(key => {
+      Object.keys(minis).forEach(async key => {
         const mini = minis[key]
         const miniInstance = new MiniInstance(mini, this.sockets)
+        await miniInstance.getUuid()
         this.minis[miniInstance.uuid] = miniInstance
       })
     } catch (e) {
