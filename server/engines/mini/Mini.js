@@ -11,7 +11,7 @@ class MiniInstance {
       'users',
     ]
 
-    serverValues.forEach(key => this[key] = dataValues[key] )
+    serverValues.forEach(key => this[key] = dataValues[key])
 
     this.sockets = sockets
     this.pairings = {}
@@ -86,8 +86,8 @@ MiniInstance.prototype.getUuid = async function() {
 MiniInstance.prototype.buildClientData = function () {
   if (this.users) {
     this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
-      const {cockatriceName, deckhash, ELO} = this.users[user]
-      obj[user] = {cockatriceName, deckhash, ELO}
+      const {cockatriceName, deckhash, ELO, uuid} = this.users[user]
+      obj[uuid] = {cockatriceName, deckhash, ELO}
       return obj
     }, {})
   }

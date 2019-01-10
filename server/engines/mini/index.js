@@ -1,5 +1,6 @@
 const MiniInstance = require('./Mini')
 const {Mini} = require("../../db/models")
+const uuidv4 = require('uuid/v4');
 
 module.exports = class Engine {
   constructor(sockets) {
@@ -54,7 +55,8 @@ module.exports = class Engine {
       if (this.minis[uuid]) {
         this.minis[uuid].users[userId] = {
           cockatriceName, ELO, deckhash, decklist,
-          id: userId
+          id: userId, 
+          uuid: uuidv4()
         }
         this.minis[uuid].buildClientData()
         this.sockets.emit('update-mini', uuid, {

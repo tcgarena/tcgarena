@@ -3,6 +3,7 @@ const Deck = require('./deck')
 const UserMini = require('./userMini')
 const Match = require('./match')
 const Mini = require('./mini')
+const uuidv4 = require('uuid/v4');
 
 /*****************
  * All db methods that reference other models should go here
@@ -43,6 +44,7 @@ const eagerloadParticipants = async minis => {
     // key the user array by id for easy access
     const userObjs = users.reduce( (obj, user) => {
       obj[user.dataValues.id] = user.dataValues
+      obj[user.dataValues.id].uuid = uuidv4()
       return obj
     },{})
 
