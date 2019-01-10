@@ -7,7 +7,6 @@ socket.on('connect', () => {
   console.log('Connected!')
 
   socket.on('fetch-mini', uuid =>{
-    console.log('uuid',uuid)
     store.dispatch(fetchMini(uuid))
   })
 

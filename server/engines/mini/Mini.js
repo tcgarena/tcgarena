@@ -41,7 +41,6 @@ MiniInstance.prototype.checkRoundOver = function () {
 }
 
 MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1, score2) {
-  console.log(score1 + score2 < 2, score1 + score2 > 3, score1 === score2)
   if (score1 + score2 < 2 || score1 + score2 > 3 || score1 === score2) {
     return {message: 'score invalid'}
   } else {
