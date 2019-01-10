@@ -6,7 +6,7 @@ router.post('/result', requireLogin, async (req, res, next) => {
   try {
     const {myScore, opponentScore, miniUuid, matchUuid} = req.body
     const miniEngine = req.app.get('miniEngine')
-    response = miniEngine.results(req.user.id, miniUuid, matchUuid, {myScore, opponentScore})
+    response = await miniEngine.results(req.user.id, miniUuid, matchUuid, {myScore, opponentScore})
     res.json(response)
   } catch (e) {
     next(e)

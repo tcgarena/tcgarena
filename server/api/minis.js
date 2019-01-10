@@ -18,7 +18,8 @@ router.get('/', requireLogin, async (req, res, next) => {
 router.get('/:miniId', requireLogin, async (req, res, next) => {
   try {
     const miniEngine = req.app.get('miniEngine')
-    res.json(miniEngine.minis[req.params.miniId])
+    const mini = miniEngine.getMini(req.params.miniId)
+    res.json(mini)
   } catch (e) { 
     res.json({ message: `no active mini by id ${req.params.miniId}`})
    }
@@ -28,14 +29,14 @@ router.get('/:miniId', requireLogin, async (req, res, next) => {
 router.post('/', requireJudge1, async (req, res, next) => {
   try {
     const newMini = req.body
-    if (newMini.userId === undefined) newMini.userId = req.user.id
+    newMini.userId = req.user.id
     const miniEngine = req.app.get('miniEngine')
     const mini = await miniEngine.createMini(newMini)
     if (mini) res.status(200).json(mini)
     else res.sendStatus(500)
   } catch (e) { 
-    res.sendStatus(403)
-   }
+    next(e)
+  }
 })
 
 

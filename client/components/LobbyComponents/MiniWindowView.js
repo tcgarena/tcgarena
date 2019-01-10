@@ -39,6 +39,7 @@ class MiniWindowView extends React.Component {
     const participants = Object.keys(mini.participants).map(key => mini.participants[key])
     const actionButton = this.chooseAction.apply(this)
     const currentPlayersAmt = participants.length
+    
     return (
       <div className='column mini-window-container'>
         <div className='row'>

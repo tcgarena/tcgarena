@@ -19,7 +19,7 @@ class MiniInstance {
     
     this.clientData = {
       participants: {},
-      pairings: []    
+      pairings: {} 
     }
     
     const clientValues = [
@@ -36,30 +36,44 @@ class MiniInstance {
   }
 }
 
-MiniInstance.prototype.reportResult = function (userId, matchId, score1, score2) {
-  if (score1.score + score2 !== 2 || score1 + score2 !== 3) {
-    return 'score invalid'
-  } else if (score1 === 1 && score2 === 1) {
-    return 'score invalid'
+MiniInstance.prototype.checkRoundOver = function () {
+
+}
+
+MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1, score2) {
+  console.log(score1 + score2 < 2, score1 + score2 > 3, score1 === score2)
+  if (score1 + score2 < 2 || score1 + score2 > 3 || score1 === score2) {
+    return {message: 'score invalid'}
   } else {
-    const match = this.results[matchId]
-    if (match) {
-      if (score1 !== match.score2 || score2 !== match.score1) {
-
-        // do other thing
-
+    const result = this.results[matchUuid]
+    if (result) {
+      if (score1 !== result.score2 || score2 !== result.score1) {
+        console.log('score mismatch')
+        // players reported misresulting score....
+        // do something
+        return {message: 'score mismatch'}
       } else {
+        try {
+          // good to go!
+          console.log('score match')
+          const response = await Match.result(matchUuid, result.reportedBy, result.score1, result.score2)
+          result.finalized = true
+          this.checkRoundOver()
+          return response
 
-        // do thing
-
+        } catch (e) {
+          console.error(e)
+          return {message: 'something went wrong'}
+        }
       }
     } else {
-      this.results[matchId] = {
+      this.results[matchUuid] = {
         reportedBy: userId,
         score1, score2,
-        uuid: matchId
+        uuid: matchUuid,
+        finalized: false
       }
-      return 'score reported'
+      return {message: 'score reported'}
     }
   }
 }
@@ -132,6 +146,7 @@ MiniInstance.prototype.pair = async function () {
       Object.keys(this.pairings).map( pairing => {
         const {pair} = this.pairings[pairing]
         Match.create({
+          uuid: pairing,
           miniId: this.id,
           user1Id: pair[0].id,
           user1decklist: pair[0].decklist,

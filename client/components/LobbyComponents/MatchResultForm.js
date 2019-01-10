@@ -23,7 +23,7 @@ class MatchResultForm extends React.Component {
         miniUuid,
         matchUuid
       })
-      console.log('result response',response)
+      console.log('message: ',response.message)
     } catch(e) {
       console.error(e)
     }

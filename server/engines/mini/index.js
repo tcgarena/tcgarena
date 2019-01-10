@@ -14,6 +14,10 @@ module.exports = class Engine {
     }, {})
   }
 
+  getMini(uuid) {
+    return this.minis[uuid].clientData
+  }
+
   async loadMinis() {
     // reload minis just in case the server restarts/crashes while there are active minis
     try {
@@ -65,11 +69,11 @@ module.exports = class Engine {
   async createMini(mini) {
     try {
       const newMini = await Mini.create(mini)
-      const miniInstance = new MiniInstance(mini, this.sockets)
+      const miniInstance = new MiniInstance(newMini, this.sockets)
       await miniInstance.getUuid()
-      this.minis[newMini.uuid] = miniInstance
-      this.sockets.emit('fetch-mini', newMini.uuid)
-      return miniInstance
+      this.minis[miniInstance.uuid] = miniInstance
+      this.sockets.emit('fetch-mini', miniInstance.uuid)
+      return miniInstance.clientData
     } catch(e) {
       console.error(e)
       return false
@@ -95,7 +99,8 @@ module.exports = class Engine {
           // make sure reporting user is in the match
           if (myMatch) {
 
-            return mini.reportResult(userId, matchUuid, result.myScore, result.opponentScore)
+            const response = await mini.reportResult(userId, matchUuid, result.myScore, result.opponentScore)
+            return response
 
           } else {
             // should log malicious attempt
