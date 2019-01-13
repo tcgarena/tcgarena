@@ -55,6 +55,10 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
           // good to go!
           const response = await Match.result(matchUuid, result.reportedBy, result.score1, result.score2)
           result.finalized = true
+          this.buildClientData()
+          this.sockets.emit('update-mini', this.uuid, {
+            results: this.clientData.results
+          })
           this.checkRoundOver()
           return response
 

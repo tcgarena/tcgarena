@@ -45,10 +45,9 @@ class MatchResultForm extends React.Component {
     const {myUsername, match, minis} = this.props
     const {response, myMatch} = this.state
     const miniUuid = match.params.miniId
+
     let myResult = null
-    if (myMatch) {
-      myResult = minis[miniUuid].results[myMatch.uuid]
-    }
+    if (myMatch) myResult = minis[miniUuid].results[myMatch.uuid]
 
     if (myResult) {
       const myScore = myResult.reportedBy === myUsername
@@ -75,7 +74,12 @@ class MatchResultForm extends React.Component {
         return (
           <div>
             <p>Your opponent said you {gameStatus} {myScore}-{opponentScore}</p>
-            <button>Confirm</button>
+            <button onClick={() => axios.post(`/api/match/result`, {
+              myScore, opponentScore, miniUuid,
+              matchUuid: myMatch.uuid
+            })}>
+              Confirm
+            </button>
             <button>Deny</button>
           </div>
         )
@@ -85,7 +89,7 @@ class MatchResultForm extends React.Component {
     }
 
     switch (response) {
-
+      // for dev purposes
       case 'score invalid':
         return (
           <div>score invalid</div>
