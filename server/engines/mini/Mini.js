@@ -19,7 +19,8 @@ class MiniInstance {
     
     this.clientData = {
       participants: {},
-      pairings: {} 
+      pairings: {},
+      results: {}
     }
     
     const clientValues = [
@@ -72,6 +73,10 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
         uuid: matchUuid,
         finalized: false
       }
+      this.buildClientData()
+      this.sockets.emit('update-mini', this.uuid, {
+        results: this.clientData.results
+      })
       return {message: 'score reported'}
     }
   }
@@ -99,6 +104,14 @@ MiniInstance.prototype.buildClientData = function () {
         cockatriceName, ELO, deckhash
       }))
       obj[pairing] = {...clientPair, uuid: pairing}
+      return obj
+    }, {})
+  }
+
+  if (this.results) {
+    this.clientData.results = Object.keys(this.results).reduce( (obj, matchUuid) => {
+      const {reportedBy: userId, ...data} = this.results[matchUuid]      
+      obj[matchUuid] = {...data, reportedBy: this.users[userId].uuid}
       return obj
     }, {})
   }
@@ -160,15 +173,6 @@ MiniInstance.prototype.pair = async function () {
     ))
   } catch (e) {
     console.error(e)
-  }
-}
-
-MiniInstance.prototype.refresh = async function () {
-  try {
-    const mini = await Mini.fetchById(this.id)
-    Object.keys(mini).forEach( key => this[key] = mini[key] )
-  } catch (e) {
-    console.error()
   }
 }
 
