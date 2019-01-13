@@ -9,7 +9,9 @@ class MatchResultForm extends React.Component {
     super(props)
     this.state = {
       myScore: 0,
-      opponentScore: 0
+      opponentScore: 0,
+      response: null,
+      myMatch: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -23,7 +25,7 @@ class MatchResultForm extends React.Component {
         miniUuid,
         matchUuid
       })
-      console.log('message: ',response.message)
+      this.setState({response: response.message})
     } catch(e) {
       console.error(e)
     }
@@ -34,32 +36,114 @@ class MatchResultForm extends React.Component {
     this.setState({[e.target.name]: parseInt(e.target.value)})
   }
 
-  render() {
-    const {username, getMyMatch, match} = this.props
-    const miniUuid = match.params.miniId
-    const myMatch = getMyMatch(miniUuid)
+  componentDidMount() {
+    const myMatch = this.props.getMyMatch(this.props.match.params.miniId) 
+    this.setState({myMatch})
+  }
 
-    return (
-      <div className='match-report-form'>
-        <form className='row' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
-          <div className='column'>
-            <p>{username}</p>
-            <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
+  showForm() {
+    const {myUsername, match, minis} = this.props
+    const {response, myMatch} = this.state
+    const miniUuid = match.params.miniId
+    let myResult = null
+    if (myMatch) {
+      myResult = minis[miniUuid].results[myMatch.uuid]
+    }
+
+    if (myResult) {
+      const myScore = myResult.reportedBy === myUsername
+        ? myResult.score1 : myResult.score2
+      const opponentScore = myResult.reportedBy === myUsername
+        ? myResult.score2 : myResult.score1
+
+      const gameStatus = myScore === opponentScore
+        ? 'tied' : myScore > opponentScore
+          ? 'won' : 'lost'
+
+      if (myResult.finalized) {
+        return <div>You {gameStatus} {myScore}-{opponentScore}</div>
+      }
+  
+      if (myResult.reportedBy === myUsername) {
+        return (
+          <div>
+            <p>You reported {myScore}-{opponentScore}</p>
+            <button>Undo</button>
           </div>
-          <div className='column'>
-            <p>{myMatch.opponent.cockatriceName}</p>          
-            <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
+        )
+      } else {
+        return (
+          <div>
+            <p>Your opponent said you {gameStatus} {myScore}-{opponentScore}</p>
+            <button>Confirm</button>
+            <button>Deny</button>
           </div>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
-    )
+        )
+        
+      }
+
+    }
+
+    switch (response) {
+
+      case 'score invalid':
+        return (
+          <div>score invalid</div>
+        )
+
+      case 'score mismatch':
+        return (
+          <div>score mismatch</div>
+        )
+
+      case 'internal server error':
+        return (
+          <div>internal server error</div>
+        )
+
+      case 'score reported':
+        return (
+          <div>score reported</div>
+        )
+
+      case 'result finalized':
+        return (
+          <div>result finalized</div>
+        )
+
+      default:
+        return (
+          <div className='match-report-form'>
+            <form className='row' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
+              <div className='column'>
+                <p>{myUsername}</p>
+                <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
+              </div>
+              <div className='column'>
+                <p>{myMatch.opponent.cockatriceName}</p>          
+                <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
+              </div>
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+        )
+    }
+
+  }
+
+  render() {
+
+    return <div>
+      {this.state.myMatch && this.showForm()}
+    </div>
+
   }
 }
 
 const mapState = state => ({
-  username: state.user.cockatriceName,
-  getMyMatch: miniUuid => getMyMatch(state, miniUuid)
+  myUsername: state.user.cockatriceName,
+  getMyMatch: miniUuid => getMyMatch(state, miniUuid),
+  minis: state.mini
 })
 
 export default withRouter(connect(mapState)(MatchResultForm))

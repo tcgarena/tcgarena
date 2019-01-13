@@ -1,5 +1,7 @@
 import axios from 'axios'
 import socket from '../socket'
+import store, {setUuid} from '.';
+
 
 const GOT_MINIS = 'GOT_MINIS'
 const FETCH_MINI = 'FETCH_MINI'
@@ -92,8 +94,10 @@ export const getMyMatch = (state, miniUuid) => {
   const pair = Object.keys(pairings).reduce( (pairing, key) => {
     let myPair
     for (let i=0; i<2; i++) 
-      if (pairings[key][i].cockatriceName === myUsername)
+      if (pairings[key][i].cockatriceName === myUsername) {
+        // store.dispatch(setUuid(pairings[key][i]))
         myPair = true
+      }
     return myPair ? pairings[key] : pairing
   }, {})
 

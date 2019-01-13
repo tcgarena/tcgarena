@@ -42,20 +42,17 @@ MiniInstance.prototype.checkRoundOver = function () {
 }
 
 MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1, score2) {
-  if (score1 + score2 < 2 || score1 + score2 > 3 || score1 === score2) {
+  if (score1 < 0 || score2 < 0 || score1 > 2|| score2 > 2 || score1 + score2 > 3) {
     return {message: 'score invalid'}
   } else {
     const result = this.results[matchUuid]
     if (result) {
       if (score1 !== result.score2 || score2 !== result.score1) {
-        console.log('score mismatch')
         // players reported misresulting score....
-        // do something
         return {message: 'score mismatch'}
       } else {
         try {
           // good to go!
-          console.log('score match')
           const response = await Match.result(matchUuid, result.reportedBy, result.score1, result.score2)
           result.finalized = true
           this.checkRoundOver()
@@ -111,7 +108,7 @@ MiniInstance.prototype.buildClientData = function () {
   if (this.results) {
     this.clientData.results = Object.keys(this.results).reduce( (obj, matchUuid) => {
       const {reportedBy: userId, ...data} = this.results[matchUuid]      
-      obj[matchUuid] = {...data, reportedBy: this.users[userId].uuid}
+      obj[matchUuid] = {...data, reportedBy: this.users[userId].cockatriceName}
       return obj
     }, {})
   }

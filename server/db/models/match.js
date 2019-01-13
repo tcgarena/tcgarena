@@ -95,7 +95,7 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
     return {message: 'result finalized'}
   } catch (e) {
     console.error(e)
-    return {message: 'something went wrong'}
+    return {message: 'internal server error'}
   }
 }
 
