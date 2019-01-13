@@ -41,8 +41,20 @@ MiniInstance.prototype.checkRoundOver = function () {
 
 }
 
+MiniInstance.prototype.removeResult = function(userId, matchUuid) {
+  this.results = Object.keys(this.results).reduce( (results, key) => {
+    if (this.results[key].uuid !== matchUuid)
+      results[key] = this.results[key]
+    return results
+  }, {})
+  this.buildClientData()
+  this.sockets.emit('update-mini', this.uuid, {
+    results: this.clientData.results
+  })
+}
+
 MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1, score2) {
-  if (score1 < 0 || score2 < 0 || score1 > 2|| score2 > 2 || score1 + score2 > 3) {
+  if (score1 < 0 || score2 < 0 || score1 > 2|| score2 > 2 || score1 + score2 > 3 || score1 + score2 < 1) {
     return {message: 'score invalid'}
   } else {
     const result = this.results[matchUuid]

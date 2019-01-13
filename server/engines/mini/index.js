@@ -68,6 +68,10 @@ module.exports = class Engine {
     }
   }
 
+  removeResult(userId, miniUuid, matchUuid) {
+    this.minis[miniUuid].removeResult(userId, matchUuid)
+  }
+
   async createMini(mini) {
     try {
       const newMini = await Mini.create(mini)

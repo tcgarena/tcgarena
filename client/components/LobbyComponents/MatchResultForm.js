@@ -67,7 +67,11 @@ class MatchResultForm extends React.Component {
         return (
           <div>
             <p>You reported {myScore}-{opponentScore}</p>
-            <button>Undo</button>
+            <button onClick={() => axios.put('/api/match/result/undo', {
+              miniUuid, matchUuid: myMatch.uuid
+            })}>
+              Undo
+            </button>
           </div>
         )
       } else {
@@ -89,7 +93,7 @@ class MatchResultForm extends React.Component {
     }
 
     switch (response) {
-      // for dev purposes
+
       case 'score invalid':
         return (
           <div>score invalid</div>
@@ -103,16 +107,6 @@ class MatchResultForm extends React.Component {
       case 'internal server error':
         return (
           <div>internal server error</div>
-        )
-
-      case 'score reported':
-        return (
-          <div>score reported</div>
-        )
-
-      case 'result finalized':
-        return (
-          <div>result finalized</div>
         )
 
       default:

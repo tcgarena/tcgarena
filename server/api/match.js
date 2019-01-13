@@ -13,4 +13,16 @@ router.post('/result', requireLogin, async (req, res, next) => {
   }
 })
 
+router.put('/result/undo', requireLogin, async (req, res, next) => {
+  try {
+    const {miniUuid, matchUuid} = req.body
+    const miniEngine = req.app.get('miniEngine')
+    await miniEngine.removeResult(req.user.id, miniUuid, matchUuid)
+    res.sendStatus(200)
+  } catch (e) {
+    console.error(e)
+    res.sendStatus(500)
+  }
+})
+
 module.exports = router
