@@ -38,7 +38,18 @@ class MiniInstance {
 }
 
 MiniInstance.prototype.checkRoundOver = function () {
+  const isRoundOver = Object.keys(this.results).reduce( (bool, key) => {
+    if (!this.results[key].finalized)
+      return false
+    return bool 
+  }, true)
 
+  if (isRoundOver) {
+    this.clientData.state = 'round-over'
+    this.sockets.emit('update-mini', this.uuid, {
+      state: this.clientData.state
+    })
+  }
 }
 
 MiniInstance.prototype.removeResult = function(userId, matchUuid) {
@@ -54,7 +65,7 @@ MiniInstance.prototype.removeResult = function(userId, matchUuid) {
 }
 
 MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1, score2) {
-  if (score1 < 0 || score2 < 0 || score1 > 2|| score2 > 2 || score1 + score2 > 3 || score1 + score2 < 1) {
+  if (score1 < 0 || score2 < 0 || score1 > 2 || score2 > 2 || score1 + score2 > 3 || score1 + score2 < 1) {
     return {message: 'score invalid'}
   } else {
     const result = this.results[matchUuid]
