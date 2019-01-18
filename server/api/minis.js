@@ -56,12 +56,26 @@ router.put('/:miniId/join', requireLogin, async (req, res, next) => {
    }
 })
 
-router.put('/:miniId/start', requireJudge1, async (req, res, next) => {
+router.put('/:miniUuid/start', requireJudge1, async (req, res, next) => {
   try {
     const miniEngine = req.app.get('miniEngine')
     await miniEngine.startMini(
       req.user.id,
-      req.params.miniId
+      req.params.miniUuid
+    )
+    res.sendStatus(200)
+  } catch (e) {
+    console.error(e)
+    res.sendStatus(500)
+  }
+})
+
+router.put('/:miniUuid/next-round', requireJudge1, async (req, res, next) => {
+  try {
+    const miniEngine = req.app.get('miniEngine')
+    await miniEngine.nextRound(
+      req.user.id,
+      req.params.miniUuid
     )
     res.sendStatus(200)
   } catch (e) {

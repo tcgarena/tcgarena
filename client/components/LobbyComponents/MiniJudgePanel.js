@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {getMini, startMini} from '../../store'
+import {getMini, startMini, nextRound} from '../../store'
 
 const MiniJudgePanel = ({match, getMini, startMini}) => {
   const mini = getMini(match.params.miniId)
@@ -10,7 +10,7 @@ const MiniJudgePanel = ({match, getMini, startMini}) => {
     const isFull = Object.keys(mini.participants).length >= mini.maxPlayers
     const isActive = mini.state === 'active'
     const isClosed = mini.state === 'closed'
-    const roundOver = 'placeholder'
+    const roundOver = mini.state === 'round-over'
 
     const buttons = []
     Object.defineProperty(buttons, 'addButton', {
@@ -26,6 +26,11 @@ const MiniJudgePanel = ({match, getMini, startMini}) => {
     if (isActive) {
 
     } 
+
+    // tournament is ongoing, but round is over
+    else if (roundOver) {
+      buttons.addButton('Next round', () => nextRound(mini.uuid))
+    }
 
     // tournament has ended    
     else if (isClosed) {
@@ -58,7 +63,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = {
-  startMini
+  startMini, nextRound
 }
 
 export default withRouter(

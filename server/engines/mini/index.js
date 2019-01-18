@@ -47,6 +47,21 @@ module.exports = class Engine {
     }
   }
 
+  nextRound(userId, uuid) {
+    // will probably add some userId checks later on
+    try {
+      if (this.minis[uuid].clientData.state === 'round-over') {
+        this.minis[uuid].nextRound()
+      } else if (this.minis[uuid].clientData.state === 'active') {
+        throw new Error(`not all matches reported for mini ${uuid}`)
+      } else if (this.minis[uuid].clientData.state === 'open') {
+        throw new Error(`mini ${uuid} has not started yet`)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   async joinMini(userId, uuid, deckId) {
     try {
       const miniId = this.minis[uuid].id

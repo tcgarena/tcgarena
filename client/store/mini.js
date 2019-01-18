@@ -57,6 +57,14 @@ export const startMini = miniUuid => async dispatch => {
   }
 }
 
+export const nextRound = miniUuid => async dispatch => {
+  try {
+    await axios.put(`/api/minis/${miniUuid}/next-round`)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 const initState = {}
 
 export default (state = initState, action) => {

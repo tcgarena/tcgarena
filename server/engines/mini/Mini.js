@@ -78,6 +78,7 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
           // good to go!
           const response = await Match.result(matchUuid, result.reportedBy, result.score1, result.score2)
           result.finalized = true
+          // save the winning users somewhere so we know who to pair for the next round
           this.buildClientData()
           this.sockets.emit('update-mini', this.uuid, {
             results: this.clientData.results
@@ -143,7 +144,7 @@ MiniInstance.prototype.buildClientData = function () {
 
 MiniInstance.prototype.pair = async function () {
   this.results = {}
-  const playersByELO = Object.keys(this.users)
+  const activePlayersByELO = Object.keys(this.users)
     .reduce( (players, key) => {
       players.push(this.users[key])
       return players
@@ -162,7 +163,7 @@ MiniInstance.prototype.pair = async function () {
     }
   }
 
-  playersByELO.forEach(player => pairPlayer(player))
+  activePlayersByELO.forEach(player => pairPlayer(player))
   this.pairings = this.pairings.reduce( (obj, pair) => {
     const uuid = uuidv4()
     obj[uuid] = {pair, uuid}
@@ -216,5 +217,20 @@ MiniInstance.prototype.start = async function () {
     console.error(e)
   }
 }
+
+MiniInstance.prototype.nextRound = async function () {
+  try {
+    await Mini.update(
+      {round: this.clientData.round + 1},
+      {where: {id: this.id}}
+    )
+    this.clientData.state = 'active'
+    this.clientData.round++
+    this.pair()
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 
 module.exports = MiniInstance
