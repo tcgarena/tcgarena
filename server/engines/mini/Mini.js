@@ -1,6 +1,6 @@
 const {Mini, Match} = require("../../db/models")
 const uuidv4 = require('uuid/v4');
-var generate = require("adjective-adjective-animal");
+var generate = require("../../../shared/adjective-adjective-cardname/lib");
 
 class MiniInstance {
   constructor(dataValues, sockets) {

@@ -37,8 +37,8 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
-    "adjective-adjective-animal": "^1.3.3",
     "axios": "^0.15.3",
+    "change-case": "^3.1.0",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.16.3",
