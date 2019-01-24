@@ -23,6 +23,11 @@ const Mini = db.define("mini", {
     maxPlayers: {
       type: Sequelize.INTEGER,
       allowNull: false
+    },
+    round: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0
     }
 })
 

@@ -10,6 +10,7 @@ const REMOVE_USER = 'REMOVE_USER'
 const SELECT_FORMAT = 'SELECT_FORMAT'
 const SELECT_DECK = 'SELECT_DECK'
 const DESELECT_DECK = 'DESELECT_DECK'
+const SET_UUID = 'SET_UUID'
 
 /**
  * INITIAL STATE
@@ -26,6 +27,7 @@ const removeUser = () => ({type: REMOVE_USER})
 export const selectFormat = format => ({type: SELECT_FORMAT, format})
 export const selectDeck = deckId => ({type: SELECT_DECK, deckId})
 export const deselectDeck = () => ({type: DESELECT_DECK})
+export const setUuid = uuid => ({type: SET_UUID, uuid})
 
 /**
  * THUNK CREATORS
@@ -72,6 +74,8 @@ export const logout = () => async dispatch => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
+    case SET_UUID:
+      return {...state, uuid: action.uuid}
     case GET_USER:
       return {...state, ...action.user}
     case REMOVE_USER:

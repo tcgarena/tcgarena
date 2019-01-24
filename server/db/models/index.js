@@ -1,7 +1,9 @@
 const User = require('./user')
 const Deck = require('./deck')
 const UserMini = require('./userMini')
+const Match = require('./match')
 const Mini = require('./mini')
+const uuidv4 = require('uuid/v4');
 
 /*****************
  * All db methods that reference other models should go here
@@ -17,7 +19,7 @@ const eagerloadParticipants = async minis => {
     // turn the array into an obj
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
-      obj[mini.dataValues.id] = { ...mini.dataValues, participants: []}
+      obj[mini.dataValues.id] = { ...mini.dataValues, users: {}}
       return obj
     },{})
 
@@ -36,25 +38,23 @@ const eagerloadParticipants = async minis => {
     // grab the relevant users
     const users = await User.findAll({
       where: {id: userIds},
-      // we need id for this function but don't want to expose it to the client
-      attributes: ['cockatriceName', 'id']
+      attributes: ['cockatriceName', 'id', 'ELO']
     })
 
     // key the user array by id for easy access
     const userObjs = users.reduce( (obj, user) => {
-      // remove the id from the obj
-      const {id: _, ...userObj} = user.dataValues
-      obj[user.dataValues.id] = userObj
+      obj[user.dataValues.id] = user.dataValues
+      obj[user.dataValues.id].uuid = uuidv4()
       return obj
     },{})
 
     // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
-      miniObjs[row.dataValues.miniId].participants.push({ 
+      miniObjs[row.dataValues.miniId].users[row.dataValues.userId] = { 
         ...userObjs[row.dataValues.userId],
-        decklist: row.dataValues.decklist,
-        deckhash: row.dataValues.deckhash
-      })
+        deckhash: row.dataValues.deckhash,
+        decklist: row.dataValues.decklist
+      }
     })
 
     return miniObjs
@@ -94,7 +94,7 @@ Mini.fetchById = async function(miniId) {
 Mini.join = async function(miniId, userId, deckId) {
   try {
     const {dataValues: deck} = await Deck.findById(deckId)
-    
+    const {dataValues: user} = await User.findById(userId)
     // deck not found
     if (!deck) {
       throw new Error(`no deck by id ${deckId}`)
@@ -127,12 +127,13 @@ Mini.join = async function(miniId, userId, deckId) {
     
     // user can join mini
     } else {
+      const {ELO, cockatriceName} = user
       const decklist = deck.list
       const deckhash = deck.hash || 'placeholder'
-      UserMini.create({
-        userId, miniId, decklist, deckhash
+      const userMini = await UserMini.create({
+        userId, miniId, decklist, deckhash, ELO, cockatriceName
       })
-      return mini
+      return userMini
     }
   } catch(e) {
     console.error(e)
@@ -146,17 +147,22 @@ Mini.join = async function(miniId, userId, deckId) {
  */
 
 // untested - unit tests would be nice
+// prevents users from changing their decklist/hash once tournament has started
 const rejectEntryUpdate = async row => {
-  try {
-    const {userId, miniId} = row.dataValues
-    const {dataValues: mini} = await Mini.findById(miniId)
-    if (mini.state !== 'open') {
-      throw new Error(`${userId} cannot update their entry for ${miniId}`)
-    } else {
-      return row
+  if (row.changed('decklist') || row.changed('deckhash')) {
+    try {
+      const {userId, miniId} = row.dataValues
+      const {dataValues: mini} = await Mini.findById(miniId)
+      if (mini.state !== 'open') {
+        throw new Error(`${userId} cannot update their entry for ${miniId}`)
+      } else {
+        return row
+      }
+    } catch (e) {
+      console.error(e)
     }
-  } catch (e) {
-    console.error(e)
+  } else {
+    return row
   }
 
 }
@@ -173,6 +179,9 @@ UserMini.beforeUpdate(rejectEntryUpdate)
 
 Deck.belongsTo(User)
 User.hasMany(Deck)
+
+Match.belongsTo(Mini)
+Mini.hasMany(Match)
 
 // anticipating a few more associations of this type
 const manyToManyThroughAssociationTable = (tableA, tableB, associationTable) => {
@@ -193,9 +202,12 @@ Mini.belongsTo(User)
 // second association says which users are in a mini + stores their decklist/hash
 manyToManyThroughAssociationTable(User, Mini, UserMini)
 
+
+
 module.exports = {
   User,
   Deck,
   Mini,
-  UserMini
+  UserMini,
+  Match
 }
