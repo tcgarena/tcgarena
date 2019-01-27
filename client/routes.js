@@ -3,21 +3,23 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
-  Login, 
-  Signup, 
-  UserHome, 
-  SetCockatriceName, 
-  DecksMenu, 
-  LobbyMenu
+  Login,
+  Signup,
+  UserHome,
+  SetCockatriceName,
+  DecksMenu,
+  LobbyMenu,
+  ReCaptchaComponent
 } from './components'
 import {me, fetchDecks} from './store'
+
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData()
+    this.props.loadInitialData();
   }
 
   render() {

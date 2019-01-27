@@ -6,6 +6,7 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
+export {ReCaptchaComponent} from './ReCaptcha'
 export {default as SetCockatriceName} from './SetCockatriceName'
 export {default as ErrorList} from './ErrorList'
 export {default as NavFormats} from './NavFormats'
