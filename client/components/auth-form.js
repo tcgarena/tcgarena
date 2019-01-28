@@ -24,7 +24,6 @@ class AuthForm extends Component {
 
   render() {
     const {name, displayName, handleSubmit, error} = this.props
-    console.log('state', this.state)
     return (
       <div className="center column">
         <form onSubmit={handleSubmit} name={name} className="center column">
@@ -40,8 +39,18 @@ class AuthForm extends Component {
             </label>
             <input name="password" type="password" />
           </div>
+          <div>
+            {name === 'signup' && (
+              <div>
+                <label htmlFor="betaKey">
+                  <small>Beta key</small>
+                </label>
+                <input name="betaKey" type="text" />
+              </div>
+            )}
+          </div>
           {name === 'signup' ? (
-            <ReCaptchaComponent handleVerify={this.handleVerify} />
+              <ReCaptchaComponent handleVerify={this.handleVerify} />
           ) : (
             <div />
           )}
@@ -58,7 +67,7 @@ class AuthForm extends Component {
             )}
           {error && error.response && <div> {error.response.data} </div>}
         </form>
-        <a href="/auth/google">{displayName} with Google</a>
+        {/* <a href="/auth/google">{displayName} with Google</a> */}
       </div>
     )
   }
@@ -94,7 +103,8 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      const betaKey = formName === 'signup' ? evt.target.betaKey.value : ''
+      dispatch(auth(email, password, formName, betaKey))
     }
   }
 }

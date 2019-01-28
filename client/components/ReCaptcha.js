@@ -14,9 +14,7 @@ class ReCaptchaComponent extends Component {
     console.log('reCaptcha loaded')
   }
   verifyCallback(response) {
-    // Here you will get the final recaptchaToken!!!
     if (response) {
-      console.log(response, '<= your recaptcha token')
       this.props.handleVerify()
     }
   }
