@@ -1,37 +1,67 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth, fetchDecks} from '../store'
+import ReCaptchaComponent from './ReCaptcha'
 
 /**
  * COMPONENT
  */
-const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+class AuthForm extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      verified: false
+    }
+    this.handleVerify = this.handleVerify.bind(this)
+  }
 
-  return (
-    <div className='center column'>
-      <form onSubmit={handleSubmit} name={name} className='center column'>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
-  )
+  handleVerify() {
+    this.setState(prevState => ({
+      verified: !prevState.verified
+    }))
+  }
+
+  render() {
+    const {name, displayName, handleSubmit, error} = this.props
+    console.log('state', this.state)
+    return (
+      <div className="center column">
+        <form onSubmit={handleSubmit} name={name} className="center column">
+          <div>
+            <label htmlFor="email">
+              <small>Email</small>
+            </label>
+            <input name="email" type="text" />
+          </div>
+          <div>
+            <label htmlFor="password">
+              <small>Password</small>
+            </label>
+            <input name="password" type="password" />
+          </div>
+          {name === 'signup' ? (
+            <ReCaptchaComponent handleVerify={this.handleVerify} />
+          ) : (
+            <div />
+          )}
+          {name === 'login' && (
+            <div>
+              <button type="submit">Login</button>
+            </div>
+          )}
+          {name === 'signup' &&
+            this.state.verified && (
+              <div>
+                <button type="submit">Signup</button>
+              </div>
+            )}
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        <a href="/auth/google">{displayName} with Google</a>
+      </div>
+    )
+  }
 }
 
 /**

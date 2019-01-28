@@ -23,6 +23,7 @@ class DecksMenu extends React.Component {
   })
 
   render() {
+    console.log(this.props)
     const {decks} = this.props
     const decksArr = Object.keys(decks).map(key=>decks[key])
     const formats = uniqFormats(decksArr)
@@ -36,7 +37,7 @@ class DecksMenu extends React.Component {
         <Route exact path='/decks' render={() =>
           <NavFormats formats={formats} />
         }/>
-        <Route exact path='/decks' component={() => 
+        <Route exact path='/decks' component={() =>
           <DecksList actionButton={this.actionButton} />
         }/>
 

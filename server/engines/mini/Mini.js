@@ -6,8 +6,8 @@ class MiniInstance {
   constructor(dataValues, sockets) {
 
     const serverValues = [
-      'id', 
-      'createdAt', 
+      'id',
+      'createdAt',
       'users',
     ]
 
@@ -16,15 +16,15 @@ class MiniInstance {
     this.sockets = sockets
     this.pairings = {}
     this.results = {}
-    
+
     this.clientData = {
       participants: {},
       pairings: {},
       results: {}
     }
-    
+
     const clientValues = [
-      'state', 
+      'state',
       'format',
       'type',
       'timePerRoundMins',
@@ -41,7 +41,7 @@ MiniInstance.prototype.checkRoundOver = function () {
   const isRoundOver = Object.keys(this.results).reduce( (bool, key) => {
     if (!this.results[key].finalized)
       return false
-    return bool 
+    return bool
   }, true)
 
   if (isRoundOver) {
@@ -135,7 +135,7 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
 }
 
 MiniInstance.prototype.getUuid = async function() {
-  this.uuid = await generate()
+  this.uuid = uuidv4()
   this.clientData.uuid = this.uuid
 }
 
@@ -162,7 +162,7 @@ MiniInstance.prototype.buildClientData = function () {
 
   if (this.results) {
     this.clientData.results = Object.keys(this.results).reduce( (obj, matchUuid) => {
-      const {reportedBy: userId, ...data} = this.results[matchUuid]      
+      const {reportedBy: userId, ...data} = this.results[matchUuid]
       obj[matchUuid] = {...data, reportedBy: this.users[userId].cockatriceName}
       return obj
     }, {})
@@ -208,7 +208,7 @@ MiniInstance.prototype.pair = async function () {
   })
 
   try {
-    const pairs = await Promise.all( 
+    const pairs = await Promise.all(
       Object.keys(this.pairings).map( pairing => {
         const {pair} = this.pairings[pairing]
         Match.create({

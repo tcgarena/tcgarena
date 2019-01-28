@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
 const MiniEngine = require('./engines/mini')
+const nodemailer = require('nodemailer');
+
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -106,7 +108,7 @@ const startListening = () => {
   `))
   require('dns').lookup(require('os').hostname(), function (err, add, fam) {
     console.log(`        http://${add}:${PORT}/
-    
+
     `);
   })
 
@@ -114,7 +116,7 @@ const startListening = () => {
   const io = socketio(server)
   const miniEngine = new MiniEngine(io.sockets)
   miniEngine.loadMinis()
-  require('./socket')(io, miniEngine) 
+  require('./socket')(io, miniEngine)
 
   app.set('miniEngine', miniEngine)
 
