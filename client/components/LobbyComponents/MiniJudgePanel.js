@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getMini, startMini, nextRound} from '../../store'
 
-const MiniJudgePanel = ({match, getMini, startMini}) => {
+const MiniJudgePanel = ({match, getMini, startMini, nextRound}) => {
   const mini = getMini(match.params.miniId)
 
   const showButtons = () => {
