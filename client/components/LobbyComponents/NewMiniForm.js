@@ -44,7 +44,7 @@ class AddDeckForm extends React.Component {
   }
 
   render() {
-    const maxPlayersOptions = [4, 8, 16, 32]
+    const maxPlayersOptions = [4, 8, 16]
     const typeOptions = ['swiss']
 
     return (

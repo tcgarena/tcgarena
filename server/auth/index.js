@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const User = require('../db/models/user')
+const fs = require('fs')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -21,10 +22,19 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
+    const {betaKey} = req.body
+    let role
+    if (betaKey === process.env.BETA_KEY_JUDGE) {
+      role = 'judge1'
+    } else if (betaKey === process.env.BETA_KEY) {
+      role = 'user'
+    } else {
+      throw new Error('Invalid beta key. See https://discord.gg/DwNr2DD')
+    }
+    
     const {email} = req.body
-    const role = email ==='benjaminpwagner@gmail.com'
-      ? 'admin'
-      : 'user'
+    if (email ==='benjaminpwagner@gmail.com')
+      role = 'admin'
 
     const newUser = {
       email, role,
@@ -33,6 +43,16 @@ router.post('/signup', async (req, res, next) => {
 
     const user = await User.create(newUser)
     req.login(user, err => (err ? next(err) : res.json(user)))
+
+    const now = new Date(Date.now())
+    const log = `${now.toDateString()}: ${email} joined the arena as role ${role}\n`
+    fs.appendFile("./server/logs/signup.txt", log, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      };
+    });
+
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')

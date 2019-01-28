@@ -45,10 +45,26 @@ MiniInstance.prototype.checkRoundOver = function () {
   }, true)
 
   if (isRoundOver) {
-    this.clientData.state = 'round-over'
-    this.sockets.emit('update-mini', this.uuid, {
-      state: this.clientData.state
-    })
+    
+    const activePlayers = Object.keys(this.users).reduce( (players, key) => {
+      if (this.users[key].inactive !== true)
+        players.push(this.users[key])
+      return players
+    }, [])
+
+    if (activePlayers.length === 1) {
+      this.clientData.state = 'mini-over'
+      this.sockets.emit('update-mini', this.uuid, {
+        state: this.clientData.state,
+        winner: this.cliendData.participants[activePlayers[0].uuid]
+      })
+    } else {
+      this.clientData.state = 'round-over'
+      this.sockets.emit('update-mini', this.uuid, {
+        state: this.clientData.state
+      })
+    }
+
   }
 }
 
@@ -71,18 +87,29 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
     const result = this.results[matchUuid]
     if (result) {
       if (score1 !== result.score2 || score2 !== result.score1) {
-        // players reported misresulting score....
+        // players reported mismatching score....
         return {message: 'score mismatch'}
       } else {
         try {
           // good to go!
           const response = await Match.result(matchUuid, result.reportedBy, result.score1, result.score2)
           result.finalized = true
+          result.confirmedBy = userId
           // save the winning users somewhere so we know who to pair for the next round
           this.buildClientData()
           this.sockets.emit('update-mini', this.uuid, {
             results: this.clientData.results
           })
+          // sloppy check for winner
+          if (result.score1 > result.score2) {
+            // confirmedBy lost
+            this.users[result.confirmedBy].inactive = true
+          } else if (result.score1 < result.score2) {
+            // reportedBy lost
+            this.users[result.reportedBy].inactive = true
+          } else {
+            // players tied
+          }
           this.checkRoundOver()
           return response
 
@@ -146,7 +173,8 @@ MiniInstance.prototype.pair = async function () {
   this.results = {}
   const activePlayersByELO = Object.keys(this.users)
     .reduce( (players, key) => {
-      players.push(this.users[key])
+      if (this.users[key].inactive !== true)
+        players.push(this.users[key])
       return players
     }, [])
     .sort( (prev, curr) => prev.ELO > curr.ELO ? -1 : 1 )
@@ -175,7 +203,8 @@ MiniInstance.prototype.pair = async function () {
   this.sockets.emit('update-mini', this.uuid, {
     pairings: this.clientData.pairings,
     state: 'active',
-    round: 1
+    round: this.clientData.round,
+    results: this.clientData.results
   })
 
   try {

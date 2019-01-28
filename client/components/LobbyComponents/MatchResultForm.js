@@ -41,6 +41,12 @@ class MatchResultForm extends React.Component {
     this.setState({myMatch})
   }
 
+  componentDidUpdate() {
+    const myMatch = this.props.getMyMatch(this.props.match.params.miniId) 
+    if (myMatch.opponent.cockatriceName !== this.state.myMatch.opponent.cockatriceName)
+      this.setState({myMatch})
+  }
+
   showForm() {
     const {myUsername, match, minis} = this.props
     const {response, myMatch} = this.state
