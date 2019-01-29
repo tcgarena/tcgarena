@@ -62,7 +62,7 @@ class DeckForm extends React.Component {
   }
 
   render() {
-    const showFormat = this.props.showFormat === undefined 
+    const showFormat = this.props.showFormat === undefined
       ? true : this.props.showFormat
     return (
       <div className="new-deck-form">
@@ -71,6 +71,7 @@ class DeckForm extends React.Component {
             className="deck-name-field"
             name="deckName"
             type="text"
+            placeholder="Deck Name"
             onChange={this.handleChange}
             value={this.state.deckName}
           />
@@ -78,6 +79,7 @@ class DeckForm extends React.Component {
           <textarea
             className="deck-field"
             name="decklist"
+            placeholder="Enter deck list here..."
             value={this.state.decklist}
             onChange={this.handleChange}
           />
