@@ -126,7 +126,6 @@ form div {
   margin-left: 140px;
   width: 300px;
   left: -200px;
-
 }
 
 .decklist-preview {
@@ -160,7 +159,6 @@ form div {
   width: 80px;
 }
 
-
 .deck-item-container:hover {
   background-color: lightblue;
 }
@@ -187,4 +185,8 @@ a {
   color: gray;
   transition: color 0.5s ease;
   margin: 0 5px;
+}
+
+.mini-participants {
+  margin-bottom: 20px;
 }
