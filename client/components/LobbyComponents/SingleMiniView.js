@@ -22,6 +22,10 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
           <p>{mini.format} {mini.type} {`${currentPlayersAmt}/${mini.maxPlayers}`}</p>
         </div>
 
+        {mini.state === 'mini-over' && <div>
+          {mini.participants[mini.winner].cockatriceName} wins!
+        </div>}
+
         <div className='column'>
         { Object.keys(mini.pairings).length ? <div>
             <MatchResultForm />
