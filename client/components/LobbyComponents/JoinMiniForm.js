@@ -29,7 +29,7 @@ class JoinMiniForm extends React.Component {
     if (!this.props.hasDecks)
       this.forceAddDeck.apply(this)
   }
-  
+
   toggleAdd = () => this.setState({isAdding: !this.state.isAdding})
 
   joinButton = () => ({
@@ -44,13 +44,14 @@ class JoinMiniForm extends React.Component {
   }
 
   render() {
-    return this.state.isAdding 
+    return this.state.isAdding
       ? (
         <div>
           {this.props.hasDecks && <button onClick={this.toggleAdd}>
             Cancel
           </button>}
-          <AddDeckForm 
+          <h5>Add Deck</h5>
+          <AddDeckForm
             redirect={this.toggleAdd}
             showFormat={false}
           />
@@ -58,7 +59,7 @@ class JoinMiniForm extends React.Component {
       ) : (
         <div className='decks-menu-main'>
           <button onClick={this.toggleAdd}>
-            Add Deck
+            Add New Deck
           </button>
           <DecksList actionButton={this.joinButton} />
         </div>
@@ -67,8 +68,8 @@ class JoinMiniForm extends React.Component {
 }
 
 const mapState = ({decks, user: {selectedFormat}}) => ({
-  hasDecks: Object.keys(decks).reduce( 
-    (prev, curr) => decks[curr].format === selectedFormat 
+  hasDecks: Object.keys(decks).reduce(
+    (prev, curr) => decks[curr].format === selectedFormat
       ? true : prev
     , false
   )

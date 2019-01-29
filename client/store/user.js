@@ -35,7 +35,8 @@ export const setUuid = uuid => ({type: SET_UUID, uuid})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/api/user')
-    dispatch(getUser(res.data || defaultUser))
+    // dispatch(getUser(res.data || defaultUser))
+    dispatch(getUser(res.data))
   } catch (err) {
     console.error(err)
   }
