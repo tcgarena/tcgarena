@@ -3,7 +3,8 @@ const Deck = require('./deck')
 const UserMini = require('./userMini')
 const Match = require('./match')
 const Mini = require('./mini')
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid/v4')
+const arpadELO = require('arpad')
 
 /*****************
  * All db methods that reference other models should go here
@@ -145,20 +146,41 @@ Mini.join = async function(miniId, userId, deckId) {
 Match.result = async function(uuid, player1Id, player1score, player2score) {
   try {
     const match = await this.findByUuid(uuid)
-    let user1score, user2score
+    let user1score, user2score, user1Id, user2Id, user1ELO, user2ELO
   
     if (match.dataValues.user1Id === player1Id) {
       user1score = player1score
       user2score = player2score
+      user1Id = match.dataValues.user1Id
+      user2Id = match.dataValues.user2Id
+      user1ELO = match.dataValues.user1Id
+      user2ELO = match.dataValues.user2Id
     } else if (match.dataValues.user2Id === player1Id) {
       user1score = player2score
       user2score = player1score
+      user1Id = match.dataValues.user2Id
+      user2Id = match.dataValues.user1Id
+      user1ELO = match.dataValues.user2Id
+      user2ELO = match.dataValues.user1Id
     } else {
       // should log malicious attempt
       throw new Error (`user ${player1Id} not a part of match ${uuid}`)
     }
 
-    await match.update({user1score, user2score})
+    match.update({user1score, user2score})
+
+    const kVal = {default: 16}
+    const min_score = 100
+    const max_score = 5000
+    
+    const elo = new Elo(kVal, min_score, max_score);
+    
+    var odds_user1_wins = elo.expectedScore(alice, bob);
+    // console.log("The odds of Alice winning are about:", odds_alice_wins); // ~2.9%
+    alice = elo.newRating(odds_alice_wins, 1.0, alice);
+    // console.log("Alice's new rating after she won:", alice); // 2121
+    
+
     return {message: 'result finalized'}
   } catch (e) {
     console.error(e)
