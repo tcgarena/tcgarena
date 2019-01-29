@@ -43,8 +43,7 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
           ) : (
             participantsArr.map(user => (
               <div className="mini-participants" key={user.cockatriceName}>
-              Cockatrice Name: {user.cockatriceName} <br />
-                ELO: {user.ELO}
+                {user.cockatriceName} ({user.ELO})
               </div>
             ))
           )}

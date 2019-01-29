@@ -173,13 +173,32 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
     const min_score = 100
     const max_score = 5000
     
-    const elo = new Elo(kVal, min_score, max_score);
+    const elo = new arpadELO(kVal, min_score, max_score);
     
-    var odds_user1_wins = elo.expectedScore(alice, bob);
-    // console.log("The odds of Alice winning are about:", odds_alice_wins); // ~2.9%
-    alice = elo.newRating(odds_alice_wins, 1.0, alice);
-    // console.log("Alice's new rating after she won:", alice); // 2121
+    const odds_user1_wins = elo.expectedScore(user1ELO, user2ELO);
+    const odds_user2_wins = elo.expectedScore(user2ELO, user1ELO);
+
+    let newUser1ELO, newUser2ELO
+    if (user1score > user2score) {
+      newUser1ELO = elo.newRating(odds_user1_wins, 1.0, user1ELO)
+      newUser2ELO = elo.newRating(odds_user2_wins, -1.0, user2ELO)
+    } else if (user1score < user1score) {
+      newUser1ELO = elo.newRating(odds_user1_wins, -1.0, user1ELO)
+      newUser2ELO = elo.newRating(odds_user2_wins, 1.0, user2ELO)
+    } else {
+      newUser1ELO = user1ELO
+      newUser2ELO = user2ELO
+    }
     
+    User.update(
+      {ELO: newUser1ELO},
+      {where: {id: user1Id}}
+    )
+
+    User.update(
+      {ELO: newUser2ELO},
+      {where: {id: user2Id}}
+    )
 
     return {message: 'result finalized'}
   } catch (e) {
