@@ -1,6 +1,6 @@
 const deckHash = require('./deckHash')
-const cardData = require('../server/api/data/cardData')
-const historic = require('../server/api/data/historic')
+const cardData = require('../server/api/data/cardData.json')
+const historic = require('../server/api/data/historic.json')
 
 const deckCheck = (format, decklist, deckName) => {
   let cards = {}
@@ -83,10 +83,10 @@ const deckCheck = (format, decklist, deckName) => {
         if (cardsToIgnore.indexOf(card) === -1) {
 
           // check if card is legal in format
-          if (cardData[card].legalities[format] !== 'legal') {
+          if (cardData[card].legalities[format] !== 'Legal') {
 
             // not legal? maybe is restricted...
-            if (cardData[card].legalities[format] === 'restricted' && format === 'vintage') {
+            if (cardData[card].legalities[format] === 'Restricted' && format === 'vintage') {
 
               // its restricted, but are we playing just one copy?
               if (cards[card].amount > 1) {

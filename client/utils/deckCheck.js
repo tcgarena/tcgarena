@@ -83,10 +83,10 @@ const deckCheck = async (format, decklist, deckName) => {
         if (cardsToIgnore.indexOf(card) === -1) {
 
           // check if card is legal in format
-          if (cardData[card].legalities[format] !== 'legal') {
+          if (cardData[card].legalities[format] !== 'Legal') {
 
             // not legal? maybe is restricted...
-            if (cardData[card].legalities[format] === 'restricted' && format === 'vintage') {
+            if (cardData[card].legalities[format] === 'Restricted' && format === 'vintage') {
 
               // its restricted, but are we playing just one copy?
               if (cards[card].amount > 1) {

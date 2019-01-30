@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
 const MiniEngine = require('./engines/mini')
-const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer')
 
 module.exports = app
 
