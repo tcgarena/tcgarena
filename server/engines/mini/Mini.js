@@ -8,21 +8,22 @@ class MiniInstance {
     this.sockets = sockets
     this.pairings = {}
     this.results = {}
-    
+
     const serverValues = [
       'id',
       'createdAt',
       'users',
     ]
-    
+
     serverValues.forEach(key => this[key] = dataValues[key])
-    
+
     if (!this.users) this.users = {}
 
     this.clientData = {
       participants: {},
       pairings: {},
-      results: {}
+      results: {},
+      judge: ''
     }
 
     const clientValues = [
