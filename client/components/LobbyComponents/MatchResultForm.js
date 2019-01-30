@@ -90,7 +90,10 @@ class MatchResultForm extends React.Component {
             })}>
               Confirm
             </button>
-            <button>Deny</button>
+            <button onClick={() => axios.post(`/api/match/result/deny`, {
+              miniUuid,
+              matchUuid: myMatch.uuid
+            })}>Deny</button>
           </div>
         )
         

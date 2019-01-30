@@ -67,7 +67,7 @@ module.exports = class Engine {
       const miniId = this.minis[uuid].id
       const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
       const {cockatriceName, ELO, deckhash, decklist} = userMini
-      console.log('asdfasdf', this.minis[uuid])
+      console.log(this.minis[uuid])
       if (this.minis[uuid]) {
         this.minis[uuid].users[userId] = {
           cockatriceName, ELO, deckhash, decklist,
@@ -86,6 +86,10 @@ module.exports = class Engine {
 
   removeResult(userId, miniUuid, matchUuid) {
     this.minis[miniUuid].removeResult(userId, matchUuid)
+  }
+
+  denyResult(userId, miniUuid, matchUuid) {
+    this.minis[miniUuid].denyResult(userId, matchUuid)
   }
 
   async createMini(mini) {

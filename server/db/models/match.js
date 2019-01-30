@@ -75,28 +75,4 @@ const preventDuplicateData = match => {
 Match.beforeCreate(preventDuplicateData)
 Match.beforeUpdate(preventDuplicateData)
 
-Match.result = async function(uuid, player1Id, player1score, player2score) {
-  try {
-    const match = await this.findByUuid(uuid)
-    let user1score, user2score
-  
-    if (match.dataValues.user1Id === player1Id) {
-      user1score = player1score
-      user2score = player2score
-    } else if (match.dataValues.user2Id === player1Id) {
-      user1score = player2score
-      user2score = player1score
-    } else {
-      // should log malicious attempt
-      throw new Error (`user ${player1Id} not a part of match ${uuid}`)
-    }
-
-    await match.update({user1score, user2score})
-    return {message: 'result finalized'}
-  } catch (e) {
-    console.error(e)
-    return {message: 'internal server error'}
-  }
-}
-
 module.exports = Match

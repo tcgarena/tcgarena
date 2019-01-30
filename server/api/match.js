@@ -25,4 +25,16 @@ router.put('/result/undo', requireLogin, async (req, res, next) => {
   }
 })
 
+router.post('/result/deny', requireLogin, async (req, res, next) => {
+  try {
+    const {miniUuid, matchUuid} = req.body
+    const miniEngine = req.app.get('miniEngine')
+    await miniEngine.denyResult(req.user.id, miniUuid, matchUuid)
+    res.sendStatus(200)
+  } catch (e) {
+    console.error(e)
+    res.sendStatus(500)
+  }
+})
+
 module.exports = router

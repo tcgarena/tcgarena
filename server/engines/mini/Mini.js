@@ -5,17 +5,19 @@ var generate = require("../../../shared/adjective-adjective-cardname/lib");
 class MiniInstance {
   constructor(dataValues, sockets) {
 
+    this.sockets = sockets
+    this.pairings = {}
+    this.results = {}
+    
     const serverValues = [
       'id',
       'createdAt',
       'users',
     ]
-
+    
     serverValues.forEach(key => this[key] = dataValues[key])
-
-    this.sockets = sockets
-    this.pairings = {}
-    this.results = {}
+    
+    if (!this.users) this.users = {}
 
     this.clientData = {
       participants: {},
@@ -53,10 +55,16 @@ MiniInstance.prototype.checkRoundOver = function () {
     }, [])
 
     if (activePlayers.length === 1) {
+      this.pairings = {}
+      this.results = {}
+      this.winner = activePlayers[0].uuid
       this.clientData.state = 'mini-over'
+      this.buildClientData()
       this.sockets.emit('update-mini', this.uuid, {
         state: this.clientData.state,
-        winner: this.cliendData.participants[activePlayers[0].uuid]
+        winner: this.winner,
+        pairings: this.clientData.pairings,
+        results: this.clientData.results
       })
     } else {
       this.clientData.state = 'round-over'
@@ -68,16 +76,36 @@ MiniInstance.prototype.checkRoundOver = function () {
   }
 }
 
+MiniInstance.prototype.denyResult = function(userId, matchUuid) {
+  let myMatch = false
+  for (let i=0; i<2; i++)
+    myMatch = this.pairings[matchUuid].id === userId
+      ? true : myMatch
+  if (myMatch) {
+    this.results[matchUuid].locked = true
+  } else {
+    // log malicious attempt
+  }
+}
+
 MiniInstance.prototype.removeResult = function(userId, matchUuid) {
-  this.results = Object.keys(this.results).reduce( (results, key) => {
-    if (this.results[key].uuid !== matchUuid)
-      results[key] = this.results[key]
-    return results
-  }, {})
-  this.buildClientData()
-  this.sockets.emit('update-mini', this.uuid, {
-    results: this.clientData.results
-  })
+  let myMatch = false
+  for (let i=0; i<2; i++)
+    myMatch = this.pairings[matchUuid].id === userId
+      ? true : myMatch
+  if (myMatch) {
+    this.results = Object.keys(this.results).reduce( (results, key) => {
+      if (this.results[key].uuid !== matchUuid)
+        results[key] = this.results[key]
+      return results
+    }, {})
+    this.buildClientData()
+    this.sockets.emit('update-mini', this.uuid, {
+      results: this.clientData.results
+    })
+  } else {
+    // log malicious attempt
+  }
 }
 
 MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1, score2) {
@@ -96,10 +124,6 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
           result.finalized = true
           result.confirmedBy = userId
           // save the winning users somewhere so we know who to pair for the next round
-          this.buildClientData()
-          this.sockets.emit('update-mini', this.uuid, {
-            results: this.clientData.results
-          })
           // sloppy check for winner
           if (result.score1 > result.score2) {
             // confirmedBy lost
@@ -110,6 +134,11 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
           } else {
             // players tied
           }
+          this.buildClientData()
+          this.sockets.emit('update-mini', this.uuid, {
+            results: this.clientData.results,
+            participants: this.clientData.participants
+          })
           this.checkRoundOver()
           return response
 
@@ -142,8 +171,8 @@ MiniInstance.prototype.getUuid = async function() {
 MiniInstance.prototype.buildClientData = function () {
   if (this.users) {
     this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
-      const {cockatriceName, deckhash, ELO, uuid} = this.users[user]
-      obj[uuid] = {cockatriceName, deckhash, ELO}
+      const {cockatriceName, deckhash, ELO, uuid, inactive} = this.users[user]
+      obj[uuid] = {cockatriceName, deckhash, ELO, inactive}
       return obj
     }, {})
   }

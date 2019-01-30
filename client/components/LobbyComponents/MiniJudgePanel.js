@@ -11,6 +11,7 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound}) => {
     const isActive = mini.state === 'active'
     const isClosed = mini.state === 'closed'
     const roundOver = mini.state === 'round-over'
+    const isOverButActive = mini.state === 'mini-over'
 
     const buttons = []
     Object.defineProperty(buttons, 'addButton', {
@@ -35,6 +36,10 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound}) => {
     // tournament has ended    
     else if (isClosed) {
 
+    }
+
+    else if (isOverButActive) {
+      buttons.addButton('Close')
     }
 
     // tournament is open

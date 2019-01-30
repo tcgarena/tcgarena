@@ -29,8 +29,12 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
           </p>
         </div>
 
-        <div className="column">
-          {Object.keys(mini.pairings).length ? (
+        {mini.state === 'mini-over' && <div>
+          {mini.participants[mini.winner].cockatriceName} wins!
+        </div>}
+
+        <div className='column'>
+        { Object.keys(mini.pairings).length ? (
             <div>
               <MatchResultForm />
               <PairingsList pairings={mini.pairings} />
@@ -38,8 +42,7 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
           ) : (
             participantsArr.map(user => (
               <div className="mini-participants" key={user.cockatriceName}>
-              Cockatrice Name: {user.cockatriceName} <br />
-                ELO: {user.ELO}
+                {user.cockatriceName} ({user.ELO})
               </div>
             ))
           )}
