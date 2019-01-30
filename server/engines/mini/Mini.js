@@ -5,17 +5,19 @@ var generate = require("../../../shared/adjective-adjective-cardname/lib");
 class MiniInstance {
   constructor(dataValues, sockets) {
 
+    this.sockets = sockets
+    this.pairings = {}
+    this.results = {}
+    
     const serverValues = [
       'id',
       'createdAt',
       'users',
     ]
-
+    
     serverValues.forEach(key => this[key] = dataValues[key])
-
-    this.sockets = sockets
-    this.pairings = {}
-    this.results = {}
+    
+    if (!this.users) this.users = {}
 
     this.clientData = {
       participants: {},
@@ -74,16 +76,36 @@ MiniInstance.prototype.checkRoundOver = function () {
   }
 }
 
+MiniInstance.prototype.denyResult = function(userId, matchUuid) {
+  let myMatch = false
+  for (let i=0; i<2; i++)
+    myMatch = this.pairings[matchUuid].id === userId
+      ? true : myMatch
+  if (myMatch) {
+    this.results[matchUuid].locked = true
+  } else {
+    // log malicious attempt
+  }
+}
+
 MiniInstance.prototype.removeResult = function(userId, matchUuid) {
-  this.results = Object.keys(this.results).reduce( (results, key) => {
-    if (this.results[key].uuid !== matchUuid)
-      results[key] = this.results[key]
-    return results
-  }, {})
-  this.buildClientData()
-  this.sockets.emit('update-mini', this.uuid, {
-    results: this.clientData.results
-  })
+  let myMatch = false
+  for (let i=0; i<2; i++)
+    myMatch = this.pairings[matchUuid].id === userId
+      ? true : myMatch
+  if (myMatch) {
+    this.results = Object.keys(this.results).reduce( (results, key) => {
+      if (this.results[key].uuid !== matchUuid)
+        results[key] = this.results[key]
+      return results
+    }, {})
+    this.buildClientData()
+    this.sockets.emit('update-mini', this.uuid, {
+      results: this.clientData.results
+    })
+  } else {
+    // log malicious attempt
+  }
 }
 
 MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1, score2) {
