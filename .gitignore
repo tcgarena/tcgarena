@@ -6,3 +6,4 @@ secrets.js
 npm-debug.log
 yarn-error.log
 server/logs
+server/api/data/cardData.json
