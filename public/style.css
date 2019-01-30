@@ -167,7 +167,7 @@ form div {
   display: flex;
   border: solid 1px black;
   padding: 5px;
-  margin: 2px;
+  margin: 20px;
 }
 
 .mini-window-container div {
@@ -177,7 +177,7 @@ form div {
 }
 
 .mini-window-container div p {
-  margin: 0px;
+  margin: 2px;
 }
 
 a {
@@ -189,4 +189,8 @@ a {
 
 .mini-participants {
   margin-bottom: 20px;
+}
+
+.hosted-by {
+  font-size: 12px;
 }

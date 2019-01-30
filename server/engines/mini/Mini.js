@@ -45,7 +45,7 @@ MiniInstance.prototype.checkRoundOver = function () {
   }, true)
 
   if (isRoundOver) {
-    
+
     const activePlayers = Object.keys(this.users).reduce( (players, key) => {
       if (this.users[key].inactive !== true)
         players.push(this.users[key])
