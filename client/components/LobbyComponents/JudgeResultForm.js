@@ -35,7 +35,7 @@ class JudgeResultForm extends React.Component {
         <form className='row' onSubmit={this.handleSubmit}>
           <div className='column'>
             <p>{player1.cockatriceName}</p>
-            <input type="number" min='0' max='2' name='score1' value={this.state.score2} onChange={this.handleChange} />
+            <input type="number" min='0' max='2' name='score1' value={this.state.score1} onChange={this.handleChange} />
           </div>
           <div className='column'>
             <p>{player2.cockatriceName}</p>          

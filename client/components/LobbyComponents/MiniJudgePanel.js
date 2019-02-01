@@ -58,20 +58,21 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound}) => {
 
   const showResultForms = () => {
 
-    // const lockedResults = Object.keys(mini.results).reduce( (results, key) => {
-    //   const result = mini.results[key]
-    //   if (result.locked) {
-    //     results.push(<JudgeResultForm 
-    //       miniUuid={mini.uuid}
-    //       matchUuid={key}
-    //       player1={}
-    //       player2={}
-    //     />)
-    //   }
-    //   return results
-    // }, [])
+    const lockedResults = Object.keys(mini.results).reduce( (results, key) => {
+      const result = mini.results[key]
+      const match = mini.pairings[key]
+      if (result.locked) {
+        results.push(<JudgeResultForm key={match.uuid}
+          miniUuid={mini.uuid}
+          matchUuid={key}
+          player1={match[0]}
+          player2={match[1]}
+        />)
+      }
+      return results
+    }, [])
 
-    // return lockedResults
+    return lockedResults
   }
 
   return (
