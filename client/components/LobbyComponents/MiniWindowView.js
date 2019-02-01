@@ -45,7 +45,7 @@ class MiniWindowView extends React.Component {
     )
     const actionButton = this.chooseAction.apply(this)
     const currentPlayersAmt = participants.length
-    console.log(mini)
+
     return (
       <div className="column mini-window-container">
         <div className="row">

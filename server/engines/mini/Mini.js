@@ -99,12 +99,24 @@ MiniInstance.prototype.judgeResult = async function(matchUuid, uuid1, uuid2, sco
     finalized: true,
   }
   const response = await Match.result(matchUuid, user1Id, score1, score2)
-  this.users[user1Id].ELO = response.newUser1ELO
-  this.users[user2Id].ELO = response.newUser2ELO
+  this.users[user1Id].ELO = response[user1Id]
+  this.users[user2Id].ELO = response[user2Id]
+  // save the winning users somewhere so we know who to pair for the next round
+  // sloppy check for winner
+  if (score1 > score2) {
+    // confirmedBy lost
+    this.users[user2Id].inactive = true
+  } else if (score1 < score2) {
+    // reportedBy lost
+    this.users[user1Id].inactive = true
+  } else {
+    // players tied
+  }
   this.buildClientData()
   this.sockets.emit('update-mini', this.uuid, {
     results: this.clientData.results
   })
+  this.checkRoundOver()
 }
 
 MiniInstance.prototype.denyResult = function(userId, matchUuid) {
@@ -157,8 +169,8 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
           // good to go!
           const response = await Match.result(matchUuid, result.reportedBy, result.score1, result.score2)
           const reportedBy = this.results[matchUuid].reportedBy
-          this.users[userId].ELO = response[userId].newUser1ELO
-          this.users[reportedBy].ELO = response[reportedBy].newUser2ELO
+          this.users[userId].ELO = response[userId]
+          this.users[reportedBy].ELO = response[reportedBy]
           this.results[matchUuid].finalized = true
           this.results[matchUuid].confirmedBy = userId
           // save the winning users somewhere so we know who to pair for the next round
@@ -275,10 +287,12 @@ MiniInstance.prototype.pair = async function () {
     results: this.clientData.results
   })
 
+
   try {
     const pairs = await Promise.all(
       Object.keys(this.pairings).map( pairing => {
         const {pair} = this.pairings[pairing]
+        console.log(pair)
         Match.create({
           uuid: pairing,
           miniId: this.id,

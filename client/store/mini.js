@@ -115,7 +115,7 @@ export const getMyMatch = (state, miniUuid) => {
         ? me = pair[i]
         : opponent = pair[i]
   } else {
-    return null
+    return false
   }
   return {me: {...me}, opponent: {...opponent}, uuid: pair.uuid}
 }
