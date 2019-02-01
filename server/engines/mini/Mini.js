@@ -41,11 +41,12 @@ class MiniInstance {
 }
 
 MiniInstance.prototype.checkRoundOver = function () {
-  const isRoundOver = Object.keys(this.results).reduce( (bool, key) => {
-    if (!this.results[key].finalized)
-      return false
-    return bool
-  }, true)
+  const isRoundOver = Object.keys(this.results).length === Object.keys(this.pairings).length
+    && Object.keys(this.results).reduce( (bool, key) => {
+      if (!this.results[key].finalized)
+        return false
+      return bool
+    }, true)
 
   if (isRoundOver) {
 
@@ -58,7 +59,7 @@ MiniInstance.prototype.checkRoundOver = function () {
     if (activePlayers.length === 1) {
       this.pairings = {}
       this.results = {}
-      this.clientData.winner = activePlayers[0].uuidi
+      this.clientData.winner = activePlayers[0].uuid
       this.clientData.state = 'mini-over'
       this.buildClientData()
       this.sockets.emit('update-mini', this.uuid, {
@@ -98,6 +99,8 @@ MiniInstance.prototype.judgeResult = async function(matchUuid, uuid1, uuid2, sco
     finalized: true,
   }
   const response = await Match.result(matchUuid, user1Id, score1, score2)
+  this.users[user1Id].ELO = response.newUser1ELO
+  this.users[user2Id].ELO = response.newUser2ELO
   this.buildClientData()
   this.sockets.emit('update-mini', this.uuid, {
     results: this.clientData.results
@@ -153,8 +156,11 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
         try {
           // good to go!
           const response = await Match.result(matchUuid, result.reportedBy, result.score1, result.score2)
-          result.finalized = true
-          result.confirmedBy = userId
+          const reportedBy = this.results[matchUuid].reportedBy
+          this.users[userId].ELO = response[userId].newUser1ELO
+          this.users[reportedBy].ELO = response[reportedBy].newUser2ELO
+          this.results[matchUuid].finalized = true
+          this.results[matchUuid].confirmedBy = userId
           // save the winning users somewhere so we know who to pair for the next round
           // sloppy check for winner
           if (result.score1 > result.score2) {
@@ -180,6 +186,7 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
         }
       }
     } else {
+      console.log(userId, score1, score2)
       this.results[matchUuid] = {
         reportedBy: userId,
         score1, score2,

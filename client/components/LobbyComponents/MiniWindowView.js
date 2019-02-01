@@ -28,6 +28,7 @@ class MiniWindowView extends React.Component {
     const usernames = participants.map(
       participant => participant.cockatriceName
     )
+
     if (participants.length === mini.maxPlayers) {
       return this.viewButton.apply(this)
     } else if (usernames.includes(cockatriceName)) {
