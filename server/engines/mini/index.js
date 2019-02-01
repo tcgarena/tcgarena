@@ -67,10 +67,11 @@ module.exports = class Engine {
       const miniId = this.minis[uuid].id
       const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
       const {cockatriceName, ELO, deckhash, decklist} = userMini
+      console.log(this.minis[uuid])
       if (this.minis[uuid]) {
         this.minis[uuid].users[userId] = {
           cockatriceName, ELO, deckhash, decklist,
-          id: userId, 
+          id: userId,
           uuid: uuidv4()
         }
         this.minis[uuid].buildClientData()
@@ -85,6 +86,10 @@ module.exports = class Engine {
 
   removeResult(userId, miniUuid, matchUuid) {
     this.minis[miniUuid].removeResult(userId, matchUuid)
+  }
+
+  denyResult(userId, miniUuid, matchUuid) {
+    this.minis[miniUuid].denyResult(userId, matchUuid)
   }
 
   async createMini(mini) {
@@ -108,7 +113,7 @@ module.exports = class Engine {
       // make sure mini is being tracked by engine
       if (this.minis[miniUuid]) {
         const pairing = mini.pairings[matchUuid]
-        
+
         // make sure match is being tracked
         if (pairing) {
           const pair = pairing.pair

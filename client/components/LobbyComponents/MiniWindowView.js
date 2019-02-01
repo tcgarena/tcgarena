@@ -1,10 +1,9 @@
 import React from 'react'
 import {withRouter} from 'react-router-dom'
-import {connect} from 'react-redux';
+import {connect} from 'react-redux'
 import {joinMini, selectFormat} from '../../store'
 
 class MiniWindowView extends React.Component {
-
   viewButton = () => ({
     text: 'view',
     action: () => this.props.history.push(`/lobby/${this.props.mini.uuid}`)
@@ -22,9 +21,13 @@ class MiniWindowView extends React.Component {
   }
 
   chooseAction() {
-    const {cockatriceName, mini} = this.props 
-    const participants = Object.keys(mini.participants).map(key => mini.participants[key])
-    const usernames = participants.map(participant => participant.cockatriceName)
+    const {cockatriceName, mini} = this.props
+    const participants = Object.keys(mini.participants).map(
+      key => mini.participants[key]
+    )
+    const usernames = participants.map(
+      participant => participant.cockatriceName
+    )
     if (participants.length === mini.maxPlayers) {
       return this.viewButton.apply(this)
     } else if (usernames.includes(cockatriceName)) {
@@ -36,20 +39,24 @@ class MiniWindowView extends React.Component {
 
   render() {
     const {mini} = this.props
-    const participants = Object.keys(mini.participants).map(key => mini.participants[key])
+    const participants = Object.keys(mini.participants).map(
+      key => mini.participants[key]
+    )
     const actionButton = this.chooseAction.apply(this)
     const currentPlayersAmt = participants.length
-    
+    console.log(mini)
     return (
-      <div className='column mini-window-container'>
-        <div className='row'>
-          <p>{mini.format} {mini.type}</p>
-          <p>{`${currentPlayersAmt}/${mini.maxPlayers}`}</p>
+      <div className="column mini-window-container">
+        <div className="row">
+          <p>
+            {mini.format} {mini.type}
+          </p>
+          <p>{`${currentPlayersAmt}/${mini.maxPlayers}`} players</p>
         </div>
-
-        <button onClick={actionButton.action} >
-          {actionButton.text}
-        </button>
+        <div className="hosted-by">
+          <p>Hosted by: {mini.judge}</p>
+        </div>
+        <button onClick={actionButton.action}>{actionButton.text}</button>
       </div>
     )
   }
@@ -60,9 +67,8 @@ const mapState = ({user: {cockatriceName}}) => ({
 })
 
 const mapDispatchToProps = {
-  joinMini, selectFormat
+  joinMini,
+  selectFormat
 }
 
-export default withRouter(
-  connect(mapState, mapDispatchToProps)(MiniWindowView)
-)
+export default withRouter(connect(mapState, mapDispatchToProps)(MiniWindowView))

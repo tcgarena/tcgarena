@@ -50,7 +50,7 @@ class JoinMiniForm extends React.Component {
           {this.props.hasDecks && <button onClick={this.toggleAdd}>
             Cancel
           </button>}
-          <h5>Add Deck</h5>
+          <h5>No valid deck for this format, please add one.</h5>
           <AddDeckForm
             redirect={this.toggleAdd}
             showFormat={false}
