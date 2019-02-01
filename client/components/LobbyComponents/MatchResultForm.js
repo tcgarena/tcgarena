@@ -43,8 +43,10 @@ class MatchResultForm extends React.Component {
 
   componentDidUpdate() {
     const myMatch = this.props.getMyMatch(this.props.match.params.miniId) 
-    if (myMatch.opponent.cockatriceName !== this.state.myMatch.opponent.cockatriceName)
-      this.setState({myMatch})
+    if (myMatch) {
+      if (myMatch.opponent.cockatriceName !== this.state.myMatch.opponent.cockatriceName)
+        this.setState({myMatch})
+    }
   }
 
   showForm() {
@@ -106,43 +108,48 @@ class MatchResultForm extends React.Component {
         
       }
 
-    }
+    } else {
 
-    switch (response) {
+      if (!myMatch) {
+        return 
+      }
+  
+      switch (response) {
 
-      case 'score invalid':
-        return (
-          <div>score invalid</div>
-        )
+        case 'score invalid':
+          return (
+            <div>score invalid</div>
+          )
 
-      case 'score mismatch':
-        return (
-          <div>score mismatch</div>
-        )
+        case 'score mismatch':
+          return (
+            <div>score mismatch</div>
+          )
 
-      case 'internal server error':
-        return (
-          <div>internal server error</div>
-        )
+        case 'internal server error':
+          return (
+            <div>internal server error</div>
+          )
 
-      default:
-        return (
-          <div className='match-report-form'>
-            <form className='row' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
-              <div className='column'>
-                <p>{myUsername}</p>
-                <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
-              </div>
-              <div className='column'>
-                <p>{myMatch.opponent.cockatriceName}</p>          
-                <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
-              </div>
-              <input type="submit" value="Submit" />
-            </form>
-          </div>
-        )
-    }
+        default:
+          return (
+            <div className='match-report-form'>
+              <form className='row' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
+                <div className='column'>
+                  <p>{myUsername}</p>
+                  <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
+                </div>
+                <div className='column'>
+                  <p>{myMatch.opponent.cockatriceName}</p>          
+                  <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
+                </div>
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+          )
+      }
 
+    }    
   }
 
   render() {
