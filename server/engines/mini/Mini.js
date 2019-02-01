@@ -58,12 +58,12 @@ MiniInstance.prototype.checkRoundOver = function () {
     if (activePlayers.length === 1) {
       this.pairings = {}
       this.results = {}
-      this.winner = activePlayers[0].uuid
+      this.clientData.winner = activePlayers[0].uuidi
       this.clientData.state = 'mini-over'
       this.buildClientData()
       this.sockets.emit('update-mini', this.uuid, {
         state: this.clientData.state,
-        winner: this.winner,
+        winner: this.clientData.winner,
         pairings: this.clientData.pairings,
         results: this.clientData.results
       })
@@ -80,10 +80,14 @@ MiniInstance.prototype.checkRoundOver = function () {
 MiniInstance.prototype.denyResult = function(userId, matchUuid) {
   let myMatch = false
   for (let i=0; i<2; i++)
-    myMatch = this.pairings[matchUuid].id === userId
+    myMatch = this.pairings[matchUuid].pair[i].id === userId
       ? true : myMatch
   if (myMatch) {
     this.results[matchUuid].locked = true
+    this.buildClientData()
+    this.sockets.emit('update-mini', this.uuid, {
+      results: this.clientData.results
+    })
   } else {
     // log malicious attempt
   }
@@ -92,7 +96,7 @@ MiniInstance.prototype.denyResult = function(userId, matchUuid) {
 MiniInstance.prototype.removeResult = function(userId, matchUuid) {
   let myMatch = false
   for (let i=0; i<2; i++)
-    myMatch = this.pairings[matchUuid].id === userId
+    myMatch = this.pairings[matchUuid].pair[i].id === userId
       ? true : myMatch
   if (myMatch) {
     this.results = Object.keys(this.results).reduce( (results, key) => {
