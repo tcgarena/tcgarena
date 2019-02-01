@@ -147,21 +147,21 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
   try {
     const match = await this.findByUuid(uuid)
     let user1score, user2score, user1Id, user2Id, user1ELO, user2ELO
-  
+
     if (match.dataValues.user1Id === player1Id) {
       user1score = player1score
       user2score = player2score
       user1Id = match.dataValues.user1Id
       user2Id = match.dataValues.user2Id
-      user1ELO = match.dataValues.user1Id
-      user2ELO = match.dataValues.user2Id
+      user1ELO = match.dataValues.user1ELO
+      user2ELO = match.dataValues.user2ELO
     } else if (match.dataValues.user2Id === player1Id) {
-      user1score = player2score
-      user2score = player1score
+      user1score = player1score
+      user2score = player2score
       user1Id = match.dataValues.user2Id
       user2Id = match.dataValues.user1Id
-      user1ELO = match.dataValues.user2Id
-      user2ELO = match.dataValues.user1Id
+      user1ELO = match.dataValues.user2ELO
+      user2ELO = match.dataValues.user1ELO
     } else {
       // should log malicious attempt
       throw new Error (`user ${player1Id} not a part of match ${uuid}`)
@@ -200,7 +200,10 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
       {where: {id: user2Id}}
     )
 
-    return {message: 'result finalized'}
+    return {
+      [user1Id]: newUser1ELO,
+      [user2Id]: newUser2ELO
+    }
   } catch (e) {
     console.error(e)
     return {message: 'internal server error'}

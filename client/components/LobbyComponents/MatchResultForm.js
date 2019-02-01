@@ -46,6 +46,11 @@ class MatchResultForm extends React.Component {
     if (myMatch) {
       if (myMatch.opponent.cockatriceName !== this.state.myMatch.opponent.cockatriceName)
         this.setState({myMatch})
+    } else {
+      if (!this.state.myMatch === myMatch)
+      this.setState({
+        myMatch: null
+      })
     }
   }
 

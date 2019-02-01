@@ -28,6 +28,7 @@ class MiniWindowView extends React.Component {
     const usernames = participants.map(
       participant => participant.cockatriceName
     )
+
     if (participants.length === mini.maxPlayers) {
       return this.viewButton.apply(this)
     } else if (usernames.includes(cockatriceName)) {
@@ -44,7 +45,7 @@ class MiniWindowView extends React.Component {
     )
     const actionButton = this.chooseAction.apply(this)
     const currentPlayersAmt = participants.length
-    console.log(mini)
+
     return (
       <div className="column mini-window-container">
         <div className="row">
