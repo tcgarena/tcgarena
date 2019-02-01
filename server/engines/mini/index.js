@@ -90,8 +90,12 @@ module.exports = class Engine {
 
   denyResult(userId, miniUuid, matchUuid) {
     this.minis[miniUuid].denyResult(userId, matchUuid)
-  }
+  } 
 
+  judgeResult(miniUuid, matchUuid, uuid1, uuid2, score1, score2) {
+    this.minis[miniUuid].judgeResult(matchUuid, uuid1, uuid2, score1, score2)
+  }
+ 
   async createMini(mini) {
     try {
       const newMini = await Mini.create(mini)

@@ -77,6 +77,33 @@ MiniInstance.prototype.checkRoundOver = function () {
   }
 }
 
+MiniInstance.prototype.findUserIdByUuid = function(uuid) {
+  return Object.keys(this.users).reduce( (userId, key) => {
+    if (this.users[key].uuid === uuid) {
+      return this.users[key].id
+    } else {
+      return userId
+    }
+  }, null)
+}
+
+MiniInstance.prototype.judgeResult = async function(matchUuid, uuid1, uuid2, score1, score2) {
+  const user1Id = this.findUserIdByUuid(uuid1)
+  const user2Id = this.findUserIdByUuid(uuid2)
+  this.results[matchUuid] = {
+    reportedBy: user1Id,
+    confirmedBy: user2Id,
+    score1, score2,
+    uuid: matchUuid,
+    finalized: true,
+  }
+  const response = await Match.result(matchUuid, user1Id, score1, score2)
+  this.buildClientData()
+  this.sockets.emit('update-mini', this.uuid, {
+    results: this.clientData.results
+  })
+}
+
 MiniInstance.prototype.denyResult = function(userId, matchUuid) {
   let myMatch = false
   for (let i=0; i<2; i++)
@@ -177,7 +204,7 @@ MiniInstance.prototype.buildClientData = function () {
   if (this.users) {
     this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
       const {cockatriceName, deckhash, ELO, uuid, inactive} = this.users[user]
-      obj[uuid] = {cockatriceName, deckhash, ELO, inactive}
+      obj[uuid] = {cockatriceName, deckhash, ELO, uuid, inactive}
       return obj
     }, {})
   }
@@ -185,9 +212,9 @@ MiniInstance.prototype.buildClientData = function () {
   if (this.pairings) {
     this.clientData.pairings = Object.keys(this.pairings).reduce( (obj, pairing) => {
       const clientPair = this.pairings[pairing].pair.map( ({
-        cockatriceName, ELO, deckhash
+        cockatriceName, ELO, deckhash, uuid
       }) => ({
-        cockatriceName, ELO, deckhash
+        cockatriceName, ELO, deckhash, uuid
       }))
       obj[pairing] = {...clientPair, uuid: pairing}
       return obj
