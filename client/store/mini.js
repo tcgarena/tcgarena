@@ -109,7 +109,7 @@ export const getMyMatch = (state, miniUuid) => {
     return myPair ? pairings[key] : pairing
   }, {})
 
-  if (Object.keys(pair) > 0) {
+  if (Object.keys(pair).length) {
     for (let i=0; i<2; i++) 
       pair[i].cockatriceName === myUsername
         ? me = pair[i]

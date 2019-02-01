@@ -57,7 +57,7 @@ MiniInstance.prototype.checkRoundOver = function () {
     if (activePlayers.length === 1) {
       this.pairings = {}
       this.results = {}
-      this.clientData.winner = activePlayers[0].uuid
+      this.clientData.winner = activePlayers[0].uuidi
       this.clientData.state = 'mini-over'
       this.buildClientData()
       this.sockets.emit('update-mini', this.uuid, {
