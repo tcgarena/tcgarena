@@ -15,6 +15,7 @@ class JudgeResultForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {miniUuid, matchUuid, player1, player2} = this.props
+    console.log(player1)
     axios.post(`/api/match/result/judge`, {
       miniUuid, matchUuid, 
       uuid1: player1.uuid,
