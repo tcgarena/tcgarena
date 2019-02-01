@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getMini, startMini, nextRound} from '../../store'
+import {JudgeResultForm} from '..'
 
 const MiniJudgePanel = ({match, getMini, startMini, nextRound}) => {
   const mini = getMini(match.params.miniId)
@@ -55,10 +56,16 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound}) => {
     return buttons
   }
 
+  const showResultForms = () => {
+
+    const lockedResults = Object.keys(mini.results)
+
+  }
 
   return (
     <div className='mini-judge-panel'>
       {mini && showButtons()}
+      {mini && showResultForms()}
     </div>
   )
 }

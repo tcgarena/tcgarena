@@ -65,6 +65,13 @@ class MatchResultForm extends React.Component {
         ? 'tied' : myScore > opponentScore
           ? 'won' : 'lost'
 
+      if (myResult.locked) {
+        return <div className='center column'>
+          <div>Reporting locked.</div>
+          <div>Consult your judge to resolve this.</div>
+        </div>
+      }
+
       if (myResult.finalized) {
         return <div>You {gameStatus} {myScore}-{opponentScore}</div>
       }

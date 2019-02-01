@@ -17,7 +17,7 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
       .map(key => mini.participants[key])
       .sort((prev, curr) => (prev.ELO > curr.ELO ? -1 : 1))
     const currentPlayersAmt = participantsArr.length
-    console.log('parcipantsArr', participantsArr)
+    // console.log('parcipantsArr', participantsArr)
 
     return (
       <div className="single-mini">
