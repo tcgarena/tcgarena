@@ -27,6 +27,7 @@ class DeleteDeck extends React.Component {
     return (
       <div>
         <ConfirmAction
+          text={true}
           confirm={this.delete}
           deny={this.cancel}
         />

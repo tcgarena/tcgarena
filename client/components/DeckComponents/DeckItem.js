@@ -42,7 +42,10 @@ class DeckItem extends React.Component {
           <ConfirmAction
             confirm={this.deleteDeck}
             deny={this.toggleDeleteState}
-          />
+            confirmText={'Delete'}
+            denyText={'Cancel'}
+            text={false}
+            />
         ) : (
           <div className='deck-item-buttons'>
             {/* action button is the first button */}
