@@ -28,8 +28,8 @@ class LobbyMenu extends React.Component {
   }
 }
 
-const mapState = ({user: {accessLevel}}) => ({
-  isJudge: accessLevel > 0
+const mapState = state => ({
+  isJudge: state.user.accessLevel > 0
 })
 
 const mapDispatch = { fetchMinis }

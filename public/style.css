@@ -20,6 +20,13 @@ form div {
   display: inline-block;
 }
 
+#profile-anchor {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 20px;
+}
+
 .decks-list {
   position: fixed;
   display: flex;

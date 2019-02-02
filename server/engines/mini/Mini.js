@@ -116,6 +116,7 @@ MiniInstance.prototype.judgeResult = async function(matchUuid, uuid1, uuid2, sco
   this.sockets.emit('update-mini', this.uuid, {
     results: this.clientData.results
   })
+  this.sockets.emit('update-users', [user1Id, user2Id])
   this.checkRoundOver()
 }
 
@@ -190,6 +191,7 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
             participants: this.clientData.participants
           })
           this.checkRoundOver()
+          this.sockets.emit('update-users', [result.confirmedBy, result.reportedBy])
           return response
 
         } catch (e) {

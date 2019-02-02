@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import store, { fetchMini, socketUpdate } from './store';
+import store, { fetchMini, socketUpdate, me } from './store';
 
 const socket = io(window.location.origin)
 
@@ -12,6 +12,14 @@ socket.on('connect', () => {
 
   socket.on('update-mini', (uuid, update) => {
     store.dispatch(socketUpdate(uuid, update))
+  })
+
+  socket.on('update-users', (userIds) => {
+    userIds.forEach(id => {
+      if (store.getState().user.id === id) {
+        store.dispatch(me())
+      }
+    })
   })
 
 })
