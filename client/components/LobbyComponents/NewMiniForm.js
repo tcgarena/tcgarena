@@ -45,7 +45,7 @@ class AddDeckForm extends React.Component {
 
   render() {
     const maxPlayersOptions = [4, 8, 16]
-    const typeOptions = ['swiss']
+    const typeOptions = ['single-elim']
 
     return (
       <div className='new-tournament-form'>
