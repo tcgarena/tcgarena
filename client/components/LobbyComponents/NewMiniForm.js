@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { createMini, selectFormat } from '../../store'
-import formats from '../../utils/formats'
+// import formats from '../../utils/formats'
 
 class AddDeckForm extends React.Component {
   constructor(props) {
@@ -46,6 +46,7 @@ class AddDeckForm extends React.Component {
   render() {
     const maxPlayersOptions = [4, 8, 16]
     const typeOptions = ['single-elim']
+    const formats = ['standard','modern','legacy','vintage','pauper','frontier']
 
     return (
       <div className='new-tournament-form'>
