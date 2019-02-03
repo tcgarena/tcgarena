@@ -48,13 +48,26 @@ module.exports = class Engine {
   }
 
   async closeMini(userId, uuid) {
-    if (this.minis[uuid].clientData.state === 'open') {
-      const deleted = await this.minis[uuid].cancel()
-      if (deleted) {
-        const { [uuid]: canceledMini, ...activeMinis} = this.minis
+    switch (this.minis[uuid].clientData.state) {
+      case 'open':
+        const deleted = await this.minis[uuid].cancel()
+        if (deleted) {
+          const { [uuid]: canceledMini, ...activeMinis} = this.minis
+          this.minis = activeMinis
+          this.sockets.emit('remove-mini', uuid)
+        }
+        break;
+      case 'mini-over':
+        Mini.update(
+          {state: 'closed'},
+          {where: {id: this.minis[uuid].id}}
+        )
+        const { [uuid]: closed, ...activeMinis} = this.minis
         this.minis = activeMinis
         this.sockets.emit('remove-mini', uuid)
-      }
+        break;
+      default:
+        break;
     }
   }
 

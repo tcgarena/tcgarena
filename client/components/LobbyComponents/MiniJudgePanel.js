@@ -40,7 +40,7 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
     }
 
     else if (isOverButActive) {
-      buttons.addButton('Close')
+      buttons.addButton('Close', () => closeMini(mini.uuid))
     }
 
     // tournament is open
