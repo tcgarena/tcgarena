@@ -51,9 +51,10 @@ export const auth = (email, password, method, betaKey) => async dispatch => {
   }
 
   try {
-    dispatch(getUser(res.data))
-    dispatch(fetchDecks())
     history.push('/lobby')
+    // dispatch(getUser(res.data))
+    dispatch(me())
+    dispatch(fetchDecks())
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }

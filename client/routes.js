@@ -74,7 +74,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
       dispatch(fetchDecks())
-
+      console.log('hello?')
     }
   }
 }
