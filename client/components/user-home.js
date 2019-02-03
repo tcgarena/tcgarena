@@ -35,10 +35,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     loadInitialData() {
-      console.log('loading initial data')
       dispatch(me())
       dispatch(fetchDecks())
-
     }
   }
 }
