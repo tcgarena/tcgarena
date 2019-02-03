@@ -12,9 +12,15 @@ const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
 
-
 const persistedState = loadState()
-const store = createStore(reducer, persistedState, middleware)
+
+let store
+if (process.env.NODE_ENV === 'production') {
+  store = createStore(reducer, persistedState)
+} else {
+  store = createStore(reducer, persistedState, middleware)
+}
+
 store.subscribe( () => {
   saveState({
     user: {
