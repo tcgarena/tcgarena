@@ -1,6 +1,6 @@
 import axios from 'axios'
-import socket from '../socket'
-import store, {setUuid} from '.';
+import history from '../history'
+
 
 
 const GOT_MINIS = 'GOT_MINIS'
@@ -37,6 +37,23 @@ export const createMini = newMini => async dispatch => {
     await axios.post('/api/minis', newMini)
     // no need to dispatch, if all goes well creators client will get pinged back
   } catch(e) {
+    console.error(e)
+  }
+}
+
+export const closeMini = miniUuid => async dispatch => {
+  try {
+    await axios.delete(`/api/minis/${miniUuid}`)
+    history.push('/lobby')
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const leaveMini = miniUuid => async dispatch => {
+  try {
+    await axios.put(`/api/minis/${miniUuid}/leave`)
+  } catch (e) {
     console.error(e)
   }
 }
@@ -85,7 +102,7 @@ export default (state = initState, action) => {
         }
       }
     case REMOVE_MINI:
-      const { [action.uuid]: _, otherMinis } = state
+      const { [action.uuid]: _, ...otherMinis } = state
       return { ...otherMinis }
     case REMOVE_MINIS:
       return initState

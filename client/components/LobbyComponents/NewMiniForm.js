@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { createMini, selectFormat } from '../../store'
 // import formats from '../../utils/formats'
 
-class AddDeckForm extends React.Component {
+class NewMiniForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       amountOfPlayers: 4,
-      type: 'swiss'
+      type: 'single elimination'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -45,7 +45,7 @@ class AddDeckForm extends React.Component {
 
   render() {
     const maxPlayersOptions = [4, 8, 16]
-    const typeOptions = ['single-elim']
+    const typeOptions = ['single elimination']
     const formats = ['standard','modern','legacy','vintage','pauper','frontier']
 
     return (
@@ -91,4 +91,4 @@ const mapDispatchToProps = {
   selectFormat
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddDeckForm))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewMiniForm))

@@ -47,6 +47,17 @@ module.exports = class Engine {
     }
   }
 
+  async closeMini(userId, uuid) {
+    if (this.minis[uuid].clientData.state === 'open') {
+      const deleted = await this.minis[uuid].cancel()
+      if (deleted) {
+        const { [uuid]: canceledMini, ...activeMinis} = this.minis
+        this.minis = activeMinis
+        this.sockets.emit('remove-mini', uuid)
+      }
+    }
+  }
+
   nextRound(userId, uuid) {
     // will probably add some userId checks later on
     try {
@@ -67,7 +78,6 @@ module.exports = class Engine {
       const miniId = this.minis[uuid].id
       const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
       const {cockatriceName, ELO, deckhash, decklist} = userMini
-      console.log(this.minis[uuid])
       if (this.minis[uuid]) {
         this.minis[uuid].users[userId] = {
           cockatriceName, ELO, deckhash, decklist,
@@ -79,6 +89,14 @@ module.exports = class Engine {
           participants: this.minis[uuid].clientData.participants
         })
       }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async leaveMini(userId, uuid) {
+    try {
+      this.minis[uuid].leave(userId)
     } catch (e) {
       console.error(e)
     }

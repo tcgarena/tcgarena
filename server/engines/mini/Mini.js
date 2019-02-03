@@ -11,7 +11,6 @@ class MiniInstance {
 
     const serverValues = [
       'id',
-      'createdAt',
       'users',
     ]
 
@@ -32,7 +31,8 @@ class MiniInstance {
       'type',
       'timePerRoundMins',
       'maxPlayers',
-      'round'
+      'round',
+      'createdAt'
     ]
 
     clientValues.forEach(key => this.clientData[key] = dataValues[key] )
@@ -294,7 +294,6 @@ MiniInstance.prototype.pair = async function () {
     const pairs = await Promise.all(
       Object.keys(this.pairings).map( pairing => {
         const {pair} = this.pairings[pairing]
-        console.log(pair)
         Match.create({
           uuid: pairing,
           miniId: this.id,
@@ -328,6 +327,31 @@ MiniInstance.prototype.start = async function () {
     this.pair()
   } catch (e) {
     console.error(e)
+  }
+}
+
+MiniInstance.prototype.cancel = async function () {
+  try {
+    await Mini.destroy({where: {id: this.id}})
+    return true
+  } catch (e) {
+    console.error(e)
+    return false
+  }
+}
+
+MiniInstance.prototype.leave = async function(userId) {
+  const {[userId]: user, ...otherUsers} = this.users
+
+  if (Object.keys(user).length) {
+    const userLeft = await Mini.leave(this.id, userId)
+    if (userLeft) {
+      this.users = otherUsers
+      this.buildClientData()
+      this.sockets.emit('update-mini', this.uuid, {
+        participants: this.clientData.participants  
+      })
+    }
   }
 }
 

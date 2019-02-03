@@ -1,10 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {getMini, startMini, nextRound} from '../../store'
+import {getMini, startMini, nextRound, closeMini} from '../../store'
 import {JudgeResultForm} from '..'
 
-const MiniJudgePanel = ({match, getMini, startMini, nextRound}) => {
+const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
   const mini = getMini(match.params.miniId)
 
   const showButtons = () => {
@@ -50,7 +50,7 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound}) => {
         buttons.addButton('Start', () => startMini(mini.uuid))
       }
 
-      buttons.addButton('Cancel')
+      buttons.addButton('Cancel', () => closeMini(mini.uuid))
     }
 
     return buttons
@@ -88,7 +88,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = {
-  startMini, nextRound
+  startMini, nextRound, closeMini
 }
 
 export default withRouter(

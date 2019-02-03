@@ -9,7 +9,7 @@ import {
   SetCockatriceName,
   DecksMenu,
   LobbyMenu,
-  ReCaptchaComponent
+  HomePage
 } from './components'
 import {me, fetchDecks} from './store'
 
@@ -36,7 +36,7 @@ class Routes extends Component {
               {/* Routes placed here are only available after logging in */}
               <Route path="/cockaName" component={SetCockatriceName} />
               <Route path="/decks" component={DecksMenu} />
-              <Route path="/home" component={UserHome} />
+              <Route exact path="/" component={HomePage} />
               {hasCockaName && (
                 <Switch>
                   {/* Routes placed here are only available after setting username */}

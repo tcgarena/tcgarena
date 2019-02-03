@@ -25,6 +25,18 @@ router.get('/:miniId', requireLogin, async (req, res, next) => {
    }
 })
 
+
+// /api/minis/:miniId DELETE
+router.delete('/:miniId', requireJudge1, async (req, res, next) => {
+  try {
+    const miniEngine = req.app.get('miniEngine')
+    const mini = miniEngine.closeMini(req.user.id, req.params.miniId)
+    res.json(mini)
+  } catch (e) {
+    res.json({ message: `no active mini by id ${req.params.miniId}`})
+   }
+})
+
 // /api/minis POST
 router.post('/', requireJudge1, async (req, res, next) => {
   try {
@@ -40,7 +52,6 @@ router.post('/', requireJudge1, async (req, res, next) => {
   }
 })
 
-
 // /api/minis/:miniId/join PUT
 router.put('/:miniId/join', requireLogin, async (req, res, next) => {
   try {
@@ -49,6 +60,22 @@ router.put('/:miniId/join', requireLogin, async (req, res, next) => {
       req.user.id,
       req.params.miniId,
       req.body.deckId,
+    )
+    res.sendStatus(200)
+  } catch (e) {
+    console.error(e)
+    res.sendStatus(500)
+   }
+})
+
+
+// /api/minis/:miniId/leave PUT
+router.put('/:miniId/leave', requireLogin, async (req, res, next) => {
+  try {
+    const miniEngine = req.app.get('miniEngine')
+    await miniEngine.leaveMini(
+      req.user.id,
+      req.params.miniId
     )
     res.sendStatus(200)
   } catch (e) {

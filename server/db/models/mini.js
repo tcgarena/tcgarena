@@ -13,7 +13,7 @@ const Mini = db.define("mini", {
     },
     type: {
       type: Sequelize.ENUM,
-      values: ['swiss', 'double elimination'],
+      values: ['swiss', 'single elimination', 'double elimination'],
       allowNull: false
     },
     timePerRoundMins: {

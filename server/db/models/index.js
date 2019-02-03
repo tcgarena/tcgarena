@@ -93,6 +93,24 @@ Mini.fetchById = async function(miniId) {
   }
 }
 
+Mini.leave = async function(miniId, userId) {
+  try {
+    const userMini = await UserMini.findAll({where: {miniId}})
+    const userIds = userMini.map(row => row.dataValues.userId)
+    if (userIds.includes(userId)) {
+      UserMini.destroy({where: {
+        miniId, userId
+      }})
+    } else {
+      throw new Error(`user ${userId} not in mini ${miniId}`)
+    }
+    return true
+  } catch (e) {
+    console.error(e)
+  }
+  return false
+}
+
 Mini.join = async function(miniId, userId, deckId) {
   try {
     const {dataValues: deck} = await Deck.findById(deckId)

@@ -7,17 +7,21 @@ import {
   PairingsList,
   MatchResultForm
 } from '../index'
-import {getMini} from '../../store'
+import {getMini, leaveMini} from '../../store'
 
-const SingleMiniView = ({isJudge, getMini, match}) => {
+const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername}) => {
   const mini = getMini(match.params.miniId)
 
   const showMini = () => {
+    let joined = false
     const participantsArr = Object.keys(mini.participants)
-      .map(key => mini.participants[key])
+      .map(key => {
+        if (mini.participants[key].cockatriceName === myUsername)
+          joined = true
+        return mini.participants[key]
+      })
       .sort((prev, curr) => (prev.ELO > curr.ELO ? -1 : 1))
     const currentPlayersAmt = participantsArr.length
-    // console.log('parcipantsArr', participantsArr)
 
     return (
       <div className="single-mini">
@@ -33,6 +37,10 @@ const SingleMiniView = ({isJudge, getMini, match}) => {
         {mini.state === 'mini-over' && <div>
           {mini.participants[mini.winner].cockatriceName} wins!
         </div>}
+
+        {mini.state === 'open' && joined && <button onClick={() => leaveMini(mini.uuid)}>
+          Leave
+        </button>}
 
         <div className='column'>
         { Object.keys(mini.pairings).length ? (
@@ -65,4 +73,8 @@ const mapState = state => ({
   myUsername: state.user.cockatriceName
 })
 
-export default withRouter(connect(mapState)(SingleMiniView))
+const mapDispatch = {
+  leaveMini
+}
+
+export default withRouter(connect(mapState, mapDispatch)(SingleMiniView))

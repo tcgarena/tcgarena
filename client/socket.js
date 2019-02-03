@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import store, { fetchMini, socketUpdate, me } from './store';
+import store, { fetchMini, socketUpdate, me, removeMiniById } from './store';
 
 const socket = io(window.location.origin)
 
@@ -8,6 +8,10 @@ socket.on('connect', () => {
 
   socket.on('fetch-mini', uuid =>{
     store.dispatch(fetchMini(uuid))
+  })
+
+  socket.on('remove-mini', uuid => {
+    store.dispatch(removeMiniById(uuid))
   })
 
   socket.on('update-mini', (uuid, update) => {
