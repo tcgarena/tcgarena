@@ -8,19 +8,20 @@ import mini from './mini'
 import {loadState, saveState} from './localStorage'
 
 const reducer = combineReducers({user, decks, mini})
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
-)
 
-const persistedState = loadState()
-
-let store
+let middleware
 if (process.env.NODE_ENV === 'production') {
-  store = createStore(reducer, persistedState)
+  middleware = composeWithDevTools(
+    applyMiddleware(thunkMiddleware)
+  )
 } else {
-  store = createStore(reducer, persistedState, middleware)
+  middleware = composeWithDevTools(
+    applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
+  )
 }
 
+const persistedState = loadState()
+const store = createStore(reducer, persistedState, middleware)
 store.subscribe( () => {
   saveState({
     user: {
