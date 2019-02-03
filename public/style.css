@@ -20,6 +20,17 @@ form div {
   display: inline-block;
 }
 
+.mini-window-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.mini-window-buttons button {
+  width: 45%;
+}
+
 #profile-anchor {
   position: absolute;
   top: 5px;

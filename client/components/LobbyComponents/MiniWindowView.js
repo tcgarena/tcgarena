@@ -20,7 +20,7 @@ class MiniWindowView extends React.Component {
     history.push(`/lobby/${mini.uuid}/join`)
   }
 
-  chooseAction() {
+  showJoin() {
     const {cockatriceName, mini} = this.props
     const participants = Object.keys(mini.participants).map(
       key => mini.participants[key]
@@ -30,12 +30,14 @@ class MiniWindowView extends React.Component {
     )
 
     if (participants.length === mini.maxPlayers) {
-      return this.viewButton.apply(this)
+      // return this.viewButton.apply(this)
     } else if (usernames.includes(cockatriceName)) {
-      return this.viewButton.apply(this)
+      // return this.viewButton.apply(this)
     } else {
-      return this.joinButton.apply(this)
+      // return this.joinButton.apply(this)
+      return true
     }
+    return false
   }
 
   render() {
@@ -43,21 +45,29 @@ class MiniWindowView extends React.Component {
     const participants = Object.keys(mini.participants).map(
       key => mini.participants[key]
     )
-    const actionButton = this.chooseAction.apply(this)
+    const showJoin = this.showJoin.apply(this)
     const currentPlayersAmt = participants.length
+    const viewButton = this.viewButton.apply(this)
+    const joinButton = this.joinButton.apply(this)
 
     return (
       <div className="column mini-window-container">
         <div className="row">
           <p>
-            {mini.format} {mini.type}
+            {mini.format}
           </p>
           <p>{`${currentPlayersAmt}/${mini.maxPlayers}`} players</p>
+        </div>
+        <div style={{marginLeft: 4}}>
+          {mini.type}
         </div>
         <div className="hosted-by">
           <p>Hosted by: {mini.judge}</p>
         </div>
-        <button onClick={actionButton.action}>{actionButton.text}</button>
+        <div className="mini-window-buttons">
+          <button onClick={viewButton.action}>{viewButton.text}</button>
+          {showJoin && <button onClick={joinButton.action}>{joinButton.text}</button>}
+        </div>
       </div>
     )
   }

@@ -9,7 +9,7 @@ import {
 } from '../index'
 import {getMini, leaveMini} from '../../store'
 
-const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername}) => {
+const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history}) => {
   const mini = getMini(match.params.miniId)
 
   const showMini = () => {
@@ -40,6 +40,12 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername}) => {
 
         {mini.state === 'open' && joined && <button onClick={() => leaveMini(mini.uuid)}>
           Leave
+        </button>}
+
+        {mini.state === 'open' && !joined && <button onClick={
+          () => history.push(`/lobby/${mini.uuid}/join`)
+        }>
+          Join
         </button>}
 
         <div className='column'>
