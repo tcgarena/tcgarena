@@ -200,7 +200,7 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
     if (user1score > user2score) {
       newUser1ELO = elo.newRating(odds_user1_wins, 1.0, user1ELO)
       newUser2ELO = elo.newRating(odds_user2_wins, -1.0, user2ELO)
-    } else if (user1score < user1score) {
+    } else if (user1score < user2score) {
       newUser1ELO = elo.newRating(odds_user1_wins, -1.0, user1ELO)
       newUser2ELO = elo.newRating(odds_user2_wins, 1.0, user2ELO)
     } else {
