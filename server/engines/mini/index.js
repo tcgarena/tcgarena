@@ -1,23 +1,32 @@
 const uuidv4 = require('uuid/v4')
+const prr = require('prr')
 const MiniInstance = require('./Mini')
-const {Mini} = require("../../db/models")
+const {Mini, Deck, User} = require("../../db/models")
 const fs = require('fs')
 
 module.exports = class Engine {
   constructor(sockets) {
     this.sockets = sockets
 
-    const minis = require('./Mini.json')
-    if (Object.keys(minis).length) {
-      this.minis = minis
-    } else {
+    try {
+      const savedMinis = require('./Mini.json')
+      // attach prototype methods + sockets to saved minis
+      this.minis = Object.keys(savedMinis).reduce( (minis, uuid) => {
+        const mini = savedMinis[uuid]
+        const instance = new MiniInstance({}, sockets)
+        minis[uuid] = prr(instance, mini, { enumerable: true, writable: true })
+        return minis
+      }, {})
+    } catch (e) {
+      console.error(e)
       this.minis = {}
     }
   }
 
   saveMinis() {
-    if (Object.keys(this.minis).length) {
-
+    const thereAreMinisToSave = Object.keys(this.minis).length !== 0
+    if (thereAreMinisToSave) {
+      // avoid 'circular structure' JSON.stringify error by removing sockets
       const jsonSafeData = Object.keys(this.minis).reduce( (data, miniUuid) => {
         const jsonSafeMini = Object.keys(this.minis[miniUuid]).reduce( (mini, key) => {
           if (key !== 'sockets') 
@@ -37,22 +46,6 @@ module.exports = class Engine {
     }
   } 
 
-  async createMini(mini, judge) {
-    try {
-      const newMini = await Mini.create(mini)
-      const miniInstance = new MiniInstance(newMini, this.sockets)
-      await miniInstance.getUuid()
-      miniInstance.judge = judge
-      this.minis[miniInstance.uuid] = miniInstance
-      this.sockets.emit('fetch-mini', miniInstance.uuid)
-      this.saveMinis()
-      return miniInstance.clientData
-    } catch(e) {
-      console.error(e)
-      return false
-    }
-  }
-
   getMinis() {
     return Object.keys(this.minis).reduce( (obj, key) => {
       obj[key] = this.minis[key].clientData
@@ -63,6 +56,78 @@ module.exports = class Engine {
   getMini(uuid) {
     return this.minis[uuid].clientData
   }
+
+  createMini(mini) {
+    try {
+      const miniInstance = new MiniInstance(mini, this.sockets)
+      this.minis[miniInstance.uuid] = miniInstance
+      this.sockets.emit('fetch-mini', miniInstance.uuid)
+      this.saveMinis()
+      return miniInstance.clientData
+    } catch(e) {
+      console.error(e)
+      return false
+    }
+  }
+
+  async joinMini(userId, miniUuid, deckId) {
+    try {
+      const format = this.minis[miniUuid].clientData.format
+      const response = await Deck.check({userId, deckId, format})
+      if (response) {
+        const {dataValues: user} = await User.findById(userId)
+        this.minis[miniUuid].users[userId] = {
+          cockatriceName: user.cockatriceName,
+          ELO: user.ELO,
+          deckHash: response.hash,
+          decklist: response.list,
+          id: userId,
+          uuid: uuidv4()
+        }
+      }
+
+      // this will all be one call later on
+      this.minis[miniUuid].buildClientData()
+      this.sockets.emit('update-mini', miniUuid, {
+        participants: this.minis[miniUuid].clientData.participants
+      })
+
+      this.saveMinis()
+
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  // async joinMini(userId, uuid, deckId) {
+  //   try {
+  //     const miniId = this.minis[uuid].id
+  //     const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
+  //     const {cockatriceName, ELO, deckhash, decklist} = userMini
+  //     if (this.minis[uuid]) {
+  //       this.minis[uuid].users[userId] = {
+  //         cockatriceName, ELO, deckhash, decklist,
+  //         id: userId,
+  //         uuid: uuidv4()
+  //       }
+  //       this.minis[uuid].buildClientData()
+  //       this.sockets.emit('update-mini', uuid, {
+  //         participants: this.minis[uuid].clientData.participants
+  //       })
+  //     }
+  //     this.saveMinis()
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+  // }
+
+
+
+
+
+
+
+  // unchanged
 
   startMini(userId, uuid) {
     // will probably add some userId checks later on
@@ -118,28 +183,6 @@ module.exports = class Engine {
     this.saveMinis()
   }
 
-  async joinMini(userId, uuid, deckId) {
-    try {
-      const miniId = this.minis[uuid].id
-      const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
-      const {cockatriceName, ELO, deckhash, decklist} = userMini
-      if (this.minis[uuid]) {
-        this.minis[uuid].users[userId] = {
-          cockatriceName, ELO, deckhash, decklist,
-          id: userId,
-          uuid: uuidv4()
-        }
-        this.minis[uuid].buildClientData()
-        this.sockets.emit('update-mini', uuid, {
-          participants: this.minis[uuid].clientData.participants
-        })
-      }
-      this.saveMinis()
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
   async leaveMini(userId, uuid) {
     try {
       this.minis[uuid].leave(userId)
@@ -162,22 +205,6 @@ module.exports = class Engine {
   judgeResult(miniUuid, matchUuid, uuid1, uuid2, score1, score2) {
     this.minis[miniUuid].judgeResult(matchUuid, uuid1, uuid2, score1, score2)
     this.saveMinis()
-  }
- 
-  async createMini(mini, judge) {
-    try {
-      const newMini = await Mini.create(mini)
-      const miniInstance = new MiniInstance(newMini, this.sockets)
-      await miniInstance.getUuid()
-      miniInstance.judge = judge
-      this.minis[miniInstance.uuid] = miniInstance
-      this.sockets.emit('fetch-mini', miniInstance.uuid)
-      this.saveMinis()
-      return miniInstance.clientData
-    } catch(e) {
-      console.error(e)
-      return false
-    }
   }
 
   async results(userId, miniUuid, matchUuid, result) {

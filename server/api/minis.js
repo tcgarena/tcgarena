@@ -41,9 +41,10 @@ router.delete('/:miniId', requireJudge1, async (req, res, next) => {
 router.post('/', requireJudge1, async (req, res, next) => {
   try {
     const newMini = req.body
-    newMini.userId = req.user.id
+    newMini.judgeId = req.user.id
+    newMini.judgeName = req.user.cockatriceName
     const miniEngine = req.app.get('miniEngine')
-    const mini = await miniEngine.createMini(newMini, req.user.cockatriceName)
+    const mini = await miniEngine.createMini(newMini)
     if (mini) res.status(200).json(mini)
     else res.sendStatus(500)
   } catch (e) {

@@ -3,42 +3,38 @@ const uuidv4 = require('uuid/v4');
 var generate = require("../../../shared/adjective-adjective-cardname/lib");
 
 class MiniInstance {
-  constructor(dataValues, sockets) {
+  constructor(mini, sockets) {
 
     this.sockets = sockets
     this.pairings = {}
     this.results = {}
-
-    const serverValues = [
-      'id',
-      'users',
-    ]
-
-    serverValues.forEach(key => this[key] = dataValues[key])
-
-    if (!this.users) this.users = {}
+    this.users = {}
+    this.createdAt = Date.now()
+    this.uuid = uuidv4()
+    this.maxPlayers = mini.maxPlayers
+    this.judge = mini.judgeId
 
     this.clientData = {
-      participants: {},
-      pairings: {},
-      results: {},
-      judge: ''
+      uuid: this.uuid,
+      format: mini.format,
+      type: mini.type,
+      state: 'open',
+      timePerRoundMins: mini.timePerRoundMins,
+      round: 0,
+      createdAt: this.createdAt,
+      maxPlayers: mini.maxPlayers,
+      judge: mini.judgeName
     }
 
-    const clientValues = [
-      'state',
-      'format',
-      'type',
-      'timePerRoundMins',
-      'maxPlayers',
-      'round',
-      'createdAt'
-    ]
-
-    clientValues.forEach(key => this.clientData[key] = dataValues[key] )
     this.buildClientData()
   }
 }
+
+
+
+
+
+// unchanged
 
 MiniInstance.prototype.start = async function () {
   try {
@@ -233,10 +229,6 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
   }
 }
 
-MiniInstance.prototype.getUuid = async function() {
-  this.uuid = uuidv4()
-  this.clientData.uuid = this.uuid
-}
 
 MiniInstance.prototype.buildClientData = function () {
   if (this.users) {

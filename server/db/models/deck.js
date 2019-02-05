@@ -37,6 +37,19 @@ const checkAndHash = deck => {
 Deck.beforeCreate(checkAndHash)
 Deck.beforeUpdate(checkAndHash)
 
+Deck.check = async function({userId, deckId, format}) {
+  try {
+    const {dataValues: deck} = await Deck.findById(deckId)
+    if (deck.format !== format)
+      return false
+    if (deck.userId !== userId)
+      return false
+    return {hash: deck.hash, list: deck.list}
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 Deck.edit = async function(deckId, userId, newDeck) {
   try {
     const deck = await Deck.findById(deckId)
