@@ -10,7 +10,6 @@ class MiniInstance {
     this.results = {}
     this.users = {}
     this.uuid = uuidv4()
-    this.judge = mini.judgeId
 
     this.clientData = {
       uuid: this.uuid,
@@ -23,6 +22,8 @@ class MiniInstance {
       maxPlayers: mini.maxPlayers,
       judge: mini.judgeName
     }
+
+    Object.keys(mini).forEach(key => this[key] = mini[key])
 
     this.buildClientData()
   }

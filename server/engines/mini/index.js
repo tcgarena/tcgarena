@@ -1,5 +1,4 @@
 const uuidv4 = require('uuid/v4')
-const prr = require('prr')
 const MiniInstance = require('./Mini')
 const {Mini, Deck, User} = require("../../db/models")
 const fs = require('fs')
@@ -13,8 +12,8 @@ module.exports = class Engine {
       // attach prototype methods + sockets to saved minis
       this.minis = Object.keys(savedMinis).reduce( (minis, uuid) => {
         const mini = savedMinis[uuid]
-        const instance = new MiniInstance({}, sockets)
-        minis[uuid] = prr(instance, mini, { enumerable: true, writable: true })
+        const updatedInstance = new MiniInstance(mini, sockets)
+        minis[uuid] = updatedInstance
         return minis
       }, {})
     } catch (e) {
@@ -28,12 +27,10 @@ module.exports = class Engine {
       // avoid 'circular structure' JSON.stringify error by removing sockets
       const jsonSafeData = Object.keys(this.minis).reduce( (data, miniUuid) => {
         const jsonSafeMini = Object.keys(this.minis[miniUuid]).reduce( (mini, key) => {
-          console.log(key)
           if (key !== 'sockets') 
             mini[key] = this.minis[miniUuid][key]
           return mini
         }, {})
-        console.log(jsonSafeMini)
         data[miniUuid] = jsonSafeMini
         return data
       }, {})
