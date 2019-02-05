@@ -28,10 +28,12 @@ module.exports = class Engine {
       // avoid 'circular structure' JSON.stringify error by removing sockets
       const jsonSafeData = Object.keys(this.minis).reduce( (data, miniUuid) => {
         const jsonSafeMini = Object.keys(this.minis[miniUuid]).reduce( (mini, key) => {
+          console.log(key)
           if (key !== 'sockets') 
             mini[key] = this.minis[miniUuid][key]
           return mini
         }, {})
+        console.log(jsonSafeMini)
         data[miniUuid] = jsonSafeMini
         return data
       }, {})
@@ -95,7 +97,6 @@ module.exports = class Engine {
           this.sockets.emit('update-mini', miniUuid, {
             participants: this.minis[miniUuid].clientData.participants
           })
-          
           this.saveMinis()
         }
       } catch (e) {
@@ -106,7 +107,14 @@ module.exports = class Engine {
     }
   }
 
-
+  leaveMini(userId, miniUuid) {
+    const mini = this.minis[miniUuid]
+    if (mini) {
+      const user = mini.users[userId]
+      if (user) 
+        this.minis[miniUuid].removeUser(user.id, ()=>this.saveMinis())
+    }
+  }
 
   // unchanged
 
@@ -164,14 +172,7 @@ module.exports = class Engine {
     this.saveMinis()
   }
 
-  async leaveMini(userId, uuid) {
-    try {
-      this.minis[uuid].leave(userId)
-      this.saveMinis()
-    } catch (e) {
-      console.error(e)
-    }
-  }
+  
 
   removeResult(userId, miniUuid, matchUuid) {
     this.minis[miniUuid].removeResult(userId, matchUuid)

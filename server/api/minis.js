@@ -73,10 +73,7 @@ router.put('/:miniId/join', requireLogin, async (req, res, next) => {
 router.put('/:miniId/leave', requireLogin, async (req, res, next) => {
   try {
     const miniEngine = req.app.get('miniEngine')
-    await miniEngine.leaveMini(
-      req.user.id,
-      req.params.miniId
-    )
+    miniEngine.leaveMini(req.user.id, req.params.miniId)
     res.sendStatus(200)
   } catch (e) {
     console.error(e)

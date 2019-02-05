@@ -28,9 +28,16 @@ class MiniInstance {
   }
 }
 
-
-
-
+MiniInstance.prototype.removeUser = function(userId, saveMinis) {
+  const {[userId]: user, ...otherUsers} = this.users
+  if (user) {
+    this.users = otherUsers
+    this.buildClientData(() => saveMinis())
+    this.sockets.emit('update-mini', this.uuid, {
+      participants: this.clientData.participants
+    })
+  }
+}
 
 // unchanged
 
@@ -228,7 +235,7 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
 }
 
 
-MiniInstance.prototype.buildClientData = function () {
+MiniInstance.prototype.buildClientData = function (saveMinis=false) {
   if (this.users) {
     this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
       const {cockatriceName, deckhash, ELO, uuid, inactive} = this.users[user]
@@ -256,6 +263,8 @@ MiniInstance.prototype.buildClientData = function () {
       return obj
     }, {})
   }
+
+  if (saveMinis) saveMinis()
 }
 
 MiniInstance.prototype.pair = async function () {
@@ -347,20 +356,7 @@ MiniInstance.prototype.cancel = async function () {
   }
 }
 
-MiniInstance.prototype.leave = async function(userId) {
-  const {[userId]: user, ...otherUsers} = this.users
 
-  if (Object.keys(user).length) {
-    const userLeft = await Mini.leave(this.id, userId)
-    if (userLeft) {
-      this.users = otherUsers
-      this.buildClientData()
-      this.sockets.emit('update-mini', this.uuid, {
-        participants: this.clientData.participants  
-      })
-    }
-  }
-}
 
 MiniInstance.prototype.nextRound = async function () {
   try {
