@@ -71,10 +71,10 @@ module.exports = class Engine {
 
   async joinMini(userId, miniUuid, deckId) {
     const mini = this.minis[miniUuid]
-    const usersInMini = Object.keys(mini.users)
-    let canJoinMini = !usersInMini.includes(`${userId}`)
-    if (usersInMini.length >= mini.clientData.maxPlayers)
-      canJoinMini = false
+    const participants = Object.keys(mini.users)
+    const alreadyInMini = participants.includes(`${userId}`)
+    const miniFull = participants.length >= mini.clientData.maxPlayers
+    const canJoinMini = !alreadyInMini && !miniFull
 
     if (canJoinMini) {
       try {
@@ -90,14 +90,14 @@ module.exports = class Engine {
             id: userId,
             uuid: uuidv4()
           }
+          // this will all be one call later on
+          this.minis[miniUuid].buildClientData()
+          this.sockets.emit('update-mini', miniUuid, {
+            participants: this.minis[miniUuid].clientData.participants
+          })
+          
+          this.saveMinis()
         }
-        // this will all be one call later on
-        this.minis[miniUuid].buildClientData()
-        this.sockets.emit('update-mini', miniUuid, {
-          participants: this.minis[miniUuid].clientData.participants
-        })
-  
-        this.saveMinis()
       } catch (e) {
         console.error(e)
       }
