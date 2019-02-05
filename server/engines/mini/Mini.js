@@ -10,6 +10,9 @@ class MiniInstance {
     this.results = {}
     this.users = {}
     this.uuid = uuidv4()
+    this.participantsHash = 0
+    this.pairingsHash = 0
+    this.resultsHash = 0
 
     this.clientData = {
       uuid: this.uuid,
@@ -25,18 +28,62 @@ class MiniInstance {
 
     Object.keys(mini).forEach(key => this[key] = mini[key])
 
-    this.buildClientData()
+    this.buildClientData(false)
+    this.sockets.emit('fetch-mini', this.uuid)
   }
 }
 
-MiniInstance.prototype.removeUser = function(userId, saveMinis) {
-  const {[userId]: user, ...otherUsers} = this.users
-  if (user) {
-    this.users = otherUsers
-    this.buildClientData(() => saveMinis())
-    this.sockets.emit('update-mini', this.uuid, {
-      participants: this.clientData.participants
-    })
+MiniInstance.prototype.buildClientData = function (emit=true) {
+  const update = {}
+  
+  let participantsHash = 0
+  if (this.users) {
+    this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
+      const {cockatriceName, deckhash, ELO, uuid, inactive} = this.users[user]
+      obj[uuid] = {cockatriceName, deckhash, ELO, uuid, inactive}
+      participantsHash += cockatriceName.charCodeAt(0) + deckhash.charCodeAt(0) + deckhash.charCodeAt(1) + ELO + (inactive?101:41)
+      return obj
+    }, {})
+  }
+  
+  if (participantsHash !== this.participantsHash) {
+    this.participantsHash = participantsHash
+    update.participants = this.clientData.participants
+  }
+
+  let pairingsHash = 0
+  if (this.pairings) {
+    this.clientData.pairings = Object.keys(this.pairings).reduce( (obj, pairing) => {
+      const clientPair = this.pairings[pairing].pair.map( ({
+        cockatriceName, ELO, deckhash, uuid
+      }) => {
+        pairingsHash += cockatriceName.charCodeAt(0) + deckhash.charCodeAt(0) + ELO + uuid.charCodeAt(0)
+        return {
+          cockatriceName, ELO, deckhash, uuid
+        }
+      })
+      obj[pairing] = {...clientPair, uuid: pairing}
+      pairingsHash += pairing.charCodeAt(0)
+      return obj
+    }, {})
+  }
+  if (pairingsHash !== this.pairingsHash) {
+    this.pairingsHash = pairingsHash
+    update.pairings = this.clientData.pairings
+  }
+
+  let resultsHash = 0
+  if (this.results) {
+    this.clientData.results = Object.keys(this.results).reduce( (obj, matchUuid) => {
+      const {reportedBy: userId, ...data} = this.results[matchUuid]
+      obj[matchUuid] = {...data, reportedBy: this.users[userId].cockatriceName}
+      return obj
+    }, {})
+    update.results = this.clientData.results
+  }
+
+  if (emit) {
+    this.sockets.emit('update-mini', this.uuid, update)
   }
 }
 
@@ -233,39 +280,6 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
       return {message: 'score reported'}
     }
   }
-}
-
-
-MiniInstance.prototype.buildClientData = function (saveMinis=false) {
-  if (this.users) {
-    this.clientData.participants = Object.keys(this.users).reduce( (obj, user) => {
-      const {cockatriceName, deckhash, ELO, uuid, inactive} = this.users[user]
-      obj[uuid] = {cockatriceName, deckhash, ELO, uuid, inactive}
-      return obj
-    }, {})
-  }
-
-  if (this.pairings) {
-    this.clientData.pairings = Object.keys(this.pairings).reduce( (obj, pairing) => {
-      const clientPair = this.pairings[pairing].pair.map( ({
-        cockatriceName, ELO, deckhash, uuid
-      }) => ({
-        cockatriceName, ELO, deckhash, uuid
-      }))
-      obj[pairing] = {...clientPair, uuid: pairing}
-      return obj
-    }, {})
-  }
-
-  if (this.results) {
-    this.clientData.results = Object.keys(this.results).reduce( (obj, matchUuid) => {
-      const {reportedBy: userId, ...data} = this.results[matchUuid]
-      obj[matchUuid] = {...data, reportedBy: this.users[userId].cockatriceName}
-      return obj
-    }, {})
-  }
-
-  if (saveMinis) saveMinis()
 }
 
 MiniInstance.prototype.pair = async function () {

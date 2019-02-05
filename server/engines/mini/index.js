@@ -59,7 +59,6 @@ module.exports = class Engine {
     try {
       const miniInstance = new MiniInstance(mini, this.sockets)
       this.minis[miniInstance.uuid] = miniInstance
-      this.sockets.emit('fetch-mini', miniInstance.uuid)
       this.saveMinis()
       return miniInstance.clientData
     } catch(e) {
@@ -84,16 +83,12 @@ module.exports = class Engine {
           this.minis[miniUuid].users[userId] = {
             cockatriceName: user.cockatriceName,
             ELO: user.ELO,
-            deckHash: response.hash,
+            deckhash: response.hash,
             decklist: response.list,
             id: userId,
             uuid: uuidv4()
           }
-          // this will all be one call later on
           this.minis[miniUuid].buildClientData()
-          this.sockets.emit('update-mini', miniUuid, {
-            participants: this.minis[miniUuid].clientData.participants
-          })
           this.saveMinis()
         }
       } catch (e) {
@@ -107,9 +102,11 @@ module.exports = class Engine {
   leaveMini(userId, miniUuid) {
     const mini = this.minis[miniUuid]
     if (mini) {
-      const user = mini.users[userId]
+      const {[userId]: user, ...otherUsers} = mini.users
       if (user) 
-        this.minis[miniUuid].removeUser(user.id, ()=>this.saveMinis())
+        this.minis[miniUuid].users = otherUsers
+        this.minis[miniUuid].buildClientData()
+        this.saveMinis()
     }
   }
 
