@@ -119,7 +119,7 @@ const startListening = () => {
   // set up our socket control center
   const io = socketio(server)
   const miniEngine = new MiniEngine(io.sockets)
-  miniEngine.loadMinis()
+  // miniEngine.loadMinis() hopefully won't need anything like this
   require('./socket')(io, miniEngine)
 
   app.set('miniEngine', miniEngine)

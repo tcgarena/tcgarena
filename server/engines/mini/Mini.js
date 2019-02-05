@@ -40,6 +40,23 @@ class MiniInstance {
   }
 }
 
+MiniInstance.prototype.start = async function () {
+  try {
+    await Mini.update(
+      {
+        state: 'active',
+        round: 1
+      },
+      {where: {id: this.id}}
+    )
+    this.clientData.state = 'active'
+    this.clientData.round = 1
+    this.pair()
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 MiniInstance.prototype.checkRoundOver = function () {
   const isRoundOver = Object.keys(this.results).length === Object.keys(this.pairings).length
     && Object.keys(this.results).reduce( (bool, key) => {

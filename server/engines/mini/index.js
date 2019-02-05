@@ -1,11 +1,56 @@
+const uuidv4 = require('uuid/v4')
 const MiniInstance = require('./Mini')
 const {Mini} = require("../../db/models")
-const uuidv4 = require('uuid/v4');
+const fs = require('fs')
 
 module.exports = class Engine {
   constructor(sockets) {
     this.sockets = sockets
-    this.minis = {}
+
+    const minis = require('./Mini.json')
+    if (Object.keys(minis).length) {
+      this.minis = minis
+    } else {
+      this.minis = {}
+    }
+  }
+
+  saveMinis() {
+    if (Object.keys(this.minis).length) {
+
+      const jsonSafeData = Object.keys(this.minis).reduce( (data, miniUuid) => {
+        const jsonSafeMini = Object.keys(this.minis[miniUuid]).reduce( (mini, key) => {
+          if (key !== 'sockets') 
+            mini[key] = this.minis[miniUuid][key]
+          return mini
+        }, {})
+        data[miniUuid] = jsonSafeMini
+        return data
+      }, {})
+
+      fs.writeFile("./server/engines/mini/Mini.json", JSON.stringify(jsonSafeData, undefined, 2), (err) => {
+        if (err) {
+            console.error(err);
+            return;
+        };
+      });
+    }
+  } 
+
+  async createMini(mini, judge) {
+    try {
+      const newMini = await Mini.create(mini)
+      const miniInstance = new MiniInstance(newMini, this.sockets)
+      await miniInstance.getUuid()
+      miniInstance.judge = judge
+      this.minis[miniInstance.uuid] = miniInstance
+      this.sockets.emit('fetch-mini', miniInstance.uuid)
+      this.saveMinis()
+      return miniInstance.clientData
+    } catch(e) {
+      console.error(e)
+      return false
+    }
   }
 
   getMinis() {
@@ -19,21 +64,6 @@ module.exports = class Engine {
     return this.minis[uuid].clientData
   }
 
-  async loadMinis() {
-    // reload minis just in case the server restarts/crashes while there are active minis
-    try {
-      const minis = await Mini.fetchActive()
-      Object.keys(minis).forEach(async key => {
-        const mini = minis[key]
-        const miniInstance = new MiniInstance(mini, this.sockets)
-        await miniInstance.getUuid()
-        this.minis[miniInstance.uuid] = miniInstance
-      })
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
   startMini(userId, uuid) {
     // will probably add some userId checks later on
     try {
@@ -45,6 +75,7 @@ module.exports = class Engine {
     } catch (e) {
       console.error(e)
     }
+    this.saveMinis()
   }
 
   async closeMini(userId, uuid) {
@@ -84,6 +115,7 @@ module.exports = class Engine {
     } catch (e) {
       console.error(e)
     }
+    this.saveMinis()
   }
 
   async joinMini(userId, uuid, deckId) {
@@ -102,6 +134,7 @@ module.exports = class Engine {
           participants: this.minis[uuid].clientData.participants
         })
       }
+      this.saveMinis()
     } catch (e) {
       console.error(e)
     }
@@ -110,6 +143,7 @@ module.exports = class Engine {
   async leaveMini(userId, uuid) {
     try {
       this.minis[uuid].leave(userId)
+      this.saveMinis()
     } catch (e) {
       console.error(e)
     }
@@ -117,23 +151,28 @@ module.exports = class Engine {
 
   removeResult(userId, miniUuid, matchUuid) {
     this.minis[miniUuid].removeResult(userId, matchUuid)
+    this.saveMinis()
   }
 
   denyResult(userId, miniUuid, matchUuid) {
     this.minis[miniUuid].denyResult(userId, matchUuid)
+    this.saveMinis()
   } 
 
   judgeResult(miniUuid, matchUuid, uuid1, uuid2, score1, score2) {
     this.minis[miniUuid].judgeResult(matchUuid, uuid1, uuid2, score1, score2)
+    this.saveMinis()
   }
  
-  async createMini(mini) {
+  async createMini(mini, judge) {
     try {
       const newMini = await Mini.create(mini)
       const miniInstance = new MiniInstance(newMini, this.sockets)
       await miniInstance.getUuid()
+      miniInstance.judge = judge
       this.minis[miniInstance.uuid] = miniInstance
       this.sockets.emit('fetch-mini', miniInstance.uuid)
+      this.saveMinis()
       return miniInstance.clientData
     } catch(e) {
       console.error(e)
@@ -161,6 +200,7 @@ module.exports = class Engine {
           if (myMatch) {
 
             const response = await mini.reportResult(userId, matchUuid, result.myScore, result.opponentScore)
+            this.saveMinis()
             return response
 
           } else {
