@@ -9,9 +9,7 @@ class MiniInstance {
     this.pairings = {}
     this.results = {}
     this.users = {}
-    this.createdAt = Date.now()
     this.uuid = uuidv4()
-    this.maxPlayers = mini.maxPlayers
     this.judge = mini.judgeId
 
     this.clientData = {
@@ -21,7 +19,7 @@ class MiniInstance {
       state: 'open',
       timePerRoundMins: mini.timePerRoundMins,
       round: 0,
-      createdAt: this.createdAt,
+      createdAt: Date.now(),
       maxPlayers: mini.maxPlayers,
       judge: mini.judgeName
     }

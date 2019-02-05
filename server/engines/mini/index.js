@@ -18,7 +18,6 @@ module.exports = class Engine {
         return minis
       }, {})
     } catch (e) {
-      console.error(e)
       this.minis = {}
     }
   }
@@ -71,59 +70,41 @@ module.exports = class Engine {
   }
 
   async joinMini(userId, miniUuid, deckId) {
-    try {
-      const format = this.minis[miniUuid].clientData.format
-      const response = await Deck.check({userId, deckId, format})
-      if (response) {
-        const {dataValues: user} = await User.findById(userId)
-        this.minis[miniUuid].users[userId] = {
-          cockatriceName: user.cockatriceName,
-          ELO: user.ELO,
-          deckHash: response.hash,
-          decklist: response.list,
-          id: userId,
-          uuid: uuidv4()
+    const mini = this.minis[miniUuid]
+    const usersInMini = Object.keys(mini.users)
+    let canJoinMini = !usersInMini.includes(`${userId}`)
+    if (usersInMini.length >= mini.clientData.maxPlayers)
+      canJoinMini = false
+
+    if (canJoinMini) {
+      try {
+        const format = mini.clientData.format
+        const response = await Deck.check({userId, deckId, format})
+        if (response) {
+          const {dataValues: user} = await User.findById(userId)
+          this.minis[miniUuid].users[userId] = {
+            cockatriceName: user.cockatriceName,
+            ELO: user.ELO,
+            deckHash: response.hash,
+            decklist: response.list,
+            id: userId,
+            uuid: uuidv4()
+          }
         }
+        // this will all be one call later on
+        this.minis[miniUuid].buildClientData()
+        this.sockets.emit('update-mini', miniUuid, {
+          participants: this.minis[miniUuid].clientData.participants
+        })
+  
+        this.saveMinis()
+      } catch (e) {
+        console.error(e)
       }
-
-      // this will all be one call later on
-      this.minis[miniUuid].buildClientData()
-      this.sockets.emit('update-mini', miniUuid, {
-        participants: this.minis[miniUuid].clientData.participants
-      })
-
-      this.saveMinis()
-
-    } catch (e) {
-      console.error(e)
+    } else {
+      console.error(`user ${userId} already in mini ${miniUuid}`)
     }
   }
-
-  // async joinMini(userId, uuid, deckId) {
-  //   try {
-  //     const miniId = this.minis[uuid].id
-  //     const {dataValues: userMini} = await Mini.join(miniId, userId, deckId)
-  //     const {cockatriceName, ELO, deckhash, decklist} = userMini
-  //     if (this.minis[uuid]) {
-  //       this.minis[uuid].users[userId] = {
-  //         cockatriceName, ELO, deckhash, decklist,
-  //         id: userId,
-  //         uuid: uuidv4()
-  //       }
-  //       this.minis[uuid].buildClientData()
-  //       this.sockets.emit('update-mini', uuid, {
-  //         participants: this.minis[uuid].clientData.participants
-  //       })
-  //     }
-  //     this.saveMinis()
-  //   } catch (e) {
-  //     console.error(e)
-  //   }
-  // }
-
-
-
-
 
 
 
