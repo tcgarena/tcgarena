@@ -45,7 +45,7 @@ MiniInstance.prototype.buildClientData = function (emit=true) {
       return obj
     }, {})
   }
-  
+
   if (participantsHash !== this.participantsHash) {
     this.participantsHash = participantsHash
     update.participants = this.clientData.participants
@@ -344,22 +344,7 @@ MiniInstance.prototype.pair = async function () {
   }
 }
 
-MiniInstance.prototype.start = async function () {
-  try {
-    await Mini.update(
-      {
-        state: 'active',
-        round: 1
-      },
-      {where: {id: this.id}}
-    )
-    this.clientData.state = 'active'
-    this.clientData.round = 1
-    this.pair()
-  } catch (e) {
-    console.error(e)
-  }
-}
+
 
 MiniInstance.prototype.cancel = async function () {
   try {

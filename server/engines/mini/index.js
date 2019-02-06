@@ -1,6 +1,6 @@
 const uuidv4 = require('uuid/v4')
 const MiniInstance = require('./Mini')
-const {Mini, Deck, User} = require("../../db/models")
+const {Mini, Deck, User, UserMini} = require("../../db/models")
 const fs = require('fs')
 
 module.exports = class Engine {
@@ -85,6 +85,7 @@ module.exports = class Engine {
             ELO: user.ELO,
             deckhash: response.hash,
             decklist: response.list,
+            deckId: deckId,
             id: userId,
             uuid: uuidv4()
           }
@@ -110,29 +111,54 @@ module.exports = class Engine {
     }
   }
 
-  // unchanged
-
-  startMini(userId, uuid) {
+  async startMini(userId, uuid) {
     // will probably add some userId checks later on
     try {
       if (this.minis[uuid].clientData.state === 'open') {
-        this.minis[uuid].start()
+        this.minis[uuid].clientData.state = 'active'
+        this.minis[uuid].clientData.round = 1
+        const mini = this.minis[uuid].clientData
+        const options = {
+          state: mini.state,
+          format: mini.format,
+          type: mini.type,
+          timePerRoundMins: mini.timePerRoundMins,
+          maxPlayers: mini.maxPlayers,
+          round: mini.round,
+          userId: this.minis[uuid].judgeId
+        }
+        const dbMini = await Mini.create(options)
+        const miniId = dbMini.dataValues.id
+        const userMinis = Object.keys(this.minis[uuid].users).map(userId => {
+          const user = this.minis[uuid].users[userId]
+          return UserMini.create({
+            decklist: user.decklist,
+            deckhash: user.deckhash,
+            ELO: user.ELO,
+            cockatriceName: user.cockatriceName,
+            userId, miniId
+          })
+        })
+        Promise.all(userMinis)
+        this.minis[uuid].pair()
+        this.saveMinis()
       } else if (this.minis[uuid].clientData.state === 'active') {
         throw new Error(`mini ${uuid} already active`)
       }
     } catch (e) {
       console.error(e)
     }
-    this.saveMinis()
   }
+  
+  // unchanged
 
   async closeMini(userId, uuid) {
     switch (this.minis[uuid].clientData.state) {
       case 'open':
-        const deleted = await this.minis[uuid].cancel()
-        if (deleted) {
-          const { [uuid]: canceledMini, ...activeMinis} = this.minis
-          this.minis = activeMinis
+      const deleted = await this.minis[uuid].cancel()
+      if (deleted) {
+        const { [uuid]: canceledMini, ...activeMinis} = this.minis
+        this.minis = activeMinis
           this.sockets.emit('remove-mini', uuid)
         }
         break;

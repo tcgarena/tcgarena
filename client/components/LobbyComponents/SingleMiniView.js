@@ -7,9 +7,9 @@ import {
   PairingsList,
   MatchResultForm
 } from '../index'
-import {getMini, leaveMini} from '../../store'
+import {getMini, leaveMini, selectFormat} from '../../store'
 
-const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history}) => {
+const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history, selectFormat}) => {
   const mini = getMini(match.params.miniId)
 
   const showMini = () => {
@@ -43,7 +43,10 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
         </button>}
 
         {mini.state === 'open' && !joined && <button onClick={
-          () => history.push(`/lobby/${mini.uuid}/join`)
+          () => {
+            selectFormat(mini.format)
+            history.push(`/lobby/${mini.uuid}/join`)
+          }
         }>
           Join
         </button>}
@@ -80,7 +83,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = {
-  leaveMini
+  leaveMini, selectFormat
 }
 
 export default withRouter(connect(mapState, mapDispatch)(SingleMiniView))

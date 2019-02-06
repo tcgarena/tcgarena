@@ -111,56 +111,6 @@ Mini.leave = async function(miniId, userId) {
   return false
 }
 
-Mini.join = async function(miniId, userId, deckId) {
-  try {
-    const {dataValues: deck} = await Deck.findById(deckId)
-    const {dataValues: user} = await User.findById(userId)
-    // deck not found
-    if (!deck) {
-      throw new Error(`no deck by id ${deckId}`)
-    }
-    
-    // deck owned by different user
-    if (deck.userId !== userId) {
-      // log malicious attempt
-      throw new Error(`deck ${deckId} does not belong to user ${userId}`)
-    }
-    
-    const mini = await Mini.findById(miniId)
-    
-    // deck is wrong format 
-    if (deck.format !== mini.dataValues.format) {
-      // log malicious attempt
-      throw new Error(`cannot use a ${deck.format} deck in a ${mini.dataValues.format} tournament`)
-    }
-    
-    const userMini = await UserMini.findAll({where: {miniId}})
-    const userIds = userMini.map(row => row.dataValues.userId)
-
-    // mini is full
-    if (userMini.length >= mini.dataValues.maxPlayers) {
-      throw new Error(`mini ${miniId} is full`)
-    
-    // user is already in mini
-    } else if (userIds.includes(userId)) {
-      throw new Error(`user ${userId} in already in mini ${miniId}`)
-    
-    // user can join mini
-    } else {
-      const {ELO, cockatriceName} = user
-      const decklist = deck.list
-      const deckhash = deck.hash || 'placeholder'
-      const userMini = await UserMini.create({
-        userId, miniId, decklist, deckhash, ELO, cockatriceName
-      })
-      return userMini
-    }
-  } catch(e) {
-    console.error(e)
-    return false
-  }
-}
-
 Match.result = async function(uuid, player1Id, player1score, player2score) {
   try {
     const match = await this.findByUuid(uuid)
