@@ -46,7 +46,7 @@ class NewMiniForm extends React.Component {
   render() {
     const maxPlayersOptions = [4, 8, 16]
     const typeOptions = ['single elimination']
-    const formats = ['standard','modern','legacy','vintage','pauper','frontier']
+    const formats = ['standard','modern','legacy','vintage','pauper','frontier','historic']
 
     return (
       <div className='new-tournament-form'>
