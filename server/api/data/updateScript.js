@@ -22,7 +22,10 @@ request('https://mtgjson.com/json/AllCards.json', async (err, response, body) =>
           data[card] = {
             legalities: {
               ...mtgjson[card].legalities,
-              standard: 'Legal'
+              standard: 'Legal',
+              modern: 'Legal',
+              vintage: 'Legal',
+              legacy: 'Legal'
             },
             standards
           }
