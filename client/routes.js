@@ -36,12 +36,12 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route exact path="/" component={HomePage} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route path="/cockaName" component={SetCockatriceName} />
               <Route path="/decks" component={DecksMenu} />
-              <Route exact path="/" component={HomePage} />
               {hasCockaName && (
                 <Switch>
                   {/* Routes placed here are only available after setting username */}

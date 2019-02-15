@@ -51,7 +51,7 @@ export const auth = (email, password, method, betaKey) => async dispatch => {
   }
 
   try {
-    history.push('/lobby')
+    history.push('/')
     // dispatch(getUser(res.data))
     dispatch(me())
     dispatch(fetchDecks())
