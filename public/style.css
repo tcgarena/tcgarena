@@ -20,6 +20,11 @@ form div {
   display: inline-block;
 }
 
+#home-page {
+  display: flex;
+  
+}
+
 .mini-window-buttons {
   display: flex;
   flex-direction: row;
