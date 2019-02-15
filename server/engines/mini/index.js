@@ -147,7 +147,7 @@ module.exports = class Engine {
     }
   }
   
-  closeMini(userId, uuid) {
+  async closeMini(userId, uuid) {
     const removeMini = () => {
       const { [uuid]: closed, ...activeMinis} = this.minis
       this.minis = activeMinis
@@ -163,16 +163,22 @@ module.exports = class Engine {
         
       case 'mini-over':
         removeMini()
-        Mini.update(
-          {state: 'closed'},
-          {where: {id: this.minis[uuid].id}}
-        )
+        try {
+          await Mini.update(
+            {state: 'closed'},
+            {where: {id: this.minis[uuid].id}}
+          )
+        } catch (e) {
+          console.error(e)
+        }
         break;
       
       default:
         console.error(`mini ${uuid} was not found or has no state`)
+        return false
         break;
     }
+    return true
   }
   
   async nextRound(userId, uuid) {
@@ -191,9 +197,6 @@ module.exports = class Engine {
     }
     this.saveMinis()
   }
-  
-  
-  // unchanged
 
   removeResult(userId, miniUuid, matchUuid) {
     this.minis[miniUuid].removeResult(userId, matchUuid)

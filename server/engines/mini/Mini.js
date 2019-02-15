@@ -331,12 +331,17 @@ MiniInstance.prototype.nextRound = async function () {
   try {
     this.clientData.state = 'active'
     this.clientData.round++
-    Mini.update(
-      {round: this.clientData.round + 1},
-      {where: {id: this.id}}
+    try {
+      await Mini.update(
+        {round: this.clientData.round},
+        {where: {id: this.id}}
       )
-    await this.pair()
-    return
+    } catch(e) {
+      console.error(e)
+      return false
+    }
+    this.pair()
+    return true
   } catch (e) {
     console.error(e)
   }
