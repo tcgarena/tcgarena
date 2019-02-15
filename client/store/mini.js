@@ -118,7 +118,7 @@ export const getMyMatch = (state, miniUuid) => {
   const pairings = state.mini[miniUuid].pairings
   const pair = Object.keys(pairings).reduce( (pairing, key) => {
     let myPair
-    for (let i=0; i<2; i++) 
+    for (let i=0; i<2; i++)
       if (pairings[key][i].cockatriceName === myUsername) {
         // store.dispatch(setUuid(pairings[key][i]))
         myPair = true
@@ -127,7 +127,7 @@ export const getMyMatch = (state, miniUuid) => {
   }, {})
 
   if (Object.keys(pair).length) {
-    for (let i=0; i<2; i++) 
+    for (let i=0; i<2; i++)
       pair[i].cockatriceName === myUsername
         ? me = pair[i]
         : opponent = pair[i]
