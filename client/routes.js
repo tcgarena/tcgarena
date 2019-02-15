@@ -10,24 +10,28 @@ import {
   DecksMenu,
   LobbyMenu,
   HomePage,
-  EditUserRoles
+  EditUserRoles,
+  AdminTools
 } from './components'
 import {me, fetchDecks} from './store'
-
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData();
+    this.props.loadInitialData()
   }
 
   render() {
-    const {isLoggedIn, hasCockaName} = this.props
+    const {isLoggedIn, hasCockaName, isAdmin} = this.props
     return (
       <div>
-        {hasCockaName && <div id='profile-anchor'>{this.props.username} ({this.props.ELO})</div>}
+        {hasCockaName && (
+          <div id="profile-anchor">
+            {this.props.username} ({this.props.ELO})
+          </div>
+        )}
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
@@ -35,7 +39,6 @@ class Routes extends Component {
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
-              <Route path="/admin/user-roles" component={EditUserRoles} />
               <Route path="/cockaName" component={SetCockatriceName} />
               <Route path="/decks" component={DecksMenu} />
               <Route exact path="/" component={HomePage} />
@@ -43,6 +46,14 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after setting username */}
                   <Route path="/lobby" component={LobbyMenu} />
+                  {isAdmin && (
+                    <Switch>
+                      {/* Routes placed here are only available to admins */}
+                      {/* <Route path="/admin/minis" component={EditActiveMinis} /> */}
+                      <Route path="/admin/user-roles" component={EditUserRoles} />
+                      <Route exact path="/admin" component={AdminTools} />
+                    </Switch>
+                  )}
                 </Switch>
               )}
               {/* Displays set username component as a fallback */}
@@ -65,6 +76,7 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
+    isAdmin: state.user.accessLevel >= 5,
     hasCockaName: !!state.user.cockatriceName,
     username: state.user.cockatriceName,
     ELO: state.user.ELO

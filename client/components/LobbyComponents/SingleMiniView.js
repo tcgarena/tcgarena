@@ -42,7 +42,7 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
           Leave
         </button>}
 
-        {mini.state === 'open' && !joined && <button onClick={
+        {mini.state === 'open' && !joined && currentPlayersAmt !== mini.maxPlayers && <button onClick={
           () => history.push(`/lobby/${mini.uuid}/join`)
         }>
           Join

@@ -16,7 +16,7 @@ class EditUserRoles extends React.Component {
   async componentDidMount() {
     try {
       const {data: usersArr} = await axios.get('/api/users/all')
-      const users = usersArr.reduce( (obj, _, i) => {
+      const users = usersArr.reduce((obj, _, i) => {
         const user = usersArr[i]
         user.targetRole = user.role
         obj[user.id] = user
@@ -44,33 +44,49 @@ class EditUserRoles extends React.Component {
           ...this.state.users[name],
           targetRole: value
         }
-      } 
+      }
     })
   }
 
   userForms() {
     const userRoleOptions = [
-      'user', 'judge1', 'judge2', 'judge3',
-      'moderator', 'tc', 'admin'
+      'user',
+      'judge1',
+      'judge2',
+      'judge3',
+      'moderator',
+      'tc',
+      'admin'
     ]
-    const users = Object.keys(this.state.users).reduce( (arr, key) => {
+    const users = Object.keys(this.state.users).reduce((arr, key) => {
       arr.push(this.state.users[key])
       return arr
     }, [])
 
-    return users.map( (user, i) => {
+    return users.map((user, i) => {
       return (
         <div key={user.id}>
-          <form className='edit-user-role-form' onSubmit={() => this.updateRole(user.id, user.targetRole)}>
-            <p>{user.cockatriceName}</p>
-            <p>{user.role}</p>
-            <select name={user.id} value={this.state.users[user.id].targetRole} onChange={this.handleChange}>
-              {userRoleOptions.map(option => (
-                  <option name='option' key={option} value={option} >{option}</option>
-                )
-              )}
-            </select>
-            <input type="submit" value="Submit" />
+          <form
+            className="edit-user-role-form"
+            onSubmit={() => this.updateRole(user.id, user.targetRole)}
+          >
+            <table>
+              <p>{user.cockatriceName || 'N/A'}</p>
+              <p>{user.email || 'N/A'}</p>
+              <p>{user.role}</p>
+              <select
+                name={user.id}
+                value={this.state.users[user.id].targetRole}
+                onChange={this.handleChange}
+              >
+                {userRoleOptions.map(option => (
+                  <option name="option" key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <input type="submit" value="Submit" />
+            </table>
           </form>
         </div>
       )
@@ -79,13 +95,25 @@ class EditUserRoles extends React.Component {
 
   render() {
     const showUsers = Object.keys(this.state.users).length > 0
-    return showUsers && (
-      <div>
-        {this.userForms()}
-      </div>
+    return (
+      showUsers && (
+        <div>
+          <table>
+            <thead>
+              <tr className="edit-user-role-form">
+                <th>Cockatrice Name</th>
+                <th>Email</th>
+                <th>User Role</th>
+                <th>New Role</th>
+                <th />
+              </tr>
+            </thead>
+          </table>
+          {this.userForms()}
+        </div>
+      )
     )
   }
 }
-
 
 export default EditUserRoles
