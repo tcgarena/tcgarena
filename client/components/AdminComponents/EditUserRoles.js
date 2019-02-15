@@ -31,6 +31,18 @@ class EditUserRoles extends React.Component {
   async updateRole(userId, role) {
     const {data: response} = await axios.put('/api/users/role', {userId, role})
     this.setState({response: response.message})
+    try {
+      const {data: usersArr} = await axios.get('/api/users/all')
+      const users = usersArr.reduce((obj, _, i) => {
+        const user = usersArr[i]
+        user.targetRole = user.role
+        obj[user.id] = user
+        return obj
+      }, {})
+      this.setState({users})
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   handleChange(e) {
@@ -51,6 +63,7 @@ class EditUserRoles extends React.Component {
     })
   }
 
+  handleSubmit = user => this.updateRole(user.id, user.targetRole)
 
   userForms() {
     const userRoleOptions = [
@@ -69,11 +82,7 @@ class EditUserRoles extends React.Component {
 
     return users.map((user, i) => {
       return (
-        <form
-          className="tr"
-          key={user.id}
-          onSubmit={() => this.updateRole(user.id, user.targetRole)}
-        >
+        <form className="tr" key={user.id}>
           <div className="td">{user.cockatriceName || 'N/A'}</div>
           <div className="td">{user.email || 'N/A'}</div>
           <div className="td">{user.role}</div>
@@ -91,7 +100,9 @@ class EditUserRoles extends React.Component {
             </select>
           </div>
           <div className="td">
-            <input type="submit" value="Submit" />
+            <button type="button" onClick={() => this.handleSubmit(user)}>
+              Submit
+            </button>
           </div>
         </form>
       )
