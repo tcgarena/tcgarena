@@ -22,26 +22,23 @@ module.exports = class Engine {
   }
 
   saveMinis() {
-    const thereAreMinisToSave = Object.keys(this.minis).length !== 0
-    if (thereAreMinisToSave) {
-      // avoid 'circular structure' JSON.stringify error by removing sockets
-      const jsonSafeData = Object.keys(this.minis).reduce( (data, miniUuid) => {
-        const jsonSafeMini = Object.keys(this.minis[miniUuid]).reduce( (mini, key) => {
-          if (key !== 'sockets') 
-            mini[key] = this.minis[miniUuid][key]
-          return mini
-        }, {})
-        data[miniUuid] = jsonSafeMini
-        return data
+    // avoid 'circular structure' JSON.stringify error by removing sockets
+    const jsonSafeData = Object.keys(this.minis).reduce( (data, miniUuid) => {
+      const jsonSafeMini = Object.keys(this.minis[miniUuid]).reduce( (mini, key) => {
+        if (key !== 'sockets') 
+          mini[key] = this.minis[miniUuid][key]
+        return mini
       }, {})
+      data[miniUuid] = jsonSafeMini
+      return data
+    }, {})
 
-      fs.writeFile("./server/engines/mini/Mini.json", JSON.stringify(jsonSafeData, undefined, 2), (err) => {
-        if (err) {
-            console.error(err);
-            return;
-        };
-      });
-    }
+    fs.writeFile("./server/engines/mini/Mini.json", JSON.stringify(jsonSafeData, undefined, 2), (err) => {
+      if (err) {
+          console.error(err);
+          return;
+      };
+    });
   } 
 
   getMinis() {
@@ -150,37 +147,40 @@ module.exports = class Engine {
     }
   }
   
-  // unchanged
+  closeMini(userId, uuid) {
+    const removeMini = () => {
+      const { [uuid]: closed, ...activeMinis} = this.minis
+      this.minis = activeMinis
+      this.sockets.emit('remove-mini', uuid)
+      this.saveMinis()
+    }
 
-  async closeMini(userId, uuid) {
     switch (this.minis[uuid].clientData.state) {
+      
       case 'open':
-      const deleted = await this.minis[uuid].cancel()
-      if (deleted) {
-        const { [uuid]: canceledMini, ...activeMinis} = this.minis
-        this.minis = activeMinis
-          this.sockets.emit('remove-mini', uuid)
-        }
+        removeMini()
         break;
+        
       case 'mini-over':
+        removeMini()
         Mini.update(
           {state: 'closed'},
           {where: {id: this.minis[uuid].id}}
         )
-        const { [uuid]: closed, ...activeMinis} = this.minis
-        this.minis = activeMinis
-        this.sockets.emit('remove-mini', uuid)
         break;
+      
       default:
+        console.error(`mini ${uuid} was not found or has no state`)
         break;
     }
   }
-
-  nextRound(userId, uuid) {
+  
+  async nextRound(userId, uuid) {
     // will probably add some userId checks later on
     try {
       if (this.minis[uuid].clientData.state === 'round-over') {
-        this.minis[uuid].nextRound()
+        await this.minis[uuid].nextRound()
+        this.saveMinis()
       } else if (this.minis[uuid].clientData.state === 'active') {
         throw new Error(`not all matches reported for mini ${uuid}`)
       } else if (this.minis[uuid].clientData.state === 'open') {
@@ -191,8 +191,9 @@ module.exports = class Engine {
     }
     this.saveMinis()
   }
-
   
+  
+  // unchanged
 
   removeResult(userId, miniUuid, matchUuid) {
     this.minis[miniUuid].removeResult(userId, matchUuid)

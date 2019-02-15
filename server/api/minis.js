@@ -30,9 +30,10 @@ router.get('/:miniId', requireLogin, async (req, res, next) => {
 router.delete('/:miniId', requireJudge1, async (req, res, next) => {
   try {
     const miniEngine = req.app.get('miniEngine')
-    const mini = miniEngine.closeMini(req.user.id, req.params.miniId)
-    res.json(mini)
+    miniEngine.closeMini(req.user.id, req.params.miniId)
+    res.sendStatus(200)
   } catch (e) {
+    console.error(e)
     res.json({ message: `no active mini by id ${req.params.miniId}`})
    }
 })

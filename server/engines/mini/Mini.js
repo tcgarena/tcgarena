@@ -327,29 +327,16 @@ MiniInstance.prototype.pair = async function () {
   }
 }
 
-
-
-MiniInstance.prototype.cancel = async function () {
-  try {
-    await Mini.destroy({where: {id: this.id}})
-    return true
-  } catch (e) {
-    console.error(e)
-    return false
-  }
-}
-
-
-
 MiniInstance.prototype.nextRound = async function () {
   try {
-    await Mini.update(
-      {round: this.clientData.round + 1},
-      {where: {id: this.id}}
-    )
     this.clientData.state = 'active'
     this.clientData.round++
-    this.pair()
+    Mini.update(
+      {round: this.clientData.round + 1},
+      {where: {id: this.id}}
+      )
+    await this.pair()
+    return
   } catch (e) {
     console.error(e)
   }
