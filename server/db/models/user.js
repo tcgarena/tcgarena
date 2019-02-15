@@ -94,6 +94,29 @@ User.encryptPassword = function(plainText, salt) {
     .digest('hex')
 }
 
+User.setUserRole = async function(userId, targetUserId, role) {
+  try {
+    const {
+      [0]: requestingUser,
+      [1]: targetUser
+    } = await Promise.all([
+      User.findById(userId), User.findById(targetUserId)
+    ])
+  
+    if (targetUser.dataValues.role === 'admin')
+      return 'cannot change an admins role'
+    else {
+      await targetUser.update({role})
+      return 'success'
+    }
+    
+  } catch (e) {
+    console.error(e)
+    return 'internal server error'
+  }
+
+}
+
 /**
  * hooks
  */

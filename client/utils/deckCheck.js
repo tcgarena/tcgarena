@@ -71,8 +71,69 @@ const deckCheck = async (format, decklist, deckName) => {
       }
     })
 
-  if (format === 'historic' || format === 'pauper') {
-    window.alert(`${format} not yet supported`)
+  if (format === 'historic') {
+    let standardsInDeck = [];
+    let standard, currStandard, errMsg;
+
+    for (let card in cards) {
+      if (cards.hasOwnProperty(card)) {
+
+        if (cardsToIgnore.indexOf(card) === - 1) {
+          
+          // see what standards our cards are allowed in
+          for (let i=0; i<cardData[card].standards.length; i++) {
+
+            standard = cardData[card].standards[i];
+
+            currStandard = standardsInDeck
+              .filter( stdObj => stdObj.standard === standard )[0];
+
+            if (currStandard !== undefined) {
+              currStandard.amount += 1;
+            } else {
+
+              standardsInDeck.push({
+                standard,
+                amount: 1
+              });
+
+            }
+          }
+        }
+      }
+      size += cards[card].amount
+    }
+
+    // grab relevant standards
+    standardsInDeck = standardsInDeck
+      .sort( (a,b) => b.amount - a.amount )
+      .filter( stdObj => stdObj.amount > 4);
+
+    // see which standards are in all cardData[card].standards
+    const legalStandards = [];
+    let currStdIsLegal = true;
+
+    for (let i=0; i<standardsInDeck.length; i++) {
+      currStandard = standardsInDeck[i];
+
+      for (let card in cards) {
+        if (cards.hasOwnProperty(card) && cardsToIgnore.indexOf(card) === - 1) {
+
+          if (cardData[card].standards.indexOf(currStandard.standard) === -1) {
+            currStdIsLegal = false;
+          }
+
+          // check for banned cards
+          if (historic.banlist.indexOf(card) !== -1) {
+            currStdIsLegal = false;
+            errMsg = `${card} is banned in historic standard.`
+            if (errors.indexOf(errMsg) === -1) errors.push(errMsg)
+          }
+        } 
+      }
+      if (currStdIsLegal) legalStandards.push(currStandard.standard);
+    }
+    if (legalStandards.length === 0) errors.push("Deck not legal in any historic standards.")
   }
 
   // do checks for all other formats

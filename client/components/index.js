@@ -14,6 +14,8 @@ export {default as FormatSelect} from './FormatSelect'
 export {default as ConfirmAction} from './ConfirmAction'
 export {default as HomePage} from './HomePage'
 
+export {default as EditUserRoles} from './AdminComponents/EditUserRoles'
+
 export {default as DecksMenu} from './DeckComponents/DecksMenu'
 export {default as SingleDeckView} from './DeckComponents/SingleDeckView'
 export {AddDeckForm, EditDeckForm} from './DeckComponents/DeckForms'
