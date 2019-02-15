@@ -16,7 +16,7 @@ class EditUserRoles extends React.Component {
   async componentDidMount() {
     try {
       const {data: usersArr} = await axios.get('/api/users/all')
-      const users = usersArr.reduce( (obj, _, i) => {
+      const users = usersArr.reduce((obj, _, i) => {
         const user = usersArr[i]
         user.targetRole = user.role
         obj[user.id] = user
@@ -31,10 +31,25 @@ class EditUserRoles extends React.Component {
   async updateRole(userId, role) {
     const {data: response} = await axios.put('/api/users/role', {userId, role})
     this.setState({response: response.message})
+    try {
+      const {data: usersArr} = await axios.get('/api/users/all')
+      const users = usersArr.reduce((obj, _, i) => {
+        const user = usersArr[i]
+        user.targetRole = user.role
+        obj[user.id] = user
+        return obj
+      }, {})
+      this.setState({users})
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   handleChange(e) {
     e.preventDefault()
+    console.log('name', e.target.name)
+    console.log('value', e.target.value)
+
     const {name, value} = e.target
 
     this.setState({
@@ -44,48 +59,76 @@ class EditUserRoles extends React.Component {
           ...this.state.users[name],
           targetRole: value
         }
-      } 
+      }
     })
   }
 
+  handleSubmit = user => this.updateRole(user.id, user.targetRole)
+
   userForms() {
     const userRoleOptions = [
-      'user', 'judge1', 'judge2', 'judge3',
-      'moderator', 'tc', 'admin'
+      'user',
+      'judge1',
+      'judge2',
+      'judge3',
+      'moderator',
+      'tc',
+      'admin'
     ]
-    const users = Object.keys(this.state.users).reduce( (arr, key) => {
+    const users = Object.keys(this.state.users).reduce((arr, key) => {
       arr.push(this.state.users[key])
       return arr
     }, [])
 
-    return users.map( (user, i) => {
+    return users.map((user, i) => {
       return (
-        <div key={user.id}>
-          <form className='edit-user-role-form' onSubmit={() => this.updateRole(user.id, user.targetRole)}>
-            <p>{user.cockatriceName}</p>
-            <p>{user.role}</p>
-            <select name={user.id} value={this.state.users[user.id].targetRole} onChange={this.handleChange}>
+        <form className="tr" key={user.id}>
+          <div className="td">{user.cockatriceName || 'N/A'}</div>
+          <div className="td">{user.email || 'N/A'}</div>
+          <div className="td">{user.role}</div>
+          <div className="td">
+            <select
+              name={user.id}
+              value={this.state.users[user.id].targetRole}
+              onChange={this.handleChange}
+            >
               {userRoleOptions.map(option => (
-                  <option name='option' key={option} value={option} >{option}</option>
-                )
-              )}
+                <option name="option" key={option} value={option}>
+                  {option}
+                </option>
+              ))}
             </select>
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
+          </div>
+          <div className="td">
+            <button type="button" onClick={() => this.handleSubmit(user)}>
+              Submit
+            </button>
+          </div>
+        </form>
       )
     })
   }
 
   render() {
+    console.log('state', this.state)
     const showUsers = Object.keys(this.state.users).length > 0
-    return showUsers && (
-      <div>
-        {this.userForms()}
-      </div>
+    return (
+      showUsers && (
+        <div className="table">
+          <div className="thead">
+            <div className="tr">
+              <div className="td">Cockatrice Name</div>
+              <div className="td">Email</div>
+              <div className="td">User Role</div>
+              <div className="td">New Role</div>
+              <div className="td" />
+            </div>
+          </div>
+          <div className="tbody">{this.userForms()}</div>
+        </div>
+      )
     )
   }
 }
-
 
 export default EditUserRoles

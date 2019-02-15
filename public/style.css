@@ -20,6 +20,11 @@ form div {
   display: inline-block;
 }
 
+#home-page {
+  display: flex;
+  
+}
+
 .mini-window-buttons {
   display: flex;
   flex-direction: row;
@@ -218,4 +223,30 @@ a {
 
 .hosted-by {
   font-size: 12px;
+}
+
+.table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+}
+.thead {
+  display: table-header-group;
+  color: white;
+  font-weight: bold;
+  background-color: grey;
+}
+.tbody {
+  display: table-row-group;
+}
+.tr {
+  display: table-row;
+}
+.td {
+  display: table-cell;
+  border: 1px solid black;
+  padding: 1px;
+}
+.tr.editing .td input {
+  width: 100px;
 }
