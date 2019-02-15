@@ -94,6 +94,10 @@ User.encryptPassword = function(plainText, salt) {
     .digest('hex')
 }
 
+User.setUserRole = function(id, role) {
+  User.update({role}, {where: {id}})
+}
+
 /**
  * hooks
  */
