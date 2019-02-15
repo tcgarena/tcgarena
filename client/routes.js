@@ -9,7 +9,8 @@ import {
   SetCockatriceName,
   DecksMenu,
   LobbyMenu,
-  HomePage
+  HomePage,
+  EditUserRoles
 } from './components'
 import {me, fetchDecks} from './store'
 
@@ -34,6 +35,7 @@ class Routes extends Component {
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
+              <Route path="/admin/user-roles" component={EditUserRoles} />
               <Route path="/cockaName" component={SetCockatriceName} />
               <Route path="/decks" component={DecksMenu} />
               <Route exact path="/" component={HomePage} />

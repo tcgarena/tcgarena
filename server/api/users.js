@@ -15,10 +15,20 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/all', requireModerator, async (req, res, next) => {
+  try {
+    const users = await User.findAll()
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.put('/role', requireModerator, async (req, res, next) => {
   try {
-    User.setUserRole(req.user.id, req.body.role)
-    res.send(200)
+    const {userId, role} = req.body
+    const message = await User.setUserRole(req.user.id, userId, role)
+    res.send({message})
   } catch (e) {
     next(e)
   }

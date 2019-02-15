@@ -71,6 +71,13 @@ form div {
   resize: none;
 }
 
+.edit-user-role-form {
+  display: flex;
+  flex-direction: row;
+  width: 600px;
+  justify-content: space-between;
+}
+
 .cockatrice-name-form {
   display: flex;
   justify-content: center;
