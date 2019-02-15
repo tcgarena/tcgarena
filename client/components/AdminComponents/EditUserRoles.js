@@ -35,6 +35,9 @@ class EditUserRoles extends React.Component {
 
   handleChange(e) {
     e.preventDefault()
+    console.log('name', e.target.name)
+    console.log('value', e.target.value)
+
     const {name, value} = e.target
 
     this.setState({
@@ -47,6 +50,7 @@ class EditUserRoles extends React.Component {
       }
     })
   }
+
 
   userForms() {
     const userRoleOptions = [
@@ -65,51 +69,51 @@ class EditUserRoles extends React.Component {
 
     return users.map((user, i) => {
       return (
-        <div key={user.id}>
-          <form
-            className="edit-user-role-form"
-            onSubmit={() => this.updateRole(user.id, user.targetRole)}
-          >
-            <table>
-              <p>{user.cockatriceName || 'N/A'}</p>
-              <p>{user.email || 'N/A'}</p>
-              <p>{user.role}</p>
-              <select
-                name={user.id}
-                value={this.state.users[user.id].targetRole}
-                onChange={this.handleChange}
-              >
-                {userRoleOptions.map(option => (
-                  <option name="option" key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-              <input type="submit" value="Submit" />
-            </table>
-          </form>
-        </div>
+        <form
+          className="tr"
+          key={user.id}
+          onSubmit={() => this.updateRole(user.id, user.targetRole)}
+        >
+          <div className="td">{user.cockatriceName || 'N/A'}</div>
+          <div className="td">{user.email || 'N/A'}</div>
+          <div className="td">{user.role}</div>
+          <div className="td">
+            <select
+              name={user.id}
+              value={this.state.users[user.id].targetRole}
+              onChange={this.handleChange}
+            >
+              {userRoleOptions.map(option => (
+                <option name="option" key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="td">
+            <input type="submit" value="Submit" />
+          </div>
+        </form>
       )
     })
   }
 
   render() {
+    console.log('state', this.state)
     const showUsers = Object.keys(this.state.users).length > 0
     return (
       showUsers && (
-        <div>
-          <table>
-            <thead>
-              <tr className="edit-user-role-form">
-                <th>Cockatrice Name</th>
-                <th>Email</th>
-                <th>User Role</th>
-                <th>New Role</th>
-                <th />
-              </tr>
-            </thead>
-          </table>
-          {this.userForms()}
+        <div className="table">
+          <div className="thead">
+            <div className="tr">
+              <div className="td">Cockatrice Name</div>
+              <div className="td">Email</div>
+              <div className="td">User Role</div>
+              <div className="td">New Role</div>
+              <div className="td" />
+            </div>
+          </div>
+          <div className="tbody">{this.userForms()}</div>
         </div>
       )
     )
