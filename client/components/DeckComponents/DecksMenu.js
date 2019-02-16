@@ -29,13 +29,13 @@ class DecksMenu extends React.Component {
     return (
       <div className='decks-menu-main'>
         <Route exact path='/decks' render={() =>
+          <NavFormats formats={formats} />
+        }/>
+        <Route exact path='/decks' render={() =>
           <button onClick={() => {
             this.props.history.push('/decks/add')
           }}>Add New Deck</button>
         } />
-        <Route exact path='/decks' render={() =>
-          <NavFormats formats={formats} />
-        }/>
         <Route exact path='/decks' component={() =>
           <DecksList actionButton={this.actionButton} />
         }/>

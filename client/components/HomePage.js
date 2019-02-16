@@ -16,12 +16,13 @@ export default () => <div id='home-page'>
 
     <p>- Round-the-clock mini tournaments</p>
     <p>- Rank/elo system</p>
-    <p>- Leaderboards</p>
     <p>- Save/Edit/Share decklists</p>
     <p>- Decklist validator (for all sanctioned formats plus historic standard)</p>
   
     <h2>Future updates</h2>
 
+    <p>- Leaderboards</p>
+    <p>- User pages (match history, elo changes etc)</p>
     <p>- Weekly trial tournaments (can earn byes for masters)</p>
     <p>- Monthly master tournaments (can win cash prizes)</p>
     <p>- Judge system (where players can take judge tests to become tcgarena judges)</p>

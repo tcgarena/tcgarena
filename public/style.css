@@ -1,3 +1,7 @@
+#main-tcgarena:hover {
+  cursor: pointer;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -132,6 +136,7 @@ form div {
   justify-content: center;
   align-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .decks-menu-main button {
@@ -155,11 +160,20 @@ form div {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  width: 100%
+}
+.new-deck-form select {
+  font-size: 16px;
 }
 
 .deck-field {
   height: 300px;
   resize: none;
+  font-size: 14px;
+}
+
+.deck-name-field {
+  font-size: 18px;
 }
 
 .edit-user-role-form {

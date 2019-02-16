@@ -6,7 +6,7 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn, isAdmin, history}) => (
   <div className="center column">
-    <h1 onClick={() => history.push('/')}>tcgarena</h1>
+    <h1 id='main-tcgarena' onClick={() => history.push('/')}>tcgarena</h1>
     <nav>
       {isLoggedIn ? (
         <div>

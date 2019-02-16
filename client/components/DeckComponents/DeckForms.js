@@ -75,7 +75,7 @@ class DeckForm extends React.Component {
             onChange={this.handleChange}
             value={this.state.deckName}
           />
-          { (!this.state.isEdit && showFormat) && <FormatSelect /> }
+          { (!this.state.isEdit && showFormat) && <FormatSelect className='deck-format-field'/> }
           <textarea
             className="deck-field"
             name="decklist"
