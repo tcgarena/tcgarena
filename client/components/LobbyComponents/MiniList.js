@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {MiniWindowView} from '../index'
 
 const MiniList = ({minis}) => (
-  <div>
+  <div id='mini-list-container'>
     {!minis.length
-      ? <div className='container center'>No active minis</div>
+      ? <p>No active minis</p>
       : minis.map(mini => <MiniWindowView mini={mini} key={mini.uuid} />)}
   </div>
 )

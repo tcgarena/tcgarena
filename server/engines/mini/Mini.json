@@ -1,1 +1,60 @@
-{}
+{
+  "b34eb9bf-ee56-4834-aaf4-e97a83623cd5": {
+    "pairings": {},
+    "results": {},
+    "users": {},
+    "uuid": "b34eb9bf-ee56-4834-aaf4-e97a83623cd5",
+    "participantsHash": 0,
+    "pairingsHash": 0,
+    "resultsHash": 0,
+    "clientData": {
+      "uuid": "b34eb9bf-ee56-4834-aaf4-e97a83623cd5",
+      "format": "standard",
+      "type": "single elimination",
+      "state": "open",
+      "timePerRoundMins": 45,
+      "round": 0,
+      "createdAt": 1550289144863,
+      "maxPlayers": 4,
+      "judge": "ben",
+      "participants": {},
+      "pairings": {},
+      "results": {}
+    },
+    "format": "standard",
+    "type": "single elimination",
+    "timePerRoundMins": 45,
+    "maxPlayers": 4,
+    "judgeId": 4,
+    "judgeName": "ben"
+  },
+  "02c07c6f-a7ce-4baa-9eec-7341098e3e25": {
+    "pairings": {},
+    "results": {},
+    "users": {},
+    "uuid": "02c07c6f-a7ce-4baa-9eec-7341098e3e25",
+    "participantsHash": 0,
+    "pairingsHash": 0,
+    "resultsHash": 0,
+    "clientData": {
+      "uuid": "02c07c6f-a7ce-4baa-9eec-7341098e3e25",
+      "format": "standard",
+      "type": "single elimination",
+      "state": "open",
+      "timePerRoundMins": 45,
+      "round": 0,
+      "createdAt": 1550289150785,
+      "maxPlayers": 4,
+      "judge": "ben",
+      "participants": {},
+      "pairings": {},
+      "results": {}
+    },
+    "format": "standard",
+    "type": "single elimination",
+    "timePerRoundMins": 45,
+    "maxPlayers": 4,
+    "judgeId": 4,
+    "judgeName": "ben"
+  }
+}

@@ -65,7 +65,46 @@ form div {
 }
 
 .mini-window-buttons button {
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+  outline: none;
   width: 45%;
+  border-radius: 4px;
+}
+.mini-window-buttons button:active {
+  background-color: rgb(172, 165, 165);
+  cursor: pointer;
+  outline: none;
+}
+.mini-window-buttons button:hover {
+  cursor: pointer;
+}
+
+#lobby-judge-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border-top: solid 2px rgb(194, 188, 188);
+  border-left: solid 2px rgb(194, 188, 188);
+  border-right: solid 2px rgb(194, 188, 188);
+  background-color: rgb(197, 197, 197); */
+}
+
+#lobby-judge-panel button {
+  background-color: rgb(255, 255, 255);
+  font-size: 20px;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  border-radius: 4px;
+}
+#lobby-judge-panel button:active {
+  background-color: rgb(172, 165, 165);
+  cursor: pointer;
+  outline: none;
+}
+#lobby-judge-panel button:hover {
+  cursor: pointer;
 }
 
 #profile-anchor {
@@ -127,7 +166,7 @@ form div {
 }
 
 .lobby-navbar-selected {
-  background-color: grey;
+  background-color: rgb(206, 195, 195);
 }
 
 #lobby-navbar-options,
@@ -140,8 +179,15 @@ form div {
 
 .lobby-navbar-item {
   border: 1px solid black;
+  color: rgb(114, 111, 111);
+
   margin: 1px;
-  font-size: 14px;
+  font-size: 16px;
+  border-radius: 4px;
+  padding: 6px;
+}
+.lobby-navbar-item:hover {
+  cursor: pointer;
 }
 
 #navbar-main {
@@ -225,11 +271,28 @@ form div {
   background-color: lightblue;
 }
 
+#mini-list-container {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px black;
+  background-color: rgb(211, 206, 206);
+  border-radius: 4px;
+}
+
+#mini-list-container p {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-content: center;
+}
+
 .mini-window-container {
   display: flex;
-  border: solid 1px black;
+  border: solid 2px rgb(194, 188, 188);
+  background-color: rgb(240, 234, 234);
   padding: 5px;
   margin: 8px;
+  border-radius: 4px;
 }
 
 .mini-window-container div {

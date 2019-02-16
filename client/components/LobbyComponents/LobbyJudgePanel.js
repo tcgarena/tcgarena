@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom'
 
 const LobbyJudgePanel = ({history}) => {
   return (
-    <div>
+    <div id='lobby-judge-panel'>
       <button onClick={()=>
         history.push('/lobby/new')
       }>New Mini</button>
