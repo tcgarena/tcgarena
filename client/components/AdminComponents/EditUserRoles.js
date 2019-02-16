@@ -47,8 +47,6 @@ class EditUserRoles extends React.Component {
 
   handleChange(e) {
     e.preventDefault()
-    console.log('name', e.target.name)
-    console.log('value', e.target.value)
 
     const {name, value} = e.target
 
@@ -110,7 +108,6 @@ class EditUserRoles extends React.Component {
   }
 
   render() {
-    console.log('state', this.state)
     const showUsers = Object.keys(this.state.users).length > 0
     return (
       showUsers && (

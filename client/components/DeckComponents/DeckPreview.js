@@ -8,7 +8,6 @@ const DeckPreview = ({decks, deckId}) => {
 
   if (deckId) {
     decks[deckId].list.split('\n').forEach( (line, idx) => {
-      console.log(line.slice(0,2) === '//')
       if (line.slice(0,2) !== '//') {
         if (line.slice(0,3) === 'SB:') {
           sideboard.push(<p key={idx}>{line.slice(4)}</p>)
