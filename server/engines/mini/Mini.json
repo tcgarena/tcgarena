@@ -1,1 +1,31 @@
-{}
+{
+  "b22bbb31-e067-47ec-abdd-8e76ee2b132f": {
+    "pairings": {},
+    "results": {},
+    "users": {},
+    "uuid": "b22bbb31-e067-47ec-abdd-8e76ee2b132f",
+    "participantsHash": 0,
+    "pairingsHash": 0,
+    "resultsHash": 0,
+    "clientData": {
+      "uuid": "b22bbb31-e067-47ec-abdd-8e76ee2b132f",
+      "format": "standard",
+      "type": "single elimination",
+      "state": "open",
+      "timePerRoundMins": 45,
+      "round": 0,
+      "createdAt": 1550360667320,
+      "maxPlayers": 4,
+      "judge": "cody",
+      "participants": {},
+      "pairings": {},
+      "results": {}
+    },
+    "format": "standard",
+    "type": "single elimination",
+    "timePerRoundMins": 45,
+    "maxPlayers": 4,
+    "judgeId": 2,
+    "judgeName": "cody"
+  }
+}
