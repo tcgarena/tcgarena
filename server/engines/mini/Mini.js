@@ -113,9 +113,7 @@ MiniInstance.prototype.checkRoundOver = function () {
       this.buildClientData()
       this.sockets.emit('update-mini', this.uuid, {
         state: this.clientData.state,
-        winner: this.clientData.winner,
-        pairings: this.clientData.pairings,
-        results: this.clientData.results
+        winner: this.clientData.winner
       })
     } else {
       this.clientData.state = 'round-over'
@@ -162,9 +160,6 @@ MiniInstance.prototype.judgeResult = async function(matchUuid, uuid1, uuid2, sco
     // players tied
   }
   this.buildClientData()
-  this.sockets.emit('update-mini', this.uuid, {
-    results: this.clientData.results
-  })
   this.sockets.emit('update-users', [user1Id, user2Id])
   this.checkRoundOver()
 }
@@ -177,9 +172,6 @@ MiniInstance.prototype.denyResult = function(userId, matchUuid) {
   if (myMatch) {
     this.results[matchUuid].locked = true
     this.buildClientData()
-    this.sockets.emit('update-mini', this.uuid, {
-      results: this.clientData.results
-    })
   } else {
     // log malicious attempt
   }
@@ -197,9 +189,6 @@ MiniInstance.prototype.removeResult = function(userId, matchUuid) {
       return results
     }, {})
     this.buildClientData()
-    this.sockets.emit('update-mini', this.uuid, {
-      results: this.clientData.results
-    })
   } else {
     // log malicious attempt
   }
@@ -235,10 +224,6 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
             // players tied
           }
           this.buildClientData()
-          this.sockets.emit('update-mini', this.uuid, {
-            results: this.clientData.results,
-            participants: this.clientData.participants
-          })
           this.checkRoundOver()
           this.sockets.emit('update-users', [result.confirmedBy, result.reportedBy])
           return response
@@ -257,9 +242,6 @@ MiniInstance.prototype.reportResult = async function (userId, matchUuid, score1,
         finalized: false
       }
       this.buildClientData()
-      this.sockets.emit('update-mini', this.uuid, {
-        results: this.clientData.results
-      })
       return {message: 'score reported'}
     }
   }
@@ -297,10 +279,8 @@ MiniInstance.prototype.pair = async function () {
   this.buildClientData()
 
   this.sockets.emit('update-mini', this.uuid, {
-    pairings: this.clientData.pairings,
     state: 'active',
-    round: this.clientData.round,
-    results: this.clientData.results
+    round: this.clientData.round
   })
 
 
