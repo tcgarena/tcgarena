@@ -22,15 +22,7 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
-    const {betaKey} = req.body
-    let role
-    if (betaKey === process.env.BETA_KEY_JUDGE) {
-      role = 'judge1'
-    } else if (betaKey === process.env.BETA_KEY) {
-      role = 'user'
-    } else {
-      throw new Error('Invalid beta key. See https://discord.gg/DwNr2DD')
-    }
+    let role = 'user'
     
     const {email} = req.body
     if (email ==='benjaminpwagner@gmail.com')

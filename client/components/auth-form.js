@@ -39,16 +39,6 @@ class AuthForm extends Component {
             </label>
             <input name="password" type="password" />
           </div>
-          <div>
-            {name === 'signup' && (
-              <div>
-                <label htmlFor="betaKey">
-                  <small>Beta key</small>
-                </label>
-                <input name="betaKey" type="text" />
-              </div>
-            )}
-          </div>
           {name === 'signup' ? (
               <ReCaptchaComponent handleVerify={this.handleVerify} />
           ) : (
@@ -103,8 +93,7 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      const betaKey = formName === 'signup' ? evt.target.betaKey.value : ''
-      dispatch(auth(email, password, formName, betaKey))
+      dispatch(auth(email, password, formName))
     }
   }
 }

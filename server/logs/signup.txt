@@ -1,2 +1,3 @@
 
 Fri Feb 15 2019: test34@email.com joined the arena as role user
+Sat Feb 16 2019: test4@gmail.com joined the arena as role user
