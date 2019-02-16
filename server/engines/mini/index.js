@@ -162,12 +162,12 @@ module.exports = class Engine {
         break;
         
       case 'mini-over':
+      try {
+        await Mini.update(
+          {state: 'closed'},
+          {where: {id: this.minis[uuid].id}}
+        )
         removeMini()
-        try {
-          await Mini.update(
-            {state: 'closed'},
-            {where: {id: this.minis[uuid].id}}
-          )
         } catch (e) {
           console.error(e)
         }
