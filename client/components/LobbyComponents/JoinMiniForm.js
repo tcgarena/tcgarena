@@ -33,7 +33,7 @@ class JoinMiniForm extends React.Component {
   toggleAdd = () => this.setState({isAdding: !this.state.isAdding})
 
   joinButton = () => ({
-    text: 'Choose deck',
+    text: 'Join',
     action: this.join.bind(this)
   })
 

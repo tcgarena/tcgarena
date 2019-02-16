@@ -82,6 +82,10 @@ class DeckItem extends React.Component {
         className="deck-item-container"
         onMouseEnter={() => this.handleMouseHover(deck.id)}
         onMouseLeave={() => this.handleMouseHover(null)}
+        onMouseOver={() => {
+          if (!this.state.isHovering)
+            this.handleMouseHover(deck.id)
+        }}
         onClick={this.handleClick}
       >
         <p>{deck.name}</p>
