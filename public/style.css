@@ -331,7 +331,7 @@ form div {
   display: flex;
   flex-direction: column;
   border: solid 1px black;
-  background-color: rgb(211, 206, 206);
+  background-color: rgb(240, 234, 234);
   border-radius: 4px;
 }
 
@@ -345,7 +345,7 @@ form div {
 .mini-window-container {
   display: flex;
   border: solid 2px rgb(194, 188, 188);
-  background-color: rgb(240, 234, 234);
+  background-color: rgb(211, 206, 206);
   padding: 5px;
   margin: 8px;
   border-radius: 4px;
