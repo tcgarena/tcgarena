@@ -58,7 +58,7 @@ class JoinMiniForm extends React.Component {
         </div>
       ) : (
         <div className='decks-menu-main'>
-          <button onClick={this.toggleAdd}>
+          <button onClick={this.toggleAdd} style={{margin:5}}>
             Add New Deck
           </button>
           <DecksList actionButton={this.joinButton} />
