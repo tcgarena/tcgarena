@@ -145,6 +145,7 @@ form div {
   font-size: 16px;
   width: 50%;
   outline: none;
+  border: solid black 1px;
 } 
 
 .decks-menu-main button:active {
@@ -167,7 +168,7 @@ form div {
 }
 
 .deck-field {
-  height: 300px;
+  height: 500px;
   resize: none;
   font-size: 14px;
 }
@@ -195,7 +196,9 @@ form div {
 }
 
 .lobby-navbar-selected {
-  background-color: rgb(206, 195, 195);
+  background-color: rgb(221, 221, 221);
+  color: black;
+  margin: 1px;
 }
 
 #lobby-navbar-options,
@@ -259,25 +262,30 @@ form div {
 
 .decklist-preview-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-left: 167px;
   width: 300px;
-  left: -200px;
+  /* left: -200px; */
+  min-height: 56px;
   border: solid black 1px;
   border-radius: 4px;
   background-color: rgb(236, 230, 230);
   padding: 4px;
-}
-
-.decklist-preview {
-  height: 600px;
-  /* border: 1px solid black; */
+  font-size: 18px;
 }
 
 .decklist-preview p {
   margin-top: 0px;
   margin-bottom: 0px;
-  font-size: 0.85em;
+  display: flex;
+  align-self: flex-start;
+}
+
+.decklist-preview h5 {
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
 .deck-item-container {
@@ -318,7 +326,7 @@ form div {
 }
 
 .deck-item-container:hover {
-  background-color: lightblue;
+  background-color: rgb(236, 230, 230);
 }
 
 #mini-list-container {

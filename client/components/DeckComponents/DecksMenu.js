@@ -34,7 +34,9 @@ class DecksMenu extends React.Component {
         <Route exact path='/decks' render={() =>
           <button onClick={() => {
             this.props.history.push('/decks/add')
-          }}>Add New Deck</button>
+          }}
+            style={{margin:8}}
+          >Add New Deck</button>
         } />
         <Route exact path='/decks' component={() =>
           <DecksList actionButton={this.actionButton} />
