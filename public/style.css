@@ -260,9 +260,13 @@ form div {
 .decklist-preview-container {
   display: flex;
   flex-direction: row;
-  margin-left: 140px;
+  margin-left: 167px;
   width: 300px;
   left: -200px;
+  border: solid black 1px;
+  border-radius: 4px;
+  background-color: rgb(236, 230, 230);
+  padding: 4px;
 }
 
 .decklist-preview {
@@ -273,20 +277,37 @@ form div {
 .decklist-preview p {
   margin-top: 0px;
   margin-bottom: 0px;
-  font-size: 0.8em;
+  font-size: 0.85em;
 }
 
 .deck-item-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  width: 140px;
+  width: 160px;
+  height: 60px;
+  padding: 2px;
+  margin: 0;
+  border: solid 1px black;
+  border-radius: 4px;
+  align-content: center;
+  font-size: 18px;
+}
+.deck-item-container p {
+  margin: 0;
+  padding: 0;
+  align-self: center;
 }
 
 .deck-item-buttons {
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+  margin: 0;
+  flex-direction: row
+}
+.deck-item-buttons button {
+  font-size: 12px;
+  width: 80px;
+  padding: 0;
 }
 .deck-item button {
   width: 5px;

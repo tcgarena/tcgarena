@@ -39,20 +39,21 @@ class DeckItem extends React.Component {
     return (
       <div>
         {isDeleting ? (
-          <ConfirmAction
-            confirm={this.deleteDeck}
-            deny={this.toggleDeleteState}
-            confirmText={'Delete'}
-            denyText={'Cancel'}
-            text={false}
-            />
+          <div className='deck-item-buttons'>
+            <ConfirmAction
+              confirm={this.deleteDeck}
+              deny={this.toggleDeleteState}
+              confirmText={'Delete'}
+              denyText={'Cancel'}
+              text={false}
+              />
+          </div>
         ) : (
           <div className='deck-item-buttons'>
             {/* action button is the first button */}
 
             <button
               type="button"
-              className="small-button"
               onClick={() => actionButton.action(deck.id)}
             >
               {actionButton.text}

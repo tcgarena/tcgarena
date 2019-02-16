@@ -50,8 +50,6 @@ class MiniWindowView extends React.Component {
     const viewButton = this.viewButton.apply(this)
     const joinButton = this.joinButton.apply(this)
 
-    console.log('mini info', mini)
-
     return (
       <div className="column mini-window-container">
         <div className="row">
