@@ -93,14 +93,12 @@ form div {
 #lobby-judge-panel button {
   background-color: rgb(255, 255, 255);
   font-size: 20px;
-  cursor: pointer;
   outline: none;
   width: 100%;
   border-radius: 4px;
 }
 #lobby-judge-panel button:active {
   background-color: rgb(172, 165, 165);
-  cursor: pointer;
   outline: none;
 }
 #lobby-judge-panel button:hover {
@@ -128,13 +126,30 @@ form div {
   width: 100%;
 }
 
-.decks-menu-main button {
-  width: 100%;
+.decks-menu-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 
-#lobby-menu-main button {
-  width: 100%;
-}
+.decks-menu-main button {
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 16px;
+  width: 50%;
+  outline: none;
+} 
+
+.decks-menu-main button:active {
+  background-color: rgb(172, 165, 165);
+  outline: none;
+} 
+
+.decks-menu-main button:hover {
+  cursor: pointer;
+} 
 
 .new-deck-form {
   display: flex;
@@ -173,8 +188,8 @@ form div {
 #lobby-navbar-formats {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   flex-wrap: nowrap;
-  justify-content: space-evenly;
 }
 
 .lobby-navbar-item {
