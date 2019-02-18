@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
 const MiniEngine = require('./engines/mini')
-const nodemailer = require('nodemailer')
+// const nodemailer = require('nodemailer')
+const enforce = require('express-sslify')
 
 module.exports = app
 
@@ -44,6 +45,11 @@ passport.deserializeUser(async (id, done) => {
 })
 
 const createApp = () => {
+  // force http to redirect to https
+  if (process.env.NODE_ENV === 'production') {
+    app.use(enforce.HTTPS({ trustProtoHeader: true }))
+  }
+
   // logging middleware
   app.use(morgan('dev'))
 
