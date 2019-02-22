@@ -33,7 +33,16 @@ class MatchResultForm extends React.Component {
 
   handleChange(e) {
     e.preventDefault()
-    this.setState({[e.target.name]: parseInt(e.target.value)})
+    const {name, value} = e.target
+    const {myScore, opponentScore} = this.state
+    if (myScore + opponentScore === 3) {
+      name === 'myScore'
+        ? this.setState({opponentScore: 1, myScore: 2})
+        : this.setState({opponentScore: 2, myScore: 1})
+    } else {
+      this.setState({[name]: parseInt(value)})
+    }
+
   }
 
   componentDidMount() {
@@ -138,17 +147,20 @@ class MatchResultForm extends React.Component {
 
         default:
           return (
-            <div className='match-report-form'>
-              <form className='row' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
-                <div className='column'>
-                  <p>{myUsername}</p>
-                  <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
+            <div>
+              <form className='match-report-form' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
+                <div className='row'>
+                  <div className='match-report-form-user'>
+                    <p>{myUsername}</p>
+                    <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
+                  </div>
+                  <div style={{margin: 30}}>vs.</div>
+                  <div className='match-report-form-user'>
+                    <p>{myMatch.opponent.cockatriceName}</p>          
+                    <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
+                  </div>
                 </div>
-                <div className='column'>
-                  <p>{myMatch.opponent.cockatriceName}</p>          
-                  <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
-                </div>
-                <input type="submit" value="Submit" />
+                <input className='global-button' type="submit" value="Submit" />
               </form>
             </div>
           )
@@ -159,7 +171,7 @@ class MatchResultForm extends React.Component {
 
   render() {
 
-    return <div>
+    return <div className='match-result-form-container'>
       {this.state.myMatch && this.showForm()}
     </div>
 

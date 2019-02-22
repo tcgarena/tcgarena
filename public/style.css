@@ -23,6 +23,43 @@ form div {
   display: inline-block;
 }
 
+.match-result-form-container {
+  width: 100%;
+  font-size: 16px;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.match-report-form {
+  width: 100%;
+  margin: 0px;
+  font-size: 34px;
+}
+
+.match-report-form p {
+  margin: 0px;
+  font-size: 36px;
+}
+
+.match-report-form-user {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+}
+.match-report-form-user input {
+  margin-top: 2px;
+  font-size: 18px;
+}
+
+.match-report-form div {
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+  margin: 0px;
+}
+
 #home-page {
   display: flex;
   flex-direction: column;
@@ -172,7 +209,7 @@ form div {
 .global-button {
   border-radius: 4px;
   padding: 6px;
-  font-size: 12px;
+  font-size: 18px;
   outline: none;
   border: solid black 1px;
   margin: 1px;
@@ -309,6 +346,15 @@ form div {
   display: flex;
   margin-top: 40px;
   flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.pairings-list {
+  display: flex;
+  margin-top: 40px;
+  flex-direction: column;
+  margin-bottom: 20px;
   width: 100%;
 }
 
@@ -429,6 +475,9 @@ form div {
   margin: 8px;
   border-radius: 4px;
 }
+.mini-window-container button {
+  font-size: 12px;
+}
 
 .mini-window-container div {
   display: flex;
@@ -447,9 +496,7 @@ a {
   margin: 0 5px;
 }
 
-.mini-participants {
-  margin-bottom: 20px;
-}
+
 
 .hosted-by {
   font-size: 12px;
