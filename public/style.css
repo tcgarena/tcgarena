@@ -20,7 +20,6 @@ nav a {
 }
 
 form div {
-  margin: 1em;
   display: inline-block;
 }
 
@@ -88,6 +87,7 @@ form div {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   /* border-top: solid 2px rgb(194, 188, 188);
   border-left: solid 2px rgb(194, 188, 188);
   border-right: solid 2px rgb(194, 188, 188);
@@ -107,6 +107,18 @@ form div {
 }
 #lobby-judge-panel button:hover {
   cursor: pointer;
+}
+
+.mini-judge-panel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.mini-judge-panel button {
+  width: 100%;
 }
 
 #profile-anchor {
@@ -157,6 +169,25 @@ form div {
   cursor: pointer;
 } 
 
+.global-button {
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 12px;
+  outline: none;
+  border: solid black 1px;
+  margin: 1px;
+  width: 100%;
+} 
+
+.global-button:active {
+  background-color: rgb(172, 165, 165);
+  outline: none;
+} 
+
+.global-button:hover {
+  cursor: pointer;
+} 
+
 .new-deck-form {
   display: flex;
   justify-content: center;
@@ -165,6 +196,32 @@ form div {
 }
 .new-deck-form select {
   font-size: 16px;
+}
+
+.new-tournament-form {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.new-tournament-form-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.new-tournament-form-buttons input {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-items: center;
+  font-size: 20px;
+}
+.new-tournament-form select {
+  font-size: 18px;
+  margin: 2px;
 }
 
 .deck-field {
@@ -231,6 +288,28 @@ form div {
 
 .nav-active {
   border-bottom: 1px solid gray;
+}
+
+.single-mini {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.single-mini-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  margin-top: 0px;
+}
+
+.single-mini-participants {
+  display: flex;
+  margin-top: 40px;
+  flex-direction: column;
+  width: 100%;
 }
 
 .center {

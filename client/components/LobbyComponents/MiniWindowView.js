@@ -65,8 +65,18 @@ class MiniWindowView extends React.Component {
           <p>Hosted by: {mini.judge}</p>
         </div>
         <div className="mini-window-buttons">
-          <button onClick={viewButton.action}>{viewButton.text}</button>
-          {showJoin && <button onClick={joinButton.action}>{joinButton.text}</button>}
+          <button 
+            className='global-button'
+            onClick={viewButton.action}
+          >
+            {viewButton.text}
+          </button>
+          {showJoin && <button 
+            className='global-button'
+            onClick={joinButton.action}
+          >
+            {joinButton.text}
+          </button>}
         </div>
       </div>
     )

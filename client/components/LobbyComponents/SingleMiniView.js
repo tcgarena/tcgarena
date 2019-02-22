@@ -25,30 +25,37 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
 
     return (
       <div className="single-mini">
-        {isJudge && <MiniJudgePanel />}
 
         <div className="row">
-          <p>
+          <p className='single-mini-title'>
             {mini.format} {mini.type}{' '}
             {`${currentPlayersAmt}/${mini.maxPlayers}`}
           </p>
         </div>
+        
+        {isJudge && <MiniJudgePanel />}
 
         {mini.state === 'mini-over' && <div>
           {mini.participants[mini.winner].cockatriceName} wins!
         </div>}
 
-        {mini.state === 'open' && joined && <button onClick={() => leaveMini(mini.uuid)}>
+        {mini.state === 'open' && joined && <button 
+          className='global-button'
+          onClick={() => leaveMini(mini.uuid)}
+        >
           Leave
         </button>}
 
-        {mini.state === 'open' && !joined && currentPlayersAmt !== mini.maxPlayers && <button onClick={
-          () => history.push(`/lobby/${mini.uuid}/join`)
-        }>
+        {mini.state === 'open' && !joined && currentPlayersAmt !== mini.maxPlayers && <button 
+          onClick={
+            () => history.push(`/lobby/${mini.uuid}/join`)
+          }
+          className='global-button'
+        >
           Join
         </button>}
 
-        <div className='column'>
+        <div className='single-mini-participants'>
         { Object.keys(mini.pairings).length ? (
             <div>
               <MatchResultForm />

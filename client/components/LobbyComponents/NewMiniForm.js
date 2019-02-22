@@ -39,7 +39,7 @@ class NewMiniForm extends React.Component {
         maxPlayers: parseInt(this.state.amountOfPlayers)
       }
       await this.props.createMini(newMini)
-      this.props.history.push('/lobby')
+      this.props.cancel()
     } catch(e) { console.error(e) }
   }
 
@@ -51,29 +51,40 @@ class NewMiniForm extends React.Component {
     return (
       <div className='new-tournament-form'>
         <form className='new-tournament-form' onSubmit={this.handleSubmit}>
-          
-          <select name='selectedFormat' value={this.props.selectedFormat} onChange={this.handleChange}>
-            {formats.map(format => (
-                <option name='format' key={format} value={format} >{format}</option>
-              )
-            )}
-          </select>  
+          <div className='row'>
 
-          <select name='amountOfPlayers' value={this.state.amountOfPlayers} onChange={this.handleChange}>
-            {maxPlayersOptions.map(option => (
-                <option name='option' key={option} value={option} >{option}</option>
-              )
-            )}
-          </select>  
+            <select name='selectedFormat' value={this.props.selectedFormat} onChange={this.handleChange}>
+              {formats.map(format => (
+                  <option name='format' key={format} value={format} >{format}</option>
+                )
+              )}
+            </select>  
 
-          <select name='type' value={this.state.type} onChange={this.handleChange}>
-            {typeOptions.map(option => (
-                <option name='option' key={option} value={option} >{option}</option>
-              )
-            )}
-          </select>  
+            <select name='amountOfPlayers' value={this.state.amountOfPlayers} onChange={this.handleChange}>
+              {maxPlayersOptions.map(option => (
+                  <option name='option' key={option} value={option} >{option}</option>
+                )
+              )}
+            </select>  
+
+            <select name='type' value={this.state.type} onChange={this.handleChange}>
+              {typeOptions.map(option => (
+                  <option name='option' key={option} value={option} >{option}</option>
+                )
+              )}
+            </select>  
+          </div>
           
-          <input type="submit" value="Submit" />
+          <div className='new-tournament-form-buttons'>
+            <input className='global-button' type="submit" value="Submit" />
+            <button 
+              className='global-button'          
+              onClick={this.props.cancel}
+              type='button'
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     )

@@ -7,8 +7,10 @@ const MiniList = ({minis}) => (
     {!minis.length
       ? <div style={{padding: 4}}>
           <p>No active minis :(</p>
-          <t>Try asking a judge in the mini-beg channel on</t>
-          <a href='https://discord.gg/DwNr2DD'>discord.</a>
+          <div className='row'>
+            <div>Try asking a judge in the mini-beg channel on</div>
+            <a href='https://discord.gg/DwNr2DD'>discord.</a>
+          </div>
         </div>
       : minis.map(mini => <MiniWindowView mini={mini} key={mini.uuid} />)}
   </div>

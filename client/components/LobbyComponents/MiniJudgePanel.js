@@ -17,7 +17,10 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
     const buttons = []
     Object.defineProperty(buttons, 'addButton', {
       value: (text, fn=()=>console.log(text)) => {buttons.push(
-        <button type='button' key={text} onClick={fn}>
+        <button 
+          className='global-button'
+          type='button' key={text} onClick={fn}
+        >
           {text}
         </button>
       )},
