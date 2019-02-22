@@ -356,6 +356,11 @@ form div {
   margin-left: 16px;
 }
 
+.mini-winner {
+  margin-top: 20px;
+  font-size: 28px;
+}
+
 .single-mini-participants-container {
   margin-top: 20px;
   font-size: 22px;

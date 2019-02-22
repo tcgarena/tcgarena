@@ -35,7 +35,7 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
         
         {isJudge && <MiniJudgePanel />}
 
-        {mini.state === 'mini-over' && <div>
+        {mini.state === 'mini-over' && <div className='mini-winner'>
           {mini.participants[mini.winner].cockatriceName} wins!
         </div>}
 
