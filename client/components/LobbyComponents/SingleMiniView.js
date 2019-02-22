@@ -62,11 +62,14 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
               <PairingsList pairings={mini.pairings} />
             </div>
           ) : (
-            participantsArr.map(user => (
-              <div className="single-mini-participants" key={user.cockatriceName}>
-                {user.cockatriceName} ({user.ELO})
-              </div>
-            ))
+            <div className='single-mini-participants-container'>
+              <u>Participants</u>
+                {participantsArr.map(user => (
+                  <div className="single-mini-participants" key={user.cockatriceName}>
+                    {user.cockatriceName} ({user.ELO})
+                  </div>
+                ))}
+            </div>
           )}
         </div>
 

@@ -126,6 +126,7 @@ module.exports = class Engine {
         }
         const dbMini = await Mini.create(options)
         const miniId = dbMini.dataValues.id
+        this.minis[uuid].id = miniId
         const userMinis = Object.keys(this.minis[uuid].users).map(userId => {
           const user = this.minis[uuid].users[userId]
           return UserMini.create({

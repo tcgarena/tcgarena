@@ -89,7 +89,7 @@ class MatchResultForm extends React.Component {
       }
 
       if (myResult.finalized) {
-        return <div>You {gameStatus} {myScore}-{opponentScore}</div>
+        return <div style={{marginTop: 20}}>You {gameStatus} {myScore}-{opponentScore}</div>
       }
   
       if (myResult.reportedBy === myUsername) {
@@ -107,13 +107,13 @@ class MatchResultForm extends React.Component {
         return (
           <div>
             <p>Your opponent said you {gameStatus} {myScore}-{opponentScore}</p>
-            <button onClick={() => axios.post(`/api/match/result`, {
+            <button className='global-button' onClick={() => axios.post(`/api/match/result`, {
               myScore, opponentScore, miniUuid,
               matchUuid: myMatch.uuid
             })}>
               Confirm
             </button>
-            <button onClick={() => axios.post(`/api/match/result/deny`, {
+            <button className='global-button' onClick={() => axios.post(`/api/match/result/deny`, {
               miniUuid,
               matchUuid: myMatch.uuid
             })}>Deny</button>

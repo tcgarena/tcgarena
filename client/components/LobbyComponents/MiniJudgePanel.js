@@ -46,7 +46,7 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
 
     // tournament is ongoing
     if (isActive) {
-      buttons.addButton('Copy pairings', copyPairings)
+      buttons.addButton('Copy pairings to clipboard', copyPairings)
     } 
 
     // tournament is ongoing, but round is over
