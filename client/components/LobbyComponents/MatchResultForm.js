@@ -35,7 +35,7 @@ class MatchResultForm extends React.Component {
     e.preventDefault()
     const {name, value} = e.target
     const {myScore, opponentScore} = this.state
-    if (myScore + opponentScore === 3) {
+    if (myScore + opponentScore === 3 && value === '2') {
       name === 'myScore'
         ? this.setState({opponentScore: 1, myScore: 2})
         : this.setState({opponentScore: 2, myScore: 1})
@@ -65,7 +65,7 @@ class MatchResultForm extends React.Component {
 
   showForm() {
     const {myUsername, match, minis} = this.props
-    const {response, myMatch} = this.state
+    const {response, myMatch, myScore, opponentScore} = this.state
     const miniUuid = match.params.miniId
 
     let myResult = null
@@ -96,7 +96,7 @@ class MatchResultForm extends React.Component {
         return (
           <div>
             <p>You reported {myScore}-{opponentScore}</p>
-            <button onClick={() => axios.put('/api/match/result/undo', {
+            <button className='global-button' onClick={() => axios.put('/api/match/result/undo', {
               miniUuid, matchUuid: myMatch.uuid
             })}>
               Undo
@@ -132,20 +132,22 @@ class MatchResultForm extends React.Component {
 
         case 'score invalid':
           return (
-            <div>score invalid</div>
+            <div className='report-error'>score invalid</div>
           )
 
         case 'score mismatch':
           return (
-            <div>score mismatch</div>
+            <div className='report-error'>score mismatch</div>
           )
 
         case 'internal server error':
           return (
-            <div>internal server error</div>
+            <div className='report-error'>internal server error</div>
           )
 
         default:
+          const allowSubmit = opponentScore === 0 && myScore === 0
+
           return (
             <div>
               <form className='match-report-form' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
@@ -160,7 +162,7 @@ class MatchResultForm extends React.Component {
                     <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
                   </div>
                 </div>
-                <input className='global-button' type="submit" value="Submit" />
+                <input disabled={allowSubmit} className='global-button' type="submit" value="Submit" />
               </form>
             </div>
           )

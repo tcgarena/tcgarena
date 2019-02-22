@@ -23,6 +23,11 @@ form div {
   display: inline-block;
 }
 
+.report-error {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
 .match-result-form-container {
   width: 100%;
   font-size: 16px;
@@ -35,22 +40,22 @@ form div {
 .match-report-form {
   width: 100%;
   margin: 0px;
-  font-size: 34px;
+  font-size: 26px;
 }
 
 .match-report-form p {
   margin: 0px;
-  font-size: 36px;
+  font-size: 26px;
 }
 
 .match-report-form-user {
   display: flex;
   flex-direction: column;
-  font-size: 20px;
+  font-size: 16px;
 }
 .match-report-form-user input {
   margin-top: 2px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .match-report-form div {
