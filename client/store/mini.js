@@ -1,8 +1,6 @@
 import axios from 'axios'
 import history from '../history'
 
-
-
 const GOT_MINIS = 'GOT_MINIS'
 const FETCH_MINI = 'FETCH_MINI'
 const REMOVE_MINIS = 'REMOVE_MINIS'

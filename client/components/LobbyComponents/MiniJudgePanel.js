@@ -7,6 +7,23 @@ import {JudgeResultForm} from '..'
 const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
   const mini = getMini(match.params.miniId)
 
+  const copyPairings = () => {
+    const el = document.createElement('textarea');
+    el.value = Object.keys(mini.pairings).reduce( (str, key) => {
+      const pair = mini.pairings[key]
+      if (str === '') {
+        str = `${pair[0].cockatriceName} vs. ${pair[1].cockatriceName}`
+      } else {
+        str += ` | ${pair[0].cockatriceName} vs. ${pair[1].cockatriceName}`
+      }
+      return str
+    }, '');
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  }
+
   const showButtons = () => {
     const isFull = Object.keys(mini.participants).length >= mini.maxPlayers
     const isActive = mini.state === 'active'
@@ -29,7 +46,7 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
 
     // tournament is ongoing
     if (isActive) {
-
+      buttons.addButton('Copy pairings', copyPairings)
     } 
 
     // tournament is ongoing, but round is over
