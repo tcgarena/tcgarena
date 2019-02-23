@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getMini, startMini, nextRound, closeMini} from '../../store'
@@ -6,6 +6,7 @@ import {JudgeResultForm} from '..'
 
 const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
   const mini = getMini(match.params.miniId)
+  const [judgeMightCancel, setCancel] = useState(false)
 
   const copyPairings = () => {
     const el = document.createElement('textarea');
@@ -63,6 +64,12 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
       buttons.addButton('Close', () => closeMini(mini.uuid))
     }
 
+    // judge clicked cancel
+    else if (judgeMightCancel) {
+      buttons.addButton('Cancel')
+      buttons.addButton('Nevermind')
+    }
+
     // tournament is open
     else {
 
@@ -70,7 +77,7 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
         buttons.addButton('Start', () => startMini(mini.uuid))
       }
 
-      buttons.addButton('Cancel', () => closeMini(mini.uuid))
+      buttons.addButton('Cancel', () => setCancel(true))
     }
 
     return buttons
