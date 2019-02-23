@@ -229,6 +229,28 @@ form div {
 .global-button:hover {
   cursor: pointer;
 } 
+.lock-button {
+  border-radius: 4px;
+  font-size: 12px;
+  outline: none;
+  border: solid black 1px;
+  margin-left: 6px;
+} 
+
+.lock-button:active {
+  background-color: rgb(172, 165, 165);
+  outline: none;
+} 
+
+.lock-button:hover {
+  cursor: pointer;
+} 
+.text-bubble {
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 2px;
+  border: solid black 1px;
+} 
 
 .new-deck-form {
   display: flex;
@@ -376,6 +398,23 @@ form div {
   flex-direction: column;
   margin-bottom: 20px;
   width: 100%;
+}
+
+.pairing-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2px;
+}
+.pairing-item-judge {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2px;
 }
 
 .center {

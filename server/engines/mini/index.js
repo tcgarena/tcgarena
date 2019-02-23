@@ -209,6 +209,16 @@ module.exports = class Engine {
     this.saveMinis()
   } 
 
+  lockResult(userId, miniUuid, matchUuid) {
+    console.log(matchUuid)
+    this.minis[miniUuid].results[matchUuid] = {
+      uuid: matchUuid,
+      locked: true
+    }
+    this.minis[miniUuid].buildClientData()
+    this.saveMinis()
+  }
+
   judgeResult(miniUuid, matchUuid, uuid1, uuid2, score1, score2) {
     this.minis[miniUuid].judgeResult(matchUuid, uuid1, uuid2, score1, score2)
     this.saveMinis()

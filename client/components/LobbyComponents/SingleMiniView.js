@@ -59,7 +59,7 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
         { Object.keys(mini.pairings).length ? (
             <div>
               <MatchResultForm />
-              <PairingsList pairings={mini.pairings} />
+              <PairingsList pairings={mini.pairings} miniUuid={mini.uuid} />
             </div>
           ) : (
             <div className='single-mini-participants-container'>
