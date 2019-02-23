@@ -1,31 +1,182 @@
 {
-  "baee325d-15fe-48c8-8a70-5ca885fbb27a": {
-    "pairings": {},
-    "results": {},
-    "users": {},
-    "uuid": "baee325d-15fe-48c8-8a70-5ca885fbb27a",
-    "participantsHash": 0,
-    "pairingsHash": 0,
+  "72534a28-0c1e-4fdb-b916-77e38388cf22": {
+    "pairings": {
+      "dc4de7de-2ff8-4870-851b-4e9c4edbfbbe": {
+        "pair": [
+          {
+            "cockatriceName": "ben",
+            "ELO": 1600,
+            "deckhash": "553i55e1",
+            "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction\n\n\n",
+            "deckId": 7,
+            "id": 4,
+            "uuid": "66c0abb3-70f4-44ee-bfbb-989be11042a0"
+          },
+          {
+            "cockatriceName": "joe",
+            "ELO": 1530,
+            "deckhash": "553i55e1",
+            "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction",
+            "deckId": 3,
+            "id": 3,
+            "uuid": "5cbee49c-8206-430c-8bf1-6c2a58b04a52"
+          }
+        ],
+        "uuid": "dc4de7de-2ff8-4870-851b-4e9c4edbfbbe"
+      },
+      "698e7293-bea9-4845-8059-e1c17262f8eb": {
+        "pair": [
+          {
+            "cockatriceName": "cody",
+            "ELO": 1501,
+            "deckhash": "553i55e1",
+            "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction",
+            "deckId": 2,
+            "id": 2,
+            "uuid": "3ef7e575-9d7a-4a55-8abe-eb92a9ee70c7"
+          },
+          {
+            "cockatriceName": "murphy",
+            "ELO": 1497,
+            "deckhash": "553i55e1",
+            "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction",
+            "deckId": 1,
+            "id": 1,
+            "uuid": "b4489cbd-428e-45e0-82c9-2c0382c9ba49"
+          }
+        ],
+        "uuid": "698e7293-bea9-4845-8059-e1c17262f8eb"
+      }
+    },
+    "results": {
+      "dc4de7de-2ff8-4870-851b-4e9c4edbfbbe": {
+        "uuid": "dc4de7de-2ff8-4870-851b-4e9c4edbfbbe",
+        "locked": true
+      }
+    },
+    "users": {
+      "1": {
+        "cockatriceName": "murphy",
+        "ELO": 1497,
+        "deckhash": "553i55e1",
+        "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction",
+        "deckId": 1,
+        "id": 1,
+        "uuid": "b4489cbd-428e-45e0-82c9-2c0382c9ba49"
+      },
+      "2": {
+        "cockatriceName": "cody",
+        "ELO": 1501,
+        "deckhash": "553i55e1",
+        "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction",
+        "deckId": 2,
+        "id": 2,
+        "uuid": "3ef7e575-9d7a-4a55-8abe-eb92a9ee70c7"
+      },
+      "3": {
+        "cockatriceName": "joe",
+        "ELO": 1530,
+        "deckhash": "553i55e1",
+        "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction",
+        "deckId": 3,
+        "id": 3,
+        "uuid": "5cbee49c-8206-430c-8bf1-6c2a58b04a52"
+      },
+      "4": {
+        "cockatriceName": "ben",
+        "ELO": 1600,
+        "deckhash": "553i55e1",
+        "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction\n\n\n",
+        "deckId": 7,
+        "id": 4,
+        "uuid": "66c0abb3-70f4-44ee-bfbb-989be11042a0"
+      }
+    },
+    "uuid": "72534a28-0c1e-4fdb-b916-77e38388cf22",
+    "participantsHash": 7128,
+    "pairingsHash": 7162,
     "resultsHash": 0,
     "clientData": {
-      "uuid": "baee325d-15fe-48c8-8a70-5ca885fbb27a",
+      "uuid": "72534a28-0c1e-4fdb-b916-77e38388cf22",
       "format": "modern",
       "type": "single elimination",
-      "state": "open",
+      "state": "active",
       "timePerRoundMins": 45,
-      "round": 0,
-      "createdAt": 1550884304880,
+      "round": 1,
+      "createdAt": 1550885748002,
       "maxPlayers": 4,
-      "judge": "ben",
-      "participants": {},
-      "pairings": {},
-      "results": {}
+      "judge": "cody",
+      "participants": {
+        "b4489cbd-428e-45e0-82c9-2c0382c9ba49": {
+          "cockatriceName": "murphy",
+          "deckhash": "553i55e1",
+          "ELO": 1497,
+          "uuid": "b4489cbd-428e-45e0-82c9-2c0382c9ba49"
+        },
+        "3ef7e575-9d7a-4a55-8abe-eb92a9ee70c7": {
+          "cockatriceName": "cody",
+          "deckhash": "553i55e1",
+          "ELO": 1501,
+          "uuid": "3ef7e575-9d7a-4a55-8abe-eb92a9ee70c7"
+        },
+        "5cbee49c-8206-430c-8bf1-6c2a58b04a52": {
+          "cockatriceName": "joe",
+          "deckhash": "553i55e1",
+          "ELO": 1530,
+          "uuid": "5cbee49c-8206-430c-8bf1-6c2a58b04a52"
+        },
+        "66c0abb3-70f4-44ee-bfbb-989be11042a0": {
+          "cockatriceName": "ben",
+          "deckhash": "553i55e1",
+          "ELO": 1600,
+          "uuid": "66c0abb3-70f4-44ee-bfbb-989be11042a0"
+        }
+      },
+      "pairings": {
+        "dc4de7de-2ff8-4870-851b-4e9c4edbfbbe": {
+          "0": {
+            "cockatriceName": "ben",
+            "ELO": 1600,
+            "deckhash": "553i55e1",
+            "uuid": "66c0abb3-70f4-44ee-bfbb-989be11042a0"
+          },
+          "1": {
+            "cockatriceName": "joe",
+            "ELO": 1530,
+            "deckhash": "553i55e1",
+            "uuid": "5cbee49c-8206-430c-8bf1-6c2a58b04a52"
+          },
+          "uuid": "dc4de7de-2ff8-4870-851b-4e9c4edbfbbe"
+        },
+        "698e7293-bea9-4845-8059-e1c17262f8eb": {
+          "0": {
+            "cockatriceName": "cody",
+            "ELO": 1501,
+            "deckhash": "553i55e1",
+            "uuid": "3ef7e575-9d7a-4a55-8abe-eb92a9ee70c7"
+          },
+          "1": {
+            "cockatriceName": "murphy",
+            "ELO": 1497,
+            "deckhash": "553i55e1",
+            "uuid": "b4489cbd-428e-45e0-82c9-2c0382c9ba49"
+          },
+          "uuid": "698e7293-bea9-4845-8059-e1c17262f8eb"
+        }
+      },
+      "results": {
+        "dc4de7de-2ff8-4870-851b-4e9c4edbfbbe": {
+          "uuid": "dc4de7de-2ff8-4870-851b-4e9c4edbfbbe",
+          "locked": true
+        }
+      }
     },
     "format": "modern",
     "type": "single elimination",
     "timePerRoundMins": 45,
     "maxPlayers": 4,
-    "judgeId": 4,
-    "judgeName": "ben"
+    "judgeId": 2,
+    "judgeName": "cody",
+    "id": 44
   }
 }

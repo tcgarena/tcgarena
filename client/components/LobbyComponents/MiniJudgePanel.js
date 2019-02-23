@@ -104,8 +104,12 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
 
   return (
     <div className='mini-judge-panel'>
-      {mini && showButtons()}
-      {mini && showResultForms()}
+      <div className='mini-judge-panel-buttons'>
+        {mini && showButtons()}
+      </div>
+      <div className='row'>
+        {mini && showResultForms()}
+      </div>
     </div>
   )
 }

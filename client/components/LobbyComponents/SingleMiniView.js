@@ -47,9 +47,10 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
         </button>}
 
         {mini.state === 'open' && !joined && currentPlayersAmt !== mini.maxPlayers && <button 
-          onClick={
-            () => history.push(`/lobby/${mini.uuid}/join`)
-          }
+          onClick={() => {
+            selectFormat(mini.format)
+            history.push(`/lobby/${mini.uuid}/join`)
+          }}
           className='global-button'
         >
           Join
