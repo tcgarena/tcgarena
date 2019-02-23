@@ -1,6 +1,8 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, UserMini, Mini} = require('../db/models')
 const {requireLogin, requireJudge3, requireTC} = require('../middlewares')
+
+
 
 // /api/user GET
 router.get('/', requireLogin, async (req, res, next) => {
@@ -38,7 +40,7 @@ router.post('/cockaName', requireLogin, async (req, res, next) => {
     const user = await User.findOne({
       where: {id: req.user.id}
     })
-    
+
     await user.update({cockatriceName: req.body.cockatriceName})
     res.status(200).end()
   } catch(e) {
@@ -53,6 +55,15 @@ router.get('/findByCockaName/:name', async (req, res) => {
       where: {cockatriceName: req.params.name},
     })
     res.json(user)
+  } catch (e) { res.json({}) }
+})
+
+
+// /api/user/minis/:name GET
+router.get('/minis/:name', async (req, res) => {
+  try {
+    const closedMinis = await Mini.fetchClosedMinis(req.params.name)
+    res.json(closedMinis)
   } catch (e) { res.json({}) }
 })
 

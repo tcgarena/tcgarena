@@ -5,13 +5,15 @@ import PropTypes from 'prop-types'
 import {
   Login,
   Signup,
-  UserHome,
   SetCockatriceName,
   DecksMenu,
   LobbyMenu,
   HomePage,
   EditUserRoles,
-  AdminTools
+  AdminTools,
+  ProfileHome,
+  MinisHistory,
+  SingleMatchHistory
 } from './components'
 import {me, fetchDecks} from './store'
 
@@ -42,6 +44,9 @@ class Routes extends Component {
               {/* Routes placed here are only available after logging in */}
               <Route path="/cockaName" component={SetCockatriceName} />
               <Route path="/decks" component={DecksMenu} />
+              <Route path="/profile/lifetime-minis-history" component={MinisHistory} />
+              {/* <Route path="/profile/single-match-history" component={SingleMatchHistory} /> */}
+              <Route exact path="/profile" component={ProfileHome} />
               {hasCockaName && (
                 <Switch>
                   {/* Routes placed here are only available after setting username */}

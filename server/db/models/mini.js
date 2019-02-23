@@ -31,4 +31,6 @@ const Mini = db.define("mini", {
     }
 })
 
+
+
 module.exports = Mini

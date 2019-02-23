@@ -5,10 +5,12 @@ const Match = require('./match')
 const Mini = require('./mini')
 const uuidv4 = require('uuid/v4')
 const arpadELO = require('arpad')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
 
 /*****************
  * All db methods that reference other models should go here
- * 
+ *
  * Mini methods:
  */
 
@@ -51,7 +53,7 @@ const eagerloadParticipants = async minis => {
 
     // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
-      miniObjs[row.dataValues.miniId].users[row.dataValues.userId] = { 
+      miniObjs[row.dataValues.miniId].users[row.dataValues.userId] = {
         ...userObjs[row.dataValues.userId],
         deckhash: row.dataValues.deckhash,
         decklist: row.dataValues.decklist,
@@ -72,7 +74,7 @@ Mini.fetchActive = async function() {
     const minis = await Mini.findAll({
       where: {state: ['open', 'active']}
     })
-    
+
     const miniObjs = await eagerloadParticipants(minis)
     return miniObjs
   } catch (e) {
@@ -89,6 +91,35 @@ Mini.fetchById = async function(miniId) {
     const miniObj = Object.keys(miniObjs).reduce( (_, miniId) => miniObjs[miniId], {})
     return miniObj
   } catch (e) {
+    console.error(e)
+  }
+}
+
+Mini.fetchClosedMinis = async function (cockatriceName) {
+  try {
+    const {id} = user = await User.findOne({
+      where: {cockatriceName},
+    })
+
+    const minis = await UserMini.findAll({
+      where: {userId: id},
+    })
+
+    const miniIds = minis.reduce((arr, mini) => {
+      arr.push(mini.miniId)
+      return arr
+    }, [])
+
+    const closedMinis = await Mini.findAll({
+      where: {
+        state: 'closed',
+        id: {
+          [Op.or]: miniIds
+        }
+      }
+    })
+    return closedMinis
+  } catch(e) {
     console.error(e)
   }
 }
@@ -140,9 +171,9 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
     const kVal = {default: 16}
     const min_score = 100
     const max_score = 5000
-    
+
     const elo = new arpadELO(kVal, min_score, max_score);
-    
+
     const odds_user1_wins = elo.expectedScore(user1ELO, user2ELO);
     const odds_user2_wins = elo.expectedScore(user2ELO, user1ELO);
 
@@ -157,7 +188,7 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
       newUser1ELO = user1ELO
       newUser2ELO = user2ELO
     }
-    
+
     User.update(
       {ELO: newUser1ELO},
       {where: {id: user1Id}}
@@ -179,7 +210,7 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
 }
 
 /*************
- * 
+ *
  * Hooks that reference outside models go here
  */
 
@@ -211,7 +242,7 @@ UserMini.beforeUpdate(rejectEntryUpdate)
 
 /***********************
  * Associations go here
- * 
+ *
  */
 
 Deck.belongsTo(User)

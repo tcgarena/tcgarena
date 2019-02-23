@@ -17,6 +17,9 @@ export {default as HomePage} from './HomePage'
 export {default as AdminTools} from './AdminComponents/AdminTools'
 export {default as EditUserRoles} from './AdminComponents/EditUserRoles'
 
+export {default as ProfileHome} from './ProfileComponents/ProfileHome'
+export {default as MinisHistory} from './ProfileComponents/MinisHistory'
+
 
 export {default as DecksMenu} from './DeckComponents/DecksMenu'
 export {default as SingleDeckView} from './DeckComponents/SingleDeckView'
