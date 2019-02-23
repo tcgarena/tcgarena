@@ -125,6 +125,26 @@ form div {
   cursor: pointer;
 }
 
+.mini-history-container {
+  
+}
+
+.mini-history-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.mini-history-item {
+  border: solid 1px black;
+  border-radius: 4px;
+  padding: 6px;
+  margin: 2px;
+  width: 100%;
+}
+
 #lobby-judge-panel {
   display: flex;
   align-items: center;

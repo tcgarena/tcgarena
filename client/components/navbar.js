@@ -18,9 +18,6 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, history}) => (
           <NavLink to="/decks" activeClassName="nav-active">
             Decks
           </NavLink>
-          <NavLink to="/profile" activeClassName="nav-active">
-            Profile
-          </NavLink>
           {isAdmin && (
             <NavLink to="/admin" activeClassName="nav-active">
               Admin Tools

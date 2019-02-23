@@ -4,7 +4,6 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
-export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
 export {ReCaptchaComponent} from './ReCaptcha'
 export {default as SetCockatriceName} from './SetCockatriceName'
@@ -17,8 +16,8 @@ export {default as HomePage} from './HomePage'
 export {default as AdminTools} from './AdminComponents/AdminTools'
 export {default as EditUserRoles} from './AdminComponents/EditUserRoles'
 
-export {default as ProfileHome} from './ProfileComponents/ProfileHome'
-export {default as MinisHistory} from './ProfileComponents/MinisHistory'
+export {default as UserHome} from './ProfileComponents/UserHome'
+export {default as MiniHistory} from './ProfileComponents/MiniHistory'
 
 
 export {default as DecksMenu} from './DeckComponents/DecksMenu'
