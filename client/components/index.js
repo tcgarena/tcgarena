@@ -12,6 +12,7 @@ export {default as NavFormats} from './NavFormats'
 export {default as FormatSelect} from './FormatSelect'
 export {default as ConfirmAction} from './ConfirmAction'
 export {default as HomePage} from './HomePage'
+export {default as ProfileAnchor} from './ProfileAnchor'
 
 export {default as AdminTools} from './AdminComponents/AdminTools'
 export {default as EditUserRoles} from './AdminComponents/EditUserRoles'

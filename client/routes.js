@@ -11,7 +11,8 @@ import {
   HomePage,
   EditUserRoles,
   AdminTools,
-  UserHome
+  UserHome,
+  ProfileAnchor
 } from './components'
 import {me, fetchDecks} from './store'
 
@@ -24,14 +25,13 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn, hasCockaName, isAdmin} = this.props
+    const {isLoggedIn, hasCockaName, isAdmin, username, ELO} = this.props
     return (
       <div>
-        {hasCockaName && (
-          <div id="profile-anchor">
-            {this.props.username} ({this.props.ELO})
-          </div>
-        )}
+        {hasCockaName && <ProfileAnchor 
+          username={username}
+          ELO={ELO}
+        />}
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
