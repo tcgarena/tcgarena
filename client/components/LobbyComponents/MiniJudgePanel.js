@@ -66,8 +66,8 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
 
     // judge clicked cancel
     else if (judgeMightCancel) {
-      buttons.addButton('Cancel')
-      buttons.addButton('Nevermind')
+      buttons.addButton('Cancel', () => closeMini(mini.uuid))
+      buttons.addButton('Nevermind', () => setCancel(false))
     }
 
     // tournament is open
