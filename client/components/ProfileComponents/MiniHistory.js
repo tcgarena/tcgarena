@@ -25,11 +25,16 @@ class MiniHistory extends Component {
       <div className='mini-history-container'>
         <h1>Past Minis</h1>
         <div className='mini-history-list'>
-          {this.state.closedMinis.map((mini) =>
-            <div className='mini-history-item' key={mini.id}>
+          {this.state.closedMinis.map((mini) => {
+            console.log(mini)
+            return <div className='mini-history-item' key={mini.id}>
               <p>{mini.format} {mini.type}</p>
               <p>{(new Date(mini.createdAt)).toLocaleString()}</p>
+              <button className='global-button'
+                onClick={() => this.props.history.push(`/mini/${mini.uuid}`)}
+              >View</button>
             </div>
+          }
           )}
         </div>
       </div>

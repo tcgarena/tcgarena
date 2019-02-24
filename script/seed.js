@@ -28,19 +28,12 @@ async function seed() {
 
   const minis = await Promise.all([
     Mini.create({format: 'modern', type: 'swiss', timePerRoundMins: 60, maxPlayers: 4, userId: 3}),
-    Mini.create({state: 'closed', format: 'modern', type: 'swiss', timePerRoundMins: 60, maxPlayers: 8, userId: 3})
-  ])
-
-  const participants = await Promise.all([
-    Mini.join(2, 1, 1),
-    Mini.join(2, 2, 2),
-    Mini.join(2, 3, 3)
+    Mini.create({state: 'closed', format: 'modern', type: 'swiss', timePerRoundMins: 60, maxPlayers: 8, userId: 3, uuid: 'm084gn0283nv028n30'})
   ])
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${decks.length} decks`)
   console.log(`seeded ${minis.length} minis`)
-  console.log(`seeded ${participants.length} participants`)
   console.log(`seeded successfully`)
 }
 

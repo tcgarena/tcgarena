@@ -19,7 +19,7 @@ export {default as EditUserRoles} from './AdminComponents/EditUserRoles'
 
 export {default as UserHome} from './ProfileComponents/UserHome'
 export {default as MiniHistory} from './ProfileComponents/MiniHistory'
-
+export {default as ClosedMiniView} from './ProfileComponents/ClosedMiniView'
 
 export {default as DecksMenu} from './DeckComponents/DecksMenu'
 export {default as SingleDeckView} from './DeckComponents/SingleDeckView'

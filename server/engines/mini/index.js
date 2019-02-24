@@ -134,7 +134,7 @@ module.exports = class Engine {
             deckhash: user.deckhash,
             ELO: user.ELO,
             cockatriceName: user.cockatriceName,
-            userId, miniId
+            userId, miniId, uuid
           })
         })
         Promise.all(userMinis)
@@ -165,7 +165,10 @@ module.exports = class Engine {
       case 'mini-over':
       try {
         await Mini.update(
-          {state: 'closed'},
+          {
+            state: 'closed',
+            winner: this.minis[uuid].winner
+          },
           {where: {id: this.minis[uuid].id}}
         )
         removeMini()
