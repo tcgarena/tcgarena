@@ -1,1 +1,48 @@
-{}
+{
+  "0c061b00-e5c5-42e3-a263-56176931b651": {
+    "pairings": {},
+    "results": {},
+    "users": {
+      "4": {
+        "cockatriceName": "ben",
+        "ELO": 1616,
+        "deckhash": "553i55e1",
+        "decklist": "// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction\n\n\n",
+        "deckId": 4,
+        "id": 4,
+        "uuid": "0d3ec1b6-8af9-4a1d-b117-91c89455c54d"
+      }
+    },
+    "uuid": "0c061b00-e5c5-42e3-a263-56176931b651",
+    "participantsHash": 1861,
+    "pairingsHash": 0,
+    "resultsHash": 0,
+    "clientData": {
+      "uuid": "0c061b00-e5c5-42e3-a263-56176931b651",
+      "format": "modern",
+      "type": "single elimination",
+      "state": "open",
+      "timePerRoundMins": 45,
+      "round": 0,
+      "createdAt": 1551237608208,
+      "maxPlayers": 4,
+      "judge": "ben",
+      "participants": {
+        "0d3ec1b6-8af9-4a1d-b117-91c89455c54d": {
+          "cockatriceName": "ben",
+          "deckhash": "553i55e1",
+          "ELO": 1616,
+          "uuid": "0d3ec1b6-8af9-4a1d-b117-91c89455c54d"
+        }
+      },
+      "pairings": {},
+      "results": {}
+    },
+    "format": "modern",
+    "type": "single elimination",
+    "timePerRoundMins": 45,
+    "maxPlayers": 4,
+    "judgeId": 4,
+    "judgeName": "ben"
+  }
+}
