@@ -16,6 +16,7 @@ const ClosedMiniView = ({history, match}) => {
   })
 
   const showMini = () => {
+    console.log(mini)
     return <div>
       {mini.format}
     </div>

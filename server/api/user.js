@@ -34,12 +34,4 @@ router.post('/cockaName', requireLogin, async (req, res, next) => {
   }
 })
 
-// /api/user/minis/:name GET
-router.get('/minis/:name', async (req, res) => {
-  try {
-    const closedMinis = await Mini.fetchClosedMinis(req.params.name)
-    res.json(closedMinis)
-  } catch (e) { res.json({}) }
-})
-
 module.exports = router

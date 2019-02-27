@@ -95,7 +95,7 @@ Mini.fetchById = async function(miniId) {
   }
 }
 
-Mini.fetchClosedMinis = async function (cockatriceName) {
+Mini.fetchClosedMinisByCockaName = async function (cockatriceName) {
   try {
     const {id} = user = await User.findOne({
       where: {cockatriceName},
@@ -105,19 +105,7 @@ Mini.fetchClosedMinis = async function (cockatriceName) {
       where: {userId: id},
     })
 
-    const miniIds = minis.reduce((arr, mini) => {
-      arr.push(mini.miniId)
-      return arr
-    }, [])
-
-    const closedMinis = await Mini.findAll({
-      where: {
-        state: 'closed',
-        id: {
-          [Op.or]: miniIds
-        }
-      }
-    })
+    const closedMinis = await eagerloadParticipants(minis)
     return closedMinis
   } catch(e) {
     console.error(e)

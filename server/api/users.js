@@ -31,6 +31,14 @@ router.get('/:cockatriceName', async (req, res, next) => {
   }
 })
 
+// /api/user/minis/:cockatriceName GET
+router.get('/minis/:cockatriceName', async (req, res) => {
+  try {
+    const closedMinis = await Mini.fetchClosedMinisByCockaName(req.params.cockatriceName)
+    res.json(closedMinis)
+  } catch (e) { res.json({}) }
+})
+
 router.get('/all', requireModerator, async (req, res, next) => {
   try {
     const users = await User.findAll()
