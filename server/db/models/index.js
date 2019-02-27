@@ -22,7 +22,7 @@ const eagerloadParticipants = async minis => {
     // turn the array into an obj
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
-      const {id: _, ...dataValues} = mini.dataValues
+      const {id: id, userId: userId, ...dataValues} = mini.dataValues
       obj[mini.dataValues.id] = { ...dataValues, users: {}}
       return obj
     },{})
@@ -42,22 +42,24 @@ const eagerloadParticipants = async minis => {
     // grab the relevant users
     const users = await User.findAll({
       where: {id: userIds},
-      attributes: ['cockatriceName', 'id', 'ELO']
+      attributes: ['cockatriceName', 'id']
     })
 
     // key the user array by id for easy access
     const userObjs = users.reduce( (obj, user) => {
-      obj[user.dataValues.id] = user.dataValues
+      const {id: _, ...dataValues} = user.dataValues
+      obj[user.dataValues.cockatriceName] = dataValues
       return obj
     },{})
 
     // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
-      miniObjs[row.dataValues.miniId].users[row.dataValues.userId] = {
+      miniObjs[row.dataValues.miniId].users[row.dataValues.cockatriceName] = {
         ...userObjs[row.dataValues.userId],
         deckhash: row.dataValues.deckhash,
         decklist: row.dataValues.decklist,
-        inactive: false
+        cockatriceName: row.dataValues.cockatriceName,
+        ELO: row.dataValues.ELO
       }
     })
 
