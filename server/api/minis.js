@@ -28,7 +28,7 @@ router.get('/:miniId', requireLogin, async (req, res, next) => {
 // /api/minis/closed/:miniId GET
 router.get('/closed/:miniUuid', requireLogin, async (req, res, next) => {
   try {
-    const mini = await Mini.findOne({where: {uuid: req.params.miniUuid}})
+    const mini = await Mini.fetchClosedMiniByUuid(req.params.miniUuid)
     res.json(mini)
   } catch (e) {
     res.json({ message: `no mini by id ${req.params.miniId}`})

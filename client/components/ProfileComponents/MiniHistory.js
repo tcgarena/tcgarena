@@ -1,44 +1,51 @@
-import React, {Component} from 'react'
+import React, {useState, useEffect} from 'react'
 import {withRouter} from 'react-router-dom'
 import axios from 'axios'
 
-class MiniHistory extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      closedMinis: []
-    }
-  }
+const MiniHistory = ({match, history}) => {
+  const [minis, setMinis] = useState({})
 
-  async componentDidMount() {
+  const fetchMinis = async () => {
     try {
-      const cockatriceName = this.props.match.params.cockatriceName
-      const {data: closedMinis} = await axios.get(`/api/user/minis/${cockatriceName}`)
-      this.setState({closedMinis})
+      const cockatriceName = match.params.cockatriceName
+      const {data: minis} = await axios.get(`/api/users/minis/${cockatriceName}`)
+      setMinis(minis)
     } catch (e) {
       console.error(e)
     }
   }
 
-  render() {
+  useEffect(() => {
+    const getMinis = !Object.keys(minis).length 
+    getMinis && fetchMinis()
+  })
+
+  const showMinis = () => {
+    const closedMinis = Object.keys(minis).reduce( (arr, key) => {
+      arr.push(minis[key])
+      return arr
+    }, [])
+
+    console.log(closedMinis)
     return (
       <div className='mini-history-container'>
         <h1>Past Minis</h1>
         <div className='mini-history-list'>
-          {this.state.closedMinis.map((mini) => {
+          {closedMinis.map(mini => {
             return <div className='mini-history-item' key={mini.id}>
               <p>{mini.format} {mini.type}</p>
               <p>{(new Date(mini.createdAt)).toLocaleString()}</p>
               <button className='global-button'
-                onClick={() => this.props.history.push(`/mini/${mini.uuid}`)}
+                onClick={() => history.push(`/mini/${mini.uuid}`)}
               >View</button>
             </div>
-          }
-          )}
+          })}
         </div>
       </div>
     )
   }
+
+  return <div>{minis && showMinis()}</div>
 }
 
 export default withRouter(MiniHistory)

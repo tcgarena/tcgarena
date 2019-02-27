@@ -12,10 +12,10 @@ class DecksMenu extends React.Component {
     this.actionButton = this.viewButton.apply(this)
   }
 
-  // componentDidMount() {
-  //   if (this.props.selectedDeck)
-  //     this.props.history.push(`/decks/${this.props.selectedDeck}`)
-  // }
+  componentDidMount() {
+    if (!Object.keys(this.props.decks).length)
+      this.props.history.push(`/decks/add`)
+  }
 
   viewButton = () => ({
     text: 'View',

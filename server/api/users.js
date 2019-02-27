@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Mini} = require('../db/models')
 const {requireLogin, requireAdmin, requireModerator} = require('../middlewares')
 
 module.exports = router
@@ -31,12 +31,14 @@ router.get('/:cockatriceName', async (req, res, next) => {
   }
 })
 
-// /api/user/minis/:cockatriceName GET
-router.get('/minis/:cockatriceName', async (req, res) => {
+// /api/users/minis/:cockatriceName GET
+router.get('/minis/:cockatriceName', async (req, res, next) => {
   try {
     const closedMinis = await Mini.fetchClosedMinisByCockaName(req.params.cockatriceName)
     res.json(closedMinis)
-  } catch (e) { res.json({}) }
+  } catch (err) { 
+    next(err)
+  }
 })
 
 router.get('/all', requireModerator, async (req, res, next) => {

@@ -22,7 +22,8 @@ const eagerloadParticipants = async minis => {
     // turn the array into an obj
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
-      obj[mini.dataValues.id] = { ...mini.dataValues, users: {}}
+      const {id: _, ...dataValues} = mini.dataValues
+      obj[mini.dataValues.uuid] = { ...dataValues, users: {}}
       return obj
     },{})
 
@@ -53,7 +54,7 @@ const eagerloadParticipants = async minis => {
 
     // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
-      miniObjs[row.dataValues.miniId].users[row.dataValues.userId] = {
+      miniObjs[row.dataValues.uuid].users[row.dataValues.userId] = {
         ...userObjs[row.dataValues.userId],
         deckhash: row.dataValues.deckhash,
         decklist: row.dataValues.decklist,
@@ -101,12 +102,49 @@ Mini.fetchClosedMinisByCockaName = async function (cockatriceName) {
       where: {cockatriceName},
     })
 
-    const minis = await UserMini.findAll({
+    const userMinis = await UserMini.findAll({
       where: {userId: id},
+    })
+
+    const miniIds = userMinis.reduce((arr, mini) => {
+      arr.push(mini.miniId)
+      return arr
+    }, [])
+
+    const minis = await Mini.findAll({
+      where: {
+        state: 'closed',
+        id: {
+          [Op.or]: miniIds
+        }
+      }
     })
 
     const closedMinis = await eagerloadParticipants(minis)
     return closedMinis
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+Mini.fetchClosedMiniByUuid = async function (uuid) {
+  try {
+    const mini = await Mini.findOne({
+      where: {
+        uuid,
+        state: 'closed',
+      }
+    })
+
+    if (mini) {
+      // takes an array, easier to workaround it
+      const miniObjs = await eagerloadParticipants([mini])
+      // de-nest the mini from the returned obj collection
+      const miniObj = Object.keys(miniObjs).reduce( (_, miniId) => miniObjs[miniId], {})
+      return miniObj
+    } else {
+      return false
+    }
   } catch(e) {
     console.error(e)
   }
