@@ -17,7 +17,7 @@ export {default as ProfileAnchor} from './ProfileAnchor'
 export {default as AdminTools} from './AdminComponents/AdminTools'
 export {default as EditUserRoles} from './AdminComponents/EditUserRoles'
 
-export {default as UserHome} from './ProfileComponents/UserHome'
+export {default as UserPage} from './ProfileComponents/UserPage'
 export {default as MiniHistory} from './ProfileComponents/MiniHistory'
 export {default as ClosedMiniView} from './ProfileComponents/ClosedMiniView'
 

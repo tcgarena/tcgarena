@@ -26,15 +26,14 @@ const MiniHistory = ({match, history}) => {
       return arr
     }, [])
 
-    console.log(closedMinis)
     return (
       <div className='mini-history-container'>
-        <h1>Past Minis</h1>
+        <u className='past-mini-header'>Past Minis</u>
         <div className='mini-history-list'>
           {closedMinis.map(mini => {
-            return <div className='mini-history-item' key={mini.id}>
-              <p>{mini.format} {mini.type}</p>
-              <p>{(new Date(mini.createdAt)).toLocaleString()}</p>
+            return <div className='mini-history-item' key={mini.uuid}>
+              <div className='mini-history-item-text'>{mini.format} {mini.type}</div>
+              <div>{(new Date(mini.createdAt)).toLocaleString()}</div>
               <button className='global-button'
                 onClick={() => history.push(`/mini/${mini.uuid}`)}
               >View</button>

@@ -11,7 +11,7 @@ import {
   HomePage,
   EditUserRoles,
   AdminTools,
-  UserHome,
+  UserPage,
   ProfileAnchor,
   ClosedMiniView
 } from './components'
@@ -44,7 +44,7 @@ class Routes extends Component {
               <Route path="/cockaName" component={SetCockatriceName} />
               <Route path="/decks" component={DecksMenu} />
               <Route path="/mini/:miniUuid" component={ClosedMiniView} />
-              <Route exact path="/user/:cockatriceName" component={UserHome} />
+              <Route exact path="/user/:cockatriceName" component={UserPage} />
               {hasCockaName && (
                 <Switch>
                   {/* Routes placed here are only available after setting username */}

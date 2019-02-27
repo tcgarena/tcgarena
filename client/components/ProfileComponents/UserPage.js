@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import axios from 'axios'
 import {MiniHistory} from '../index'
 
-const UserHome = ({match}) => {
+const UserPage = ({match}) => {
   const [user, setUser] = useState({})
 
   const fetchUser = async () => {
@@ -17,8 +17,8 @@ const UserHome = ({match}) => {
   })
 
   const showUser = () => {
-    return <div>
-      <u>{user.cockatriceName}</u>
+    return <div id='user-page'>
+      <div className='user-page-name'>{user.cockatriceName}</div>
       <MiniHistory />
     </div>
   }
@@ -26,6 +26,6 @@ const UserHome = ({match}) => {
   return <div>{user && showUser()}</div>
 }
 
-export default withRouter(UserHome)
+export default withRouter(UserPage)
 
 
