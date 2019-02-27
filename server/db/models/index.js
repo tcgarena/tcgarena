@@ -23,7 +23,7 @@ const eagerloadParticipants = async minis => {
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
       const {id: _, ...dataValues} = mini.dataValues
-      obj[mini.dataValues.uuid] = { ...dataValues, users: {}}
+      obj[mini.dataValues.id] = { ...dataValues, users: {}}
       return obj
     },{})
 
@@ -48,13 +48,12 @@ const eagerloadParticipants = async minis => {
     // key the user array by id for easy access
     const userObjs = users.reduce( (obj, user) => {
       obj[user.dataValues.id] = user.dataValues
-      obj[user.dataValues.id].uuid = uuidv4()
       return obj
     },{})
 
     // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
-      miniObjs[row.dataValues.uuid].users[row.dataValues.userId] = {
+      miniObjs[row.dataValues.miniId].users[row.dataValues.userId] = {
         ...userObjs[row.dataValues.userId],
         deckhash: row.dataValues.deckhash,
         decklist: row.dataValues.decklist,

@@ -122,7 +122,8 @@ module.exports = class Engine {
           timePerRoundMins: mini.timePerRoundMins,
           maxPlayers: mini.maxPlayers,
           round: mini.round,
-          userId: this.minis[uuid].judgeId
+          userId: this.minis[uuid].judgeId,
+          uuid
         }
         const dbMini = await Mini.create(options)
         const miniId = dbMini.dataValues.id
@@ -134,7 +135,7 @@ module.exports = class Engine {
             deckhash: user.deckhash,
             ELO: user.ELO,
             cockatriceName: user.cockatriceName,
-            userId, miniId, uuid
+            userId, miniId
           })
         })
         Promise.all(userMinis)
@@ -167,7 +168,7 @@ module.exports = class Engine {
         await Mini.update(
           {
             state: 'closed',
-            winner: this.minis[uuid].winner
+            winner: this.minis[uuid].clientData.winner
           },
           {where: {id: this.minis[uuid].id}}
         )
