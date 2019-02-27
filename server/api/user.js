@@ -10,8 +10,9 @@ router.get('/', requireLogin, async (req, res, next) => {
     const user = await User.findOne({
       where: {id: req.user.id}
     })
+    const {id: _, ...dataValues} = user.dataValues
     res.json({
-      ...user.dataValues,
+      ...dataValues,
       accessLevel: user.getPerms()
     })
   } catch (e) {

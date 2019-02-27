@@ -15,6 +15,18 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/:cockatriceName', async (req, res, next) => {
+  try {
+    const user = await User.findOne({where: {
+      cockatriceName: req.params.cockatriceName
+    }})
+    const {id: _, ...dataValues} = user.dataValues
+    res.json(dataValues)
+  } catch(err) {
+    next(err)
+  }
+})
+
 router.get('/all', requireModerator, async (req, res, next) => {
   try {
     const users = await User.findAll()

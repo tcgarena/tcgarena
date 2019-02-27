@@ -10,7 +10,10 @@ const ClosedMiniView = ({history, match}) => {
     setMini(mini)
   }
 
-  useEffect(() => {!Object.keys(mini).length && fetchMini()})
+  useEffect(() => {
+    const getMini = !Object.keys(mini).length 
+    getMini && fetchMini()
+  })
 
   const showMini = () => {
     return <div>
@@ -18,7 +21,7 @@ const ClosedMiniView = ({history, match}) => {
     </div>
   }
 
-  return <div>{mini && showMini(mini)}</div>
+  return <div>{mini && showMini()}</div>
 }
 
 

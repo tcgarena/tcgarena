@@ -44,7 +44,7 @@ class Routes extends Component {
               <Route path="/cockaName" component={SetCockatriceName} />
               <Route path="/decks" component={DecksMenu} />
               <Route path="/mini/:miniUuid" component={ClosedMiniView} />
-              <Route exact path="/user/:username" component={UserHome} />
+              <Route exact path="/user/:cockatriceName" component={UserHome} />
               {hasCockaName && (
                 <Switch>
                   {/* Routes placed here are only available after setting username */}
@@ -78,7 +78,7 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id,
+    isLoggedIn: !!state.user.email,
     isAdmin: state.user.accessLevel >= 5,
     hasCockaName: !!state.user.cockatriceName,
     username: state.user.cockatriceName,
