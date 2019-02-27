@@ -165,13 +165,8 @@ module.exports = class Engine {
         
       case 'mini-over':
       try {
-        const winnerUuid = this.minis[uuid].clientData.winner
-        const winner = this.clientData.participants[winnerUuid].cockatriceName
         await Mini.update(
-          {
-            state: 'closed',
-            winner
-          },
+          {state: 'closed'},
           {where: {id: this.minis[uuid].id}}
         )
         removeMini()

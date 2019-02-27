@@ -18,7 +18,7 @@ const UserPage = ({match}) => {
 
   const showUser = () => {
     return <div id='user-page'>
-      <div className='user-page-name'>{user.cockatriceName}</div>
+      <div className='user-page-name'>{user.cockatriceName} ({user.ELO})</div>
       <MiniHistory />
     </div>
   }
