@@ -37,6 +37,18 @@ router.post('/result/deny', requireLogin, async (req, res, next) => {
   }
 })
 
+router.put('/result/lock', requireJudge1, async (req, res, next) => {
+  try {
+    const {miniUuid, matchUuid} = req.body
+    const miniEngine = req.app.get('miniEngine')
+    await miniEngine.lockResult(req.user.id, miniUuid, matchUuid)
+    res.sendStatus(200)
+  } catch (e) {
+    console.error(e)
+    res.sendStatus(500)
+  }
+})
+
 router.post('/result/judge', requireJudge1, async (req, res, next) => {
   try {
     const {miniUuid, matchUuid, uuid1, uuid2, score1, score2} = req.body

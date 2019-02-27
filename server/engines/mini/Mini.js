@@ -76,7 +76,11 @@ MiniInstance.prototype.buildClientData = function (emit=true) {
   if (this.results) {
     this.clientData.results = Object.keys(this.results).reduce( (obj, matchUuid) => {
       const {reportedBy: userId, ...data} = this.results[matchUuid]
-      obj[matchUuid] = {...data, reportedBy: this.users[userId].cockatriceName}
+      if (userId!==undefined) {
+        obj[matchUuid] = {...data, reportedBy: this.users[userId].cockatriceName}
+      } else {
+        obj[matchUuid] = {...data}
+      }
       return obj
     }, {})
     update.results = this.clientData.results

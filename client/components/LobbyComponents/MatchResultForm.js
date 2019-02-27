@@ -151,7 +151,10 @@ class MatchResultForm extends React.Component {
           return (
             <div>
               <form className='match-report-form' onSubmit={e => this.handleSubmit(e, miniUuid, myMatch.uuid)}>
-                <div className='row'>
+                <div style={{fontSize: 16}}>
+                  Report match result
+                </div>
+                <div className='match-report-form-users'>
                   <div className='match-report-form-user'>
                     <p>{myUsername}</p>
                     <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
