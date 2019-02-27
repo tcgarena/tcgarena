@@ -20,8 +20,12 @@ router.get('/:cockatriceName', async (req, res, next) => {
     const user = await User.findOne({where: {
       cockatriceName: req.params.cockatriceName
     }})
-    const {id: _, ...dataValues} = user.dataValues
-    res.json(dataValues)
+    if (user) {
+      const {id: _, ...dataValues} = user.dataValues
+      res.json(dataValues)
+    } else {
+      res.status(204).end()
+    }
   } catch(err) {
     next(err)
   }

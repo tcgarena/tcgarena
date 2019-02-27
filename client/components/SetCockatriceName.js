@@ -29,8 +29,7 @@ class SetCockatriceName extends React.Component {
 
   
   async userNameCheck() {
-    const res = await axios.get(`/api/user/findByCockaName/${this.state.cockatriceName}`)
-    const existingUser = res.data
+    const {data: existingUser} = await axios.get(`/api/users/${this.state.cockatriceName}`)
     existingUser
       ? this.reject()
       : this.accept()

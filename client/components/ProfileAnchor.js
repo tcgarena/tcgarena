@@ -7,7 +7,7 @@ onClick={()=>{
   history.push(`/user/${username}`)
 }}
 >
-  {username} {ELO}
+  {username} ({ELO})
 </div>
 
 export default withRouter(ProfileAnchor) 
