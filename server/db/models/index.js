@@ -19,11 +19,16 @@ const eagerloadParticipants = async minis => {
     // useful array of mini ids
     const miniIds = minis.map(mini => mini.dataValues.id)
 
+    const dayMs = 1000*60*60*24    
+    const now = Date.now()
+
     // turn the array into an obj
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
       const {id: id, userId: userId, ...dataValues} = mini.dataValues
-      obj[mini.dataValues.id] = { ...dataValues, users: {}}
+      const endedAt = new Date(mini.createdAt).getTime()
+      const overFor24hrs = now - endedAt > dayMs
+      obj[mini.dataValues.id] = { ...dataValues, overFor24hrs, users: {}}
       return obj
     },{})
 
@@ -57,9 +62,11 @@ const eagerloadParticipants = async minis => {
       miniObjs[row.dataValues.miniId].users[row.dataValues.cockatriceName] = {
         ...userObjs[row.dataValues.userId],
         deckhash: row.dataValues.deckhash,
-        decklist: row.dataValues.decklist,
         cockatriceName: row.dataValues.cockatriceName,
-        ELO: row.dataValues.ELO
+        ELO: row.dataValues.ELO,
+        decklist: miniObjs[row.dataValues.miniId].overFor24hrs
+          ? row.dataValues.decklist
+          : 'hidden'
       }
     })
 
