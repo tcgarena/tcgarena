@@ -8,6 +8,7 @@ router.use('/user', require('./user'))
 router.use('/data', require('./data'))
 router.use('/match', require('./match'))
 router.use('/logs', require('./logs'))
+router.use('/admin', require('./admin'))
 
 router.get('/test', (req,res) => {
   setTimeout( ()=>req.app.io.emit('test', 'something'), 2000)
