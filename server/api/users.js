@@ -15,6 +15,16 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/all', requireModerator, async (req, res, next) => {
+  try {
+    const users = await User.findAll()
+    console.log('hi')
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/:cockatriceName', async (req, res, next) => {
   try {
     const user = await User.findOne({where: {
@@ -41,14 +51,6 @@ router.get('/minis/:cockatriceName', async (req, res, next) => {
   }
 })
 
-router.get('/all', requireModerator, async (req, res, next) => {
-  try {
-    const users = await User.findAll()
-    res.json(users)
-  } catch (err) {
-    next(err)
-  }
-})
 
 router.put('/role', requireModerator, async (req, res, next) => {
   try {

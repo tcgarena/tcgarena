@@ -26,7 +26,7 @@ const eagerloadParticipants = async minis => {
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
       const {id: id, userId: userId, ...dataValues} = mini.dataValues
-      const endedAt = new Date(mini.createdAt).getTime()
+      const endedAt = new Date(mini.updatedAt).getTime()
       const overFor24hrs = now - endedAt > dayMs
       obj[mini.dataValues.id] = { ...dataValues, overFor24hrs, users: {}}
       return obj
@@ -66,7 +66,7 @@ const eagerloadParticipants = async minis => {
         ELO: row.dataValues.ELO,
         decklist: miniObjs[row.dataValues.miniId].overFor24hrs
           ? row.dataValues.decklist
-          : 'hidden'
+          : `hidden`
       }
     })
 

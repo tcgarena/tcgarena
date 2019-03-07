@@ -8,11 +8,7 @@ router.use('/user', require('./user'))
 router.use('/data', require('./data'))
 router.use('/match', require('./match'))
 router.use('/logs', require('./logs'))
-
-router.get('/test', (req,res) => {
-  setTimeout( ()=>req.app.io.emit('test', 'something'), 2000)
-  res.json('nothing')
-})
+router.use('/admin', require('./admin'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
