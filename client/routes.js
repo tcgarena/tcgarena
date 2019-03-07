@@ -26,13 +26,10 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn, hasCockaName, isAdmin, username, ELO} = this.props
+    const {isLoggedIn, hasCockaName, isAdmin} = this.props
     return (
       <div>
-        {hasCockaName && <ProfileAnchor 
-          username={username}
-          ELO={ELO}
-        />}
+        {hasCockaName && <ProfileAnchor />}
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
