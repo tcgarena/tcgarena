@@ -12,26 +12,26 @@ module.exports = router
  * this route should not be in production and is only 
  * applied temporarily for database migration purposes
  * 
- */
-router.get('/seed-data', requireAdmin, async (req, res, next) => {
-  try {
-    const [users, deckObjs] = await Promise.all([User.findAll(), Deck.findAll()])
+ */ 
+// router.get('/seed-data', requireAdmin, async (req, res, next) => {
+//   try {
+//     const [users, deckObjs] = await Promise.all([User.findAll(), Deck.findAll()])
 
-    const SENSITIVE_USER_DATA = users.reduce( (SENSITIVE_DATA, user) => {
-      const password = user.password()
-      const salt = user.salt()
-      const data = {password, salt, ...user.dataValues}
-      SENSITIVE_DATA.push(data)
-      return SENSITIVE_DATA
-    }, [])
+//     const SENSITIVE_USER_DATA = users.reduce( (SENSITIVE_DATA, user) => {
+//       const password = user.password()
+//       const salt = user.salt()
+//       const data = {password, salt, ...user.dataValues}
+//       SENSITIVE_DATA.push(data)
+//       return SENSITIVE_DATA
+//     }, [])
 
-    const decks = deckObjs.map(deck => deck.dataValues)
+//     const decks = deckObjs.map(deck => deck.dataValues)
 
-    res.json({
-      users: SENSITIVE_USER_DATA,
-      decks
-    })
-  } catch (err) {
-    next(err)
-  }
-})
+//     res.json({
+//       users: SENSITIVE_USER_DATA,
+//       decks
+//     })
+//   } catch (err) {
+//     next(err)
+//   }
+// })
