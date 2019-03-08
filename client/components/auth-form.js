@@ -56,6 +56,16 @@ class AuthForm extends Component {
               </div>
             )}
           {error && error.response && <div> {error.response.data} </div>}
+
+          {name === 'signup' && <div className='column center'>
+            <div>Passwords are not stored as plain text.</div>
+            <div className='row'>
+              <div>If you're curious about how this works,</div>
+              <a href='https://medium.com/@benjaminpwagner/using-sequelize-hooks-and-crypto-to-encrypt-user-passwords-5cf1a27513d9' target="_blank">
+                checkout this article I wrote.
+              </a>
+            </div>
+          </div>}
         </form>
         {/* <a href="/auth/google">{displayName} with Google</a> */}
       </div>
