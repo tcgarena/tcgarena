@@ -11,7 +11,7 @@ async function seed() {
     User.create({email: 'cody@email.com', password: '12345', cockatriceName: 'cody', role: 'user'}),
     User.create({email: 'murphy@email.com', password: '12345', cockatriceName: 'murphy', role: 'user'}),
     User.create({email: 'joe@email.com', password: '12345', cockatriceName: 'joe', role: 'user'}),
-    User.create({email: 'ben@email.com', password: 'ben123', cockatriceName: 'ben', role: 'admin'})
+    User.create({email: 'ben@email.com', password: 'ben123', cockatriceName: 'morphiac', role: 'admin'})
   ])
 
   const decks = await Promise.all([
