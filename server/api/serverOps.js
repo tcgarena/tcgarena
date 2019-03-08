@@ -41,7 +41,6 @@ router.get('/seed-data', requireAdmin, async (req, res, next) => {
 
 router.post('/seed', requireAdmin, async (req, res, next) => {
   try {
-    console.log('hm')
     await db.sync({force: true})
     console.log('db synced!')
     
