@@ -39,7 +39,7 @@ class UploadFile extends React.Component {
               {isDragActive ? (
                 <p>Hope you know what you're doing...</p>
               ) : (
-                <p>Seed database (won't work :b)</p>
+                <p>Seed database (won't work ;b)</p>
               )}
             </div>
           )
