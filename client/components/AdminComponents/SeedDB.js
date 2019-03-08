@@ -13,7 +13,7 @@ class UploadFile extends React.Component {
       reader.onload = async () => {
         const fileAsBinaryString = reader.result
         await axios.post('/api/server-op/seed', JSON.parse(fileAsBinaryString))
-        window.alert('seed success')
+        window.alert("seed success. don't forget to disable server op routes")
         this.props.history.push('/')
         location.reload()
       }
