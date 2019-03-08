@@ -48,8 +48,8 @@ router.post('/seed', requireAdmin, async (req, res, next) => {
     const users = await Promise.all(req.body.users.map(user => User.create(user, {hooks: false})))
     const decks = await Promise.all(req.body.decks.map(deck => Deck.create(deck, {hooks: false})))
     
-    // req.logout()
-    // req.session.destroy()
+    req.logout()
+    req.session.destroy()
   
     console.log(`seeded ${users.length} users`)
     console.log(`seeded ${decks.length} decks`)
