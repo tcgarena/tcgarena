@@ -8,10 +8,10 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '12345', cockatriceName: 'cody', role: 'user'}),
-    User.create({email: 'murphy@email.com', password: '12345', cockatriceName: 'murphy', role: 'user'}),
-    User.create({email: 'joe@email.com', password: '12345', cockatriceName: 'joe', role: 'user'}),
-    User.create({email: 'ben@email.com', password: 'ben123', cockatriceName: 'morphiac', role: 'admin'})
+    User.create({userId: 1, email: 'cody@email.com', password: '12345', cockatriceName: 'cody', role: 'user'}),
+    User.create({userId: 2, email: 'murphy@email.com', password: '12345', cockatriceName: 'murphy', role: 'user'}),
+    User.create({userId: 3, email: 'joe@email.com', password: '12345', cockatriceName: 'joe', role: 'user'}),
+    User.create({userId: 4, email: 'ben@email.com', password: 'ben123', cockatriceName: 'morphiac', role: 'admin'})
   ]) 
 
   const decks = await Promise.all([
@@ -22,6 +22,9 @@ async function seed() {
       list: `// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction`
     }),
     Deck.create({name: 'tron', format:'modern', userId: 3,
+      list: `// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction`
+    }),
+    Deck.create({name: 'tron', format:'modern', userId: 4,
       list: `// 60 Maindeck\n// 18 Artifact\n4 Chromatic Sphere\n4 Chromatic Star\n4 Expedition Map\n4 Oblivion Stone\n2 Relic of Progenitus\n\n// 7 Creature\n2 Ulamog, the Ceaseless Hunger\n2 Walking Ballista\n3 Wurmcoil Engine\n\n// 2 Instant\n2 Dismember\n\n// 19 Land\n5 Forest\n1 Ghost Quarter\n1 Sanctum of Ugin\n4 Urza's Mine\n4 Urza's Power Plant\n4 Urza's Tower\n\n// 6 Planeswalker\n4 Karn Liberated\n2 Ugin, the Spirit Dragon\n\n// 8 Sorcery\n4 Ancient Stirrings\n4 Sylvan Scrying\n\n\n// 15 Sideboard\n// 2 Artifact\nSB: 1 Crucible of Worlds\nSB: 1 Grafdigger's Cage\n\n// 6 Creature\nSB: 1 Emrakul, the Promised End\nSB: 3 Thought-Knot Seer\nSB: 2 Thragtusk\n\n// 7 Instant\nSB: 2 Gut Shot\nSB: 3 Nature's Claim\nSB: 2 Surgical Extraction`
     })
   ])

@@ -15,7 +15,7 @@ const DecksMenu = ({history, decks}) => {
 
   const viewButton = {
     text: 'View',
-    action: deckId => props.history.push(`/decks/${deckId}`)
+    action: deckId => history.push(`/decks/${deckId}`)
   }
 
   const decksArr = Object.keys(decks).map(key=>decks[key])
