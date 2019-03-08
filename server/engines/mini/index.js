@@ -122,7 +122,8 @@ module.exports = class Engine {
           timePerRoundMins: mini.timePerRoundMins,
           maxPlayers: mini.maxPlayers,
           round: mini.round,
-          userId: this.minis[uuid].judgeId
+          userId: this.minis[uuid].judgeId,
+          uuid
         }
         const dbMini = await Mini.create(options)
         const miniId = dbMini.dataValues.id

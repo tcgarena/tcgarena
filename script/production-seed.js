@@ -1,12 +1,10 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Deck, Mini, UserMini} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
-
 }
 
 // We've separated the `seed` function from the `runSeed` function.

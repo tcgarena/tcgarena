@@ -36,7 +36,7 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
         {isJudge && <MiniJudgePanel />}
 
         {mini.state === 'mini-over' && <div className='mini-winner'>
-          {mini.participants[mini.winner].cockatriceName} wins!
+          {mini.winner.cockatriceName} wins!
         </div>}
 
         {mini.state === 'open' && joined && <button 

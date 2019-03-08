@@ -35,7 +35,7 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
     const buttons = []
     Object.defineProperty(buttons, 'addButton', {
       value: (text, fn=()=>console.log(text)) => {buttons.push(
-        <button 
+        <button
           className='global-button'
           type='button' key={text} onClick={fn}
         >
@@ -48,20 +48,20 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
     // tournament is ongoing
     if (isActive) {
       buttons.addButton('Copy pairings to clipboard', copyPairings)
-    } 
+    }
 
     // tournament is ongoing, but round is over
     else if (roundOver) {
       buttons.addButton('Next round', () => nextRound(mini.uuid))
     }
 
-    // tournament has ended    
+    // tournament has ended
     else if (isClosed) {
 
     }
 
     else if (isOverButActive) {
-      buttons.addButton('Close', () => closeMini(mini.uuid))
+      buttons.addButton('Close this tournament', () => closeMini(mini.uuid))
     }
 
     // judge clicked cancel
@@ -107,7 +107,7 @@ const MiniJudgePanel = ({match, getMini, startMini, nextRound, closeMini}) => {
       <div className='mini-judge-panel-buttons'>
         {mini && showButtons()}
       </div>
-      <div className='row'>
+      <div className='judge-match-results'>
         {mini && showResultForms()}
       </div>
     </div>

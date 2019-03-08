@@ -3,7 +3,7 @@
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Helvetica', 'Arial';
 }
 
 a {
@@ -26,6 +26,24 @@ form div {
 .report-error {
   margin-top: 20px;
   font-size: 20px;
+}
+
+#user-page {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.user-page-name {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.past-mini-header {
+  font-size: 22px;
 }
 
 .match-result-form-container {
@@ -142,6 +160,39 @@ form div {
   cursor: pointer;
 }
 
+.mini-history-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.mini-history-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.mini-history-item {
+  border: solid 1px black;
+  border-radius: 4px;
+  padding: 6px;
+  margin: 2px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.mini-history-item-text {
+  margin: 4px;
+}
+
 #lobby-judge-panel {
   display: flex;
   align-items: center;
@@ -177,6 +228,15 @@ form div {
   align-content: center;
 }
 
+.judge-match-results {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
 .mini-judge-panel-buttons {
   display: flex;
   flex-direction: row;
@@ -188,12 +248,23 @@ form div {
   top: 5px;
   right: 5px;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .decks-list {
   position: fixed;
   display: flex;
   flex-direction: column;
+}
+
+.seed-db {
+  border: solid 1px black;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 #app {
@@ -381,6 +452,7 @@ form div {
   align-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
 }
 
 .single-mini-title {

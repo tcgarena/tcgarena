@@ -10,10 +10,8 @@ router.use('/match', require('./match'))
 router.use('/logs', require('./logs'))
 router.use('/admin', require('./admin'))
 
-router.get('/test', (req,res) => {
-  setTimeout( ()=>req.app.io.emit('test', 'something'), 2000)
-  res.json('nothing')
-})
+// should never be in production (unless migrating database)
+// router.use('/server-op', require('./serverOps'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

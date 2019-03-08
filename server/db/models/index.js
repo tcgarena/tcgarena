@@ -5,10 +5,12 @@ const Match = require('./match')
 const Mini = require('./mini')
 const uuidv4 = require('uuid/v4')
 const arpadELO = require('arpad')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
 
 /*****************
  * All db methods that reference other models should go here
- * 
+ *
  * Mini methods:
  */
 
@@ -17,10 +19,16 @@ const eagerloadParticipants = async minis => {
     // useful array of mini ids
     const miniIds = minis.map(mini => mini.dataValues.id)
 
+    const dayMs = 1000*60*60*24    
+    const now = Date.now()
+
     // turn the array into an obj
     const miniObjs = minis.reduce( (obj, mini) => {
       // prep objs for eager loading
-      obj[mini.dataValues.id] = { ...mini.dataValues, users: {}}
+      const {id: id, userId: userId, ...dataValues} = mini.dataValues
+      const endedAt = new Date(mini.updatedAt).getTime()
+      const overFor24hrs = now - endedAt > dayMs
+      obj[mini.dataValues.id] = { ...dataValues, overFor24hrs, users: {}}
       return obj
     },{})
 
@@ -39,23 +47,26 @@ const eagerloadParticipants = async minis => {
     // grab the relevant users
     const users = await User.findAll({
       where: {id: userIds},
-      attributes: ['cockatriceName', 'id', 'ELO']
+      attributes: ['cockatriceName', 'id']
     })
 
     // key the user array by id for easy access
     const userObjs = users.reduce( (obj, user) => {
-      obj[user.dataValues.id] = user.dataValues
-      obj[user.dataValues.id].uuid = uuidv4()
+      const {id: _, ...dataValues} = user.dataValues
+      obj[user.dataValues.cockatriceName] = dataValues
       return obj
     },{})
 
     // sudo eagerload miniObjs.participants
     userMinis.forEach( row => {
-      miniObjs[row.dataValues.miniId].users[row.dataValues.userId] = { 
+      miniObjs[row.dataValues.miniId].users[row.dataValues.cockatriceName] = {
         ...userObjs[row.dataValues.userId],
         deckhash: row.dataValues.deckhash,
-        decklist: row.dataValues.decklist,
-        inactive: false
+        cockatriceName: row.dataValues.cockatriceName,
+        ELO: row.dataValues.ELO,
+        decklist: miniObjs[row.dataValues.miniId].overFor24hrs
+          ? row.dataValues.decklist
+          : `hidden`
       }
     })
 
@@ -72,7 +83,7 @@ Mini.fetchActive = async function() {
     const minis = await Mini.findAll({
       where: {state: ['open', 'active']}
     })
-    
+
     const miniObjs = await eagerloadParticipants(minis)
     return miniObjs
   } catch (e) {
@@ -89,6 +100,60 @@ Mini.fetchById = async function(miniId) {
     const miniObj = Object.keys(miniObjs).reduce( (_, miniId) => miniObjs[miniId], {})
     return miniObj
   } catch (e) {
+    console.error(e)
+  }
+}
+
+Mini.fetchClosedMinisByCockaName = async function (cockatriceName) {
+  try {
+    const {id} = user = await User.findOne({
+      where: {cockatriceName},
+    })
+
+    const userMinis = await UserMini.findAll({
+      where: {userId: id},
+    })
+
+    const miniIds = userMinis.reduce((arr, mini) => {
+      arr.push(mini.miniId)
+      return arr
+    }, [])
+
+    const minis = await Mini.findAll({
+      where: {
+        state: 'closed',
+        id: {
+          [Op.or]: miniIds
+        }
+      }
+    })
+
+    const closedMinis = await eagerloadParticipants(minis)
+    return closedMinis
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+Mini.fetchClosedMiniByUuid = async function (uuid) {
+  try {
+    const mini = await Mini.findOne({
+      where: {
+        uuid,
+        state: 'closed',
+      }
+    })
+
+    if (mini) {
+      // takes an array, easier to workaround it
+      const miniObjs = await eagerloadParticipants([mini])
+      // de-nest the mini from the returned obj collection
+      const miniObj = Object.keys(miniObjs).reduce( (_, miniId) => miniObjs[miniId], {})
+      return miniObj
+    } else {
+      return false
+    }
+  } catch(e) {
     console.error(e)
   }
 }
@@ -140,9 +205,9 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
     const kVal = {default: 16}
     const min_score = 100
     const max_score = 5000
-    
+
     const elo = new arpadELO(kVal, min_score, max_score);
-    
+
     const odds_user1_wins = elo.expectedScore(user1ELO, user2ELO);
     const odds_user2_wins = elo.expectedScore(user2ELO, user1ELO);
 
@@ -157,7 +222,7 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
       newUser1ELO = user1ELO
       newUser2ELO = user2ELO
     }
-    
+
     User.update(
       {ELO: newUser1ELO},
       {where: {id: user1Id}}
@@ -179,7 +244,7 @@ Match.result = async function(uuid, player1Id, player1score, player2score) {
 }
 
 /*************
- * 
+ *
  * Hooks that reference outside models go here
  */
 
@@ -211,7 +276,7 @@ UserMini.beforeUpdate(rejectEntryUpdate)
 
 /***********************
  * Associations go here
- * 
+ *
  */
 
 Deck.belongsTo(User)

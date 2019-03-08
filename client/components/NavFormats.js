@@ -14,7 +14,7 @@ const NavFormats = ({formats, selectedFormat, selectFormat}) => {
     )
   })
 
-  if (!foundSelected) store.dispatch(selectFormat(formats[0]))
+  if (!foundSelected) store.dispatch(selectFormat(formats[0] || 'standard'))
 
   return (
     <div id='lobby-navbar-formats'>

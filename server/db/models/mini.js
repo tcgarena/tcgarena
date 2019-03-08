@@ -28,7 +28,15 @@ const Mini = db.define("mini", {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: 0
+    },
+    winner: {
+      type: Sequelize.STRING
+    },
+    uuid: {
+      type: Sequelize.STRING
     }
 })
+
+
 
 module.exports = Mini

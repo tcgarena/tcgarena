@@ -5,13 +5,15 @@ import PropTypes from 'prop-types'
 import {
   Login,
   Signup,
-  UserHome,
   SetCockatriceName,
   DecksMenu,
   LobbyMenu,
   HomePage,
   EditUserRoles,
-  AdminTools
+  AdminTools,
+  UserPage,
+  ProfileAnchor,
+  ClosedMiniView
 } from './components'
 import {me, fetchDecks} from './store'
 
@@ -27,11 +29,7 @@ class Routes extends Component {
     const {isLoggedIn, hasCockaName, isAdmin} = this.props
     return (
       <div>
-        {hasCockaName && (
-          <div id="profile-anchor">
-            {this.props.username} ({this.props.ELO})
-          </div>
-        )}
+        {hasCockaName && <ProfileAnchor />}
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
@@ -42,6 +40,8 @@ class Routes extends Component {
               {/* Routes placed here are only available after logging in */}
               <Route path="/cockaName" component={SetCockatriceName} />
               <Route path="/decks" component={DecksMenu} />
+              <Route path="/mini/:miniUuid" component={ClosedMiniView} />
+              <Route exact path="/user/:cockatriceName" component={UserPage} />
               {hasCockaName && (
                 <Switch>
                   {/* Routes placed here are only available after setting username */}
@@ -75,7 +75,7 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id,
+    isLoggedIn: !!state.user.email,
     isAdmin: state.user.accessLevel >= 5,
     hasCockaName: !!state.user.cockatriceName,
     username: state.user.cockatriceName,

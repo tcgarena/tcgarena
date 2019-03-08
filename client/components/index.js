@@ -4,7 +4,6 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
-export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
 export {ReCaptchaComponent} from './ReCaptcha'
 export {default as SetCockatriceName} from './SetCockatriceName'
@@ -13,10 +12,14 @@ export {default as NavFormats} from './NavFormats'
 export {default as FormatSelect} from './FormatSelect'
 export {default as ConfirmAction} from './ConfirmAction'
 export {default as HomePage} from './HomePage'
+export {default as ProfileAnchor} from './ProfileAnchor'
 
 export {default as AdminTools} from './AdminComponents/AdminTools'
 export {default as EditUserRoles} from './AdminComponents/EditUserRoles'
 
+export {default as UserPage} from './ProfileComponents/UserPage'
+export {default as MiniHistory} from './ProfileComponents/MiniHistory'
+export {default as ClosedMiniView} from './ProfileComponents/ClosedMiniView'
 
 export {default as DecksMenu} from './DeckComponents/DecksMenu'
 export {default as SingleDeckView} from './DeckComponents/SingleDeckView'
