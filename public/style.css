@@ -552,7 +552,7 @@ form div {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 167px;
+  /* margin-left: 167px; */
   width: 300px;
   /* left: -200px; */
   min-height: 56px;
@@ -561,6 +561,14 @@ form div {
   background-color: rgb(236, 230, 230);
   padding: 4px;
   font-size: 18px;
+}
+
+.highlight {
+  background-color: rgb(172, 165, 165);
+  border: solid 1px black;
+  border-radius: 4px;
+  padding: 4px;
+  /* margin: 2px; */
 }
 
 .decklist-preview p {
