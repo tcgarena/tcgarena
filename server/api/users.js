@@ -45,7 +45,9 @@ router.get('/:cockatriceName', async (req, res, next) => {
 router.get('/minis/:cockatriceName', async (req, res, next) => {
   try {
     const closedMinis = await Mini.fetchClosedMinisByCockaName(req.params.cockatriceName)
-    res.json(closedMinis)
+    Object.keys(closedMinis).length
+      ? res.json(closedMinis)
+      : res.json({response: `No mini history.`})
   } catch (err) { 
     next(err)
   }
