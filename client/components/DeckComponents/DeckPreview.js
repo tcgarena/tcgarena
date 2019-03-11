@@ -1,13 +1,16 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-const DeckPreview = ({decks, deckId}) => {
+const DeckPreview = ({decks, deckId, list}) => {
 
   const mainDeck = []
   const sideboard = []
 
-  if (deckId) {
-    decks[deckId].list.split('\n').forEach( (line, idx) => {
+  if (!list && deckId)
+    list = decks[deckId].list
+  
+  if (list)  
+    list.split('\n').forEach( (line, idx) => {
       if (line.slice(0,2) !== '//') {
         if (line.slice(0,3) === 'SB:') {
           sideboard.push(<p key={idx}>{line.slice(4)}</p>)
@@ -16,9 +19,8 @@ const DeckPreview = ({decks, deckId}) => {
         }
       }
     })
-  }
 
-  return deckId ? (
+  return list ? (
     <div className="decklist-preview-container">
       <div className="decklist-preview">
         <h5>Maindeck</h5>

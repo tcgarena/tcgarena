@@ -15,10 +15,7 @@ const MiniHistory = ({match, history}) => {
     }
   }
 
-  useEffect(() => {
-    const getMinis = !Object.keys(minis).length 
-    getMinis && fetchMinis()
-  })
+  useEffect(() => {fetchMinis()}, [match.params.cockatriceName])
 
   const showMinis = () => {
     const closedMinis = Object.keys(minis).reduce( (arr, key) => {
@@ -44,7 +41,7 @@ const MiniHistory = ({match, history}) => {
     )
   }
 
-  return <div>{minis && showMinis()}</div>
+  return <div>{minis.response ? minis.response : showMinis()}</div>
 }
 
 export default withRouter(MiniHistory)

@@ -11,10 +11,8 @@ const UserPage = ({match}) => {
     setUser(user)
   }
 
-  useEffect(() => {
-    const getUser = !Object.keys(user).length 
-    getUser && fetchUser()
-  })
+  // only re-fetches the user if the url changes
+  useEffect(() => {fetchUser()}, [match.params.cockatriceName])
 
   const showUser = () => {
     return <div id='user-page'>

@@ -66,7 +66,11 @@ const SingleMiniView = ({isJudge, getMini, match, leaveMini, myUsername, history
             <div className='single-mini-participants-container'>
               <u>Participants</u>
                 {participantsArr.map(user => (
-                  <div className="single-mini-participants" key={user.cockatriceName}>
+                  <div 
+                    className="single-mini-participants pointer" 
+                    key={user.cockatriceName}
+                    onClick={()=>history.push(`/user/${user.cockatriceName}`)}
+                  >
                     {user.cockatriceName} ({user.ELO})
                   </div>
                 ))}

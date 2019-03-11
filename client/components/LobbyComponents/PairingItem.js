@@ -1,9 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
+import {withRouter} from 'react-router-dom'
 import {getMini} from '../../store'
 
-const PairingItem = ({pair, myUsername, isJudge, miniUuid, matchUuid, getMini}) => {
+const PairingItem = ({pair, myUsername, isJudge, miniUuid, matchUuid, getMini, history}) => {
   let me, opponent, myPairing = false
   const mini = getMini(miniUuid)
   
@@ -31,8 +32,14 @@ const PairingItem = ({pair, myUsername, isJudge, miniUuid, matchUuid, getMini}) 
 
   return (
     <div className={isJudge ? 'pairing-item-judge':'pairing-item'}>
-      <div>
-        {me.cockatriceName} ({me.deckhash}) vs {opponent.cockatriceName} ({opponent.deckhash})
+      <div className='row'>
+        <div className='pointer' onClick={()=>history.push(`/user/${me.cockatriceName}`)}>
+          {me.cockatriceName} ({me.deckhash})
+        </div>
+        <div style={{marginLeft: 4, marginRight: 4}}>vs.</div>
+        <div className='pointer' onClick={()=>history.push(`/user/${opponent.cockatriceName}`)}>
+          {opponent.cockatriceName} ({opponent.deckhash})
+        </div>
       </div>
       {isJudge && !locked && !finalized && <button 
         className='lock-button'
@@ -55,4 +62,4 @@ const mapState = state => ({
   getMini: miniId => getMini(state, miniId)
 })
 
-export default connect(mapState)(PairingItem)
+export default withRouter(connect(mapState)(PairingItem))
