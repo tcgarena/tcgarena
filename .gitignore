@@ -5,6 +5,6 @@ secrets.js
 .DS_Store
 npm-debug.log
 yarn-error.log
-# signup.txt
+signup.txt
 Mini.json
 # server/api/data/cardData.json
