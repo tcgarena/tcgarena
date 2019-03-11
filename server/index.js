@@ -116,11 +116,6 @@ const startListening = () => {
 
         http://localhost:${PORT}/
   `))
-  require('dns').lookup(require('os').hostname(), function (err, add, fam) {
-    console.log(`        http://${add}:${PORT}/
-
-    `);
-  })
 
   // set up our socket control center
   const io = socketio(server)
