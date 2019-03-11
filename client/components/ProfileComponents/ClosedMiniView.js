@@ -2,20 +2,33 @@ import React, {useEffect, useState} from 'react'
 import {withRouter} from 'react-router-dom'
 import axios from 'axios'
 import {DeckPreview} from '..'
+import msToTime from '../../utils/msToTime'
 
 const ClosedMiniView = ({history, match}) => {
   const [mini, setMini] = useState({})
-  const [timeUntilPublic, setTime] = useState()
+  const [timeUntilPublic, setTime] = useState(1)
 
   const fetchMini = async () => {
     const {data: mini} = await axios.get(`/api/minis/closed/${match.params.miniUuid}`)
     setMini(mini)
+    if (!mini.overFor24hrs) {
+      const dayMs = 1000*60*60*24
+      const timeLeft = dayMs - (Date.now() - new Date(mini.updatedAt).getTime())
+      setTime(timeLeft)
+    }
   }
 
   useEffect(() => {
     const getMini = !Object.keys(mini).length 
     getMini && fetchMini()
-  })
+    if (timeUntilPublic > 1000) {
+      const timer = window.setInterval(() => setTime(time => time - 1000), 1000)
+      return () => window.clearInterval(timer)
+    } else if (!mini.overFor24hrs) {
+      // add a delay just incase the client slightly disagrees with the server
+      setTimeout(() => fetchMini(), 1000)
+    }
+  }, [timeUntilPublic])
 
   const showMini = () => {
     console.log(mini)
@@ -39,6 +52,7 @@ const ClosedMiniView = ({history, match}) => {
       <div className='single-mini-participants-container'>
         {participantsArr}
       </div>
+      <div>{!mini.overFor24hrs && msToTime(timeUntilPublic)}</div>
     </div>
   }
 

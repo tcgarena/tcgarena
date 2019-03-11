@@ -19,7 +19,7 @@ const eagerloadParticipants = async minis => {
     // useful array of mini ids
     const miniIds = minis.map(mini => mini.dataValues.id)
 
-    const dayMs = 1000*60*60*24    
+    const dayMs = 1000*60*60*24
     const now = Date.now()
 
     // turn the array into an obj
