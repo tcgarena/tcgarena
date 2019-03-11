@@ -28,6 +28,10 @@ form div {
   font-size: 20px;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 #user-page {
   display: flex;
   width: 100%;

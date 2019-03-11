@@ -64,7 +64,7 @@ class MatchResultForm extends React.Component {
   }
 
   showForm() {
-    const {myUsername, match, minis} = this.props
+    const {myUsername, match, minis, history} = this.props
     const {response, myMatch, myScore, opponentScore} = this.state
     const miniUuid = match.params.miniId
 
@@ -156,12 +156,12 @@ class MatchResultForm extends React.Component {
                 </div>
                 <div className='match-report-form-users'>
                   <div className='match-report-form-user'>
-                    <p>{myUsername}</p>
+                    <p className='pointer' onClick={()=>history.push(`/user/${myUsername}`)}>{myUsername}</p>
                     <input type="number" min='0' max='2' name='myScore' value={this.state.myScore} onChange={this.handleChange} />
                   </div>
                   <div style={{margin: 30}}>vs.</div>
                   <div className='match-report-form-user'>
-                    <p>{myMatch.opponent.cockatriceName}</p>          
+                    <p className='pointer' onClick={()=>history.push(`/user/${myMatch.opponent.cockatriceName}`)}>{myMatch.opponent.cockatriceName}</p>          
                     <input type="number" min='0' max='2' name='opponentScore' value={this.state.opponentScore} onChange={this.handleChange} />
                   </div>
                 </div>
