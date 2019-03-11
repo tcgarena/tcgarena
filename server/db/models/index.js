@@ -123,7 +123,7 @@ Mini.fetchClosedMinisByCockaName = async function (cockatriceName) {
       where: {
         state: 'closed',
         id: {
-          [Op.or]: miniIds
+          [Op.in]: miniIds
         }
       }
     })

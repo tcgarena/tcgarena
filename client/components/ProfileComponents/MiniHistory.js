@@ -44,7 +44,7 @@ const MiniHistory = ({match, history}) => {
     )
   }
 
-  return <div>{minis && showMinis()}</div>
+  return <div>{minis ? showMinis() : 'No minis here!'}</div>
 }
 
 export default withRouter(MiniHistory)
