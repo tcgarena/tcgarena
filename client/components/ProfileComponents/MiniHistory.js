@@ -15,10 +15,7 @@ const MiniHistory = ({match, history}) => {
     }
   }
 
-  useEffect(() => {
-    const getMinis = !Object.keys(minis).length
-    getMinis && fetchMinis()
-  }, [])
+  useEffect(() => {fetchMinis()}, [match.params.cockatriceName])
 
   const showMinis = () => {
     const closedMinis = Object.keys(minis).reduce( (arr, key) => {
