@@ -5,9 +5,8 @@ import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
 import App from './app'
-
-// establishes socket connection
-import './socket'
+import './socket' // establishes socket connection
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 ReactDOM.render(
   <Provider store={store}>
