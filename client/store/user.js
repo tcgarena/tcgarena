@@ -11,12 +11,16 @@ const SELECT_FORMAT = 'SELECT_FORMAT'
 const SELECT_DECK = 'SELECT_DECK'
 const DESELECT_DECK = 'DESELECT_DECK'
 const SET_UUID = 'SET_UUID'
+const TOGGLE_HB_MENU = 'TOGGLE_HB_MENU'
+const MOUSE_LEAVE_HB = 'MOUSE_LEAVE_HB'
 
 /**
  * INITIAL STATE
  */
 const defaultUser = {
-  selectedFormat: 'standard'
+  selectedFormat: 'standard',
+  showHBmenu: false,
+  mouseInHBmenu: false
 }
 
 /**
@@ -28,6 +32,8 @@ export const selectFormat = format => ({type: SELECT_FORMAT, format})
 export const selectDeck = deckId => ({type: SELECT_DECK, deckId})
 export const deselectDeck = () => ({type: DESELECT_DECK})
 export const setUuid = uuid => ({type: SET_UUID, uuid})
+export const toggleHBmenu = () => ({type: TOGGLE_HB_MENU})
+export const closeHBmenu = () => ({type: MOUSE_LEAVE_HB})
 
 /**
  * THUNK CREATORS
@@ -36,6 +42,7 @@ export const me = () => async dispatch => {
   try {
     const res = await axios.get('/api/user')
     // dispatch(getUser(res.data || defaultUser))
+    console.log(res)
     dispatch(getUser(res.data))
   } catch (err) {
     console.error(err)
@@ -89,6 +96,10 @@ export default function(state = defaultUser, action) {
     case DESELECT_DECK:
       const {selectedDeck: _, ...newState} = state
       return {...newState}
+    case TOGGLE_HB_MENU:
+      return {...state, showHBmenu: !state.showHBmenu}
+    case MOUSE_LEAVE_HB:
+      return {...state, showHBmenu: false}
     default:
       return state
   }

@@ -8,10 +8,10 @@ const SingleDeckView = ({decks, match, history}) => {
   return deck ? (
     <div className="single-decklist">
       <h4>{deck.name}</h4>
-      <button type="button" onClick={() => history.push(`/decks/${id}/edit`)}>
+      <button className='global-button' type="button" onClick={() => history.push(`/decks/${id}/edit`)}>
         Edit
       </button>
-      <button type="button" onClick={() => history.push(`/decks/${id}/delete`)}>
+      <button className='global-button' type="button" onClick={() => history.push(`/decks/${id}/delete`)}>
         Delete
       </button>
       <h5>{deck.format}</h5>

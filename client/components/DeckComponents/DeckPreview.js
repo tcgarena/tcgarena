@@ -8,8 +8,8 @@ const DeckPreview = ({decks, deckId, list}) => {
 
   if (!list && deckId)
     list = decks[deckId].list
-  
-  if (list)  
+
+  if (list)
     list.split('\n').forEach( (line, idx) => {
       if (line.slice(0,2) !== '//') {
         if (line.slice(0,3) === 'SB:') {
@@ -33,7 +33,7 @@ const DeckPreview = ({decks, deckId, list}) => {
     </div>
   ) : (
     <div className="decklist-preview-container decklist-preview">
-      <div>Hover over a deck to see a preview.</div>
+      <div>hover over deck to see preview</div>
     </div>
   )
 }

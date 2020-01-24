@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {ErrorList, FormatSelect} from '../index'
 import deckCheck from '../../utils/deckCheck'
-import { saveDeck, updateDeck, selectDeck} from '../../store'
+import {saveDeck, updateDeck, selectDeck} from '../../store'
 
 class DeckForm extends React.Component {
   constructor(props) {
@@ -72,10 +72,11 @@ class DeckForm extends React.Component {
             name="deckName"
             type="text"
             placeholder="Deck Name"
+            maxLength={16}
             onChange={this.handleChange}
             value={this.state.deckName}
           />
-          { (!this.state.isEdit && showFormat) && <FormatSelect className='deck-format-field'/> }
+          { (!this.state.isEdit && showFormat) && <FormatSelect /> }
           <textarea
             className="deck-field"
             name="decklist"
@@ -83,7 +84,7 @@ class DeckForm extends React.Component {
             value={this.state.decklist}
             onChange={this.handleChange}
           />
-          <input type="submit" value="Submit" />
+          <input className='global-button' type="submit" value="Submit" />
         </form>
         <ErrorList errors={this.state.errors} />
       </div>

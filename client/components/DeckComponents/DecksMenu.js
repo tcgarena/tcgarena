@@ -27,11 +27,10 @@ const DecksMenu = ({history, decks}) => {
         <NavFormats formats={formats} />
       }/>
       <Route exact path='/decks' render={() =>
-        <button onClick={() => {
+        <button id='add-deck-button' onClick={() => {
           history.push('/decks/add')
         }}
-          style={{margin:8}}
-        >Add New Deck</button>
+        >new deck</button>
       } />
       <Route exact path='/decks' component={() =>
         <DecksList actionButton={viewButton} />

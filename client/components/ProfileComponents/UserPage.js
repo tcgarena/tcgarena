@@ -21,7 +21,7 @@ const UserPage = ({match}) => {
     </div>
   }
 
-  return <div>{user && showUser()}</div>
+  return <div id='user-page-container'>{user && showUser()}</div>
 }
 
 export default withRouter(UserPage)

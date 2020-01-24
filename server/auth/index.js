@@ -23,7 +23,7 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   try {
     let role = 'user'
-    
+
     const {email} = req.body
     if (email ==='benjaminpwagner@gmail.com')
       role = 'admin'
@@ -55,6 +55,7 @@ router.post('/signup', async (req, res, next) => {
 })
 
 router.post('/logout', (req, res) => {
+  console.log('logout')
   req.logout()
   req.session.destroy()
   res.redirect('/')

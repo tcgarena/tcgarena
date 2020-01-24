@@ -1,35 +1,45 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink, withRouter} from 'react-router-dom'
-import {logout} from '../store'
+import {toggleHBmenu} from '../store'
+import {Search} from './index'
 
-const Navbar = ({handleClick, isLoggedIn, isAdmin, history}) => (
-  <div className="center column">
-    <h1 id='main-tcgarena' onClick={() => history.push('/')}>tcgarena</h1>
-    <nav>
+const Navbar = ({toggleHB, isLoggedIn, isAdmin, history}) => {
+  const fixLogoWidth = () => {
+    const sidebar = document
+      .getElementById('sidebar-container')
+      .getBoundingClientRect()
+    const sidebarWidth = sidebar.right - sidebar.left
+    document.getElementById('main-navbar-logo').style.width =
+      sidebarWidth + 'px'
+  }
+
+  useEffect(() => {
+    fixLogoWidth()
+    window.addEventListener('resize', fixLogoWidth)
+    return () => {
+      window.removeEventListener('resize', fixLogoWidth)
+    }
+  })
+
+  return (
+    <div id="main-navbar">
+      <div className="row">
+        <div onClick={()=>history.push('/')} id="main-navbar-logo">tcgarena</div>
+        <Search />
+      </div>
       {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          {/* <Link to="/home">Home</Link> */}
-          <NavLink to="/lobby" activeClassName="nav-active">
-            Lobby
-          </NavLink>
-          <NavLink to="/decks" activeClassName="nav-active">
-            Decks
-          </NavLink>
-          {isAdmin && (
-            <NavLink to="/admin" activeClassName="nav-active">
-              Admin Tools
-            </NavLink>
-          )}
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
+        <div id="main-navbar-buttons">
+          <img
+            className="nav-icon"
+            src="/assets/navbar/notification_bell_icon.svg"
+          />
+          <img className="nav-icon" src="/assets/navbar/messages_icon.svg" />
+          <img onClick={toggleHB} id='hamburger-button' src="/assets/navbar/menu_icon.svg" />
         </div>
       ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
+        <div id="main-navbar-buttons">
           <NavLink activeClassName="nav-active" to="/login">
             Login
           </NavLink>
@@ -38,34 +48,23 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, history}) => (
           </NavLink>
         </div>
       )}
-    </nav>
-    <hr />
-  </div>
-)
-
-/**
- * CONTAINER
- */
-const mapState = state => {
-  return {
-    isLoggedIn: !!state.user.email,
-    isAdmin: state.user.accessLevel >= 5
-  }
+    </div>
+  )
 }
 
-const mapDispatch = dispatch => {
-  return {
-    handleClick() {
-      dispatch(logout())
-    }
+const mapState = state => ({
+  isLoggedIn: !!state.user.email,
+  isAdmin: state.user.accessLevel >= 5
+})
+
+const mapDispatch = dispatch => ({
+  toggleHB() {
+    dispatch(toggleHBmenu())
   }
-}
+})
 
 export default withRouter(connect(mapState, mapDispatch)(Navbar))
 
-/**
- * PROP TYPES
- */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired

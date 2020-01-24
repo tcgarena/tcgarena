@@ -4,8 +4,14 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
+export {default as Sidebar} from './sidebar'
+export {default as Player} from './player'
+export {default as Feed} from './feed'
+export {default as Search} from './search'
+export {default as Settings} from './settings'
+export {default as HamburgerMenu} from './HamburgerMenu'
 export {Login, Signup} from './auth-form'
-export {ReCaptchaComponent} from './ReCaptcha'
+export {default as ReCaptchaComponent} from './ReCaptcha'
 export {default as SetCockatriceName} from './SetCockatriceName'
 export {default as ErrorList} from './ErrorList'
 export {default as NavFormats} from './NavFormats'

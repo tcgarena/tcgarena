@@ -7,6 +7,7 @@ const FormatSelect = ({selectedFormat, selectFormat}) => (
   <select
     name="selectedFormat"
     value={selectedFormat}
+    className='deck-format-field'
     onChange={e => selectFormat(e.target.value)}
   >
   {formats.map(format => (

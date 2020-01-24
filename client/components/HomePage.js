@@ -2,8 +2,6 @@ import React from 'react'
 
 export default () => <div id='home-page'>
 
-  <a href='https://discord.gg/DwNr2DD' target="_blank">Discord Server</a>
-  <a href='https://github.com/tcgarena/tcgarena' target="_blank">Github</a>
   <h1>TCGArena</h1>
 
   <p>TCGArena is an open source replacement for the once popular (offline since Nov 2018) tournament hosting platform magic-league.</p>
@@ -20,7 +18,7 @@ export default () => <div id='home-page'>
     <p>- Rank/elo system</p>
     <p>- Save/Edit/Share decklists</p>
     <p>- Decklist validator (for all sanctioned formats plus historic standard)</p>
-  
+
     <h2>Future updates</h2>
 
     <p>- Leaderboards</p>

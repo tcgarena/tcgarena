@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth, fetchDecks} from '../store'
-import ReCaptchaComponent from './ReCaptcha'
+import {ReCaptchaComponent} from './index'
 
 /**
  * COMPONENT
@@ -25,47 +25,37 @@ class AuthForm extends Component {
   render() {
     const {name, displayName, handleSubmit, error} = this.props
     return (
-      <div className="center column">
+      <div id='auth-form'>
         <form onSubmit={handleSubmit} name={name} className="center column">
           <div>
             <label htmlFor="email">
               <small>Email</small>
             </label>
-            <input name="email" type="text" />
+            <input className='auth-input' name="email" type="text" />
           </div>
           <div>
             <label htmlFor="password">
               <small>Password</small>
             </label>
-            <input name="password" type="password" />
+            <input className='auth-input' name="password" type="password" />
           </div>
           {name === 'signup' ? (
-              <ReCaptchaComponent handleVerify={this.handleVerify} />
+            <ReCaptchaComponent handleVerify={this.handleVerify} />
           ) : (
             <div />
           )}
           {name === 'login' && (
             <div>
-              <button type="submit">Login</button>
+              <button id='auth-button' type="submit">Login</button>
             </div>
           )}
           {name === 'signup' &&
             this.state.verified && (
               <div>
-                <button type="submit">Signup</button>
+                <button id='auth-button' type="submit">Signup</button>
               </div>
             )}
           {error && error.response && <div> {error.response.data} </div>}
-
-          {name === 'signup' && <div className='column center'>
-            <div>Passwords are not stored as plain text.</div>
-            <div className='row'>
-              <div>If you're curious about how this works,</div>
-              <a href='https://medium.com/@benjaminpwagner/using-sequelize-hooks-and-crypto-to-encrypt-user-passwords-5cf1a27513d9' target="_blank">
-                checkout this article I wrote.
-              </a>
-            </div>
-          </div>}
         </form>
         {/* <a href="/auth/google">{displayName} with Google</a> */}
       </div>

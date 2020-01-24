@@ -15,13 +15,12 @@ class LobbyJudgePanel extends React.Component {
 
   newMiniButton() {
     return <button
-      className='global-button'
       onClick={
         () => this.setState({newMini: true})
       }
     >New Mini</button>
   }
-  
+
   render() {
     const {newMini} = this.state
     return (

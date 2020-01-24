@@ -13,7 +13,7 @@ class LobbyMenu extends React.Component {
   render() {
     const {pathname} = this.props.history.location
     return (
-      <div>
+      <div id='lobby-main'>
         {(this.props.isJudge && pathname==='/lobby')
           && <LobbyJudgePanel/>
         }

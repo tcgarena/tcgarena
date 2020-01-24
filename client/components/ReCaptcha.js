@@ -20,8 +20,7 @@ class ReCaptchaComponent extends Component {
   }
   render() {
     return (
-      <div>
-        {/* You can replace captchaDemo with any ref word */}
+      <div id='recaptcha'>
         <ReCaptcha
           size="normal"
           render="explicit"

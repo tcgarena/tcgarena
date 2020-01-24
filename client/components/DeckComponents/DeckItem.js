@@ -53,6 +53,7 @@ class DeckItem extends React.Component {
             {/* action button is the first button */}
 
             <button
+              className='global-button'
               type="button"
               onClick={() => actionButton.action(deck.id)}
             >
@@ -60,13 +61,17 @@ class DeckItem extends React.Component {
             </button>
 
             <button
+              className='global-button'
               type="button"
               onClick={() => history.push(`/decks/${deck.id}/edit`)}
             >
               Edit
             </button>
 
-            <button type="button" onClick={this.toggleDeleteState}>
+            <button
+              className='global-button'
+              type="button"
+              onClick={this.toggleDeleteState}>
               Delete
             </button>
           </div>
