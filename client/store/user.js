@@ -13,6 +13,7 @@ const DESELECT_DECK = 'DESELECT_DECK'
 const SET_UUID = 'SET_UUID'
 const TOGGLE_HB_MENU = 'TOGGLE_HB_MENU'
 const MOUSE_LEAVE_HB = 'MOUSE_LEAVE_HB'
+const CHOOSE_SIDEBAR = 'CHOOSE_SIDEBAR'
 
 /**
  * INITIAL STATE
@@ -20,7 +21,8 @@ const MOUSE_LEAVE_HB = 'MOUSE_LEAVE_HB'
 const defaultUser = {
   selectedFormat: 'standard',
   showHBmenu: false,
-  mouseInHBmenu: false
+  mouseInHBmenu: false,
+  sidebar: 'Lobby'
 }
 
 /**
@@ -34,6 +36,7 @@ export const deselectDeck = () => ({type: DESELECT_DECK})
 export const setUuid = uuid => ({type: SET_UUID, uuid})
 export const toggleHBmenu = () => ({type: TOGGLE_HB_MENU})
 export const closeHBmenu = () => ({type: MOUSE_LEAVE_HB})
+export const chooseSidebar = sidebar => ({type: CHOOSE_SIDEBAR, sidebar})
 
 /**
  * THUNK CREATORS
@@ -100,6 +103,8 @@ export default function(state = defaultUser, action) {
       return {...state, showHBmenu: !state.showHBmenu}
     case MOUSE_LEAVE_HB:
       return {...state, showHBmenu: false}
+    case CHOOSE_SIDEBAR:
+      return {...state, sidebar: action.sidebar}
     default:
       return state
   }

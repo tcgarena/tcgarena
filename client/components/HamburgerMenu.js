@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {logout, closeHBmenu} from '../store'
-import sidebar from './sidebar'
 
 const HamburgerMenu = ({visible, isLoggedIn, handleLogout, handleMouseLeave}) => {
   const positionSelf = () => {

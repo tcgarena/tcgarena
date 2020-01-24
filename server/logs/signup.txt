@@ -1,1 +1,2 @@
 Fri Jan 24 2020: test@test.com joined the arena as role user
+Fri Jan 24 2020: new@new.com joined the arena as role user

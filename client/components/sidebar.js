@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import { create } from 'react-test-renderer'
+import {chooseSidebar} from '../store'
 
-const Sidebar = ({isLoggedIn, isAdmin, username, history}) => {
+const Sidebar = ({isLoggedIn, isAdmin, username, history, selected, setSelected}) => {
   const [collapsed, doCollapse] = useState(false)
-  const [selected, setSelected] = useState('Profile')
 
   const setLogo = () => {
     const logo = document.getElementById('main-navbar-logo')
@@ -24,21 +23,22 @@ const Sidebar = ({isLoggedIn, isAdmin, username, history}) => {
     setLogo()
   })
 
-  const createButton = (name, path=false) => (
+  const createButton = (name, path=false) => {
+    console.log(name, selected)
+    return (
     <div
       className={
-        name == selected ? 'sidebar-button-selected' : 'sidebar-button'
+        name === selected ? 'sidebar-button-selected' : 'sidebar-button'
       }
       onClick={() => {
-        console.log(name, path)
         history.push(path ? path : `/${name.toLowerCase()}`)
         setSelected(name)
       }}
     >
-      <img className="sidebar-icon" src={`/assets/sidebar/${name}_icon.svg`} />
+      <img className="sidebar-icon" src={`/assets/sidebar/${name.toLowerCase()}_icon.svg`} />
       {!collapsed && <div className="sidebar-button-text">{name}</div>}
     </div>
-  )
+  )}
 
   return (
     <div id="sidebar-container">
@@ -69,12 +69,18 @@ const Sidebar = ({isLoggedIn, isAdmin, username, history}) => {
   )
 }
 
-const mapState = state => {
-  return {
-    isLoggedIn: !!state.user.email,
-    isAdmin: state.user.accessLevel >= 5,
-    username: state.user.cockatriceName
-  }
-}
+const mapState = state =>  ({
+  isLoggedIn: !!state.user.email,
+  isAdmin: state.user.accessLevel >= 5,
+  username: state.user.cockatriceName,
+  selected: state.user.sidebar
+})
 
-export default withRouter(connect(mapState)(Sidebar))
+
+const mapDispatch = dispatch => ({
+  setSelected(name) {
+    dispatch(chooseSidebar(name))
+  }
+})
+
+export default withRouter(connect(mapState, mapDispatch)(Sidebar))

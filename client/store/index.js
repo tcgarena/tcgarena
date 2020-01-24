@@ -26,7 +26,8 @@ store.subscribe( () => {
   saveState({
     user: {
       selectedFormat: store.getState().user.selectedFormat,
-      selectedDeck: store.getState().user.selectedDeck
+      selectedDeck: store.getState().user.selectedDeck,
+      sidebar: store.getState().user.sidebar
     },
     decks: store.getState().decks
   })
