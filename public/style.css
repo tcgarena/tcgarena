@@ -179,33 +179,23 @@ form div {
   width: 100%;
   overflow: auto;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-content: center;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 40px;
   background-color: rgb(33, 32, 33);
 }
 
 #home-page p {
-  display: flex;
-  flex-direction: column;
   margin: 2px;
-}
-
-#home-page a {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  text-decoration-color: blueviolet
+  text-align: center;
 }
 
 #home-page-features p {
   display: flex;
   flex-direction: column;
   margin-left: 3vw;
+  text-align: start;
 }
 
 #home-page-features h2 {

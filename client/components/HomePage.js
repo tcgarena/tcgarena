@@ -4,12 +4,14 @@ export default () => <div id='home-page'>
 
   <h1>TCGArena</h1>
 
-  <p>TCGArena is an open source replacement for the once popular (offline since Nov 2018) tournament hosting platform magic-league.</p>
-  <p>Magic-league was incepted in 2002, and in its prime attracted hundreds of competitive REL players, as well as many professional REL players.</p>
-  <p>Our goal is to create a friendly, yet competitive community where players can participate in ranked tournaments and single matches.</p>
-  <p>Just like magic-league, TCGArena will have weekly trial tournaments, and larger free-to-enter monthly tournaments with cash prizes.</p>
-  <p>We will be using cockatrice (rooster ranges server) as we develop the core features of our app, but we plan to support other platforms in the future.</p>
-  <p>We are currently in open beta with rolling updates.</p>
+  <div id='home-page-text'>
+    <p>TCGArena is an open source replacement for the once popular (offline since Nov 2018) tournament hosting platform magic-league.</p>
+    <p>Magic-league was incepted in 2002, and in its prime attracted hundreds of competitive REL players, as well as many professional REL players.</p>
+    <p>Our goal is to create a friendly, yet competitive community where players can participate in ranked tournaments and single matches.</p>
+    <p>Just like magic-league, TCGArena will have weekly trial tournaments, and larger free-to-enter monthly tournaments with cash prizes.</p>
+    <p>We will be using cockatrice (rooster ranges server) as we develop the core features of our app, but we plan to support other platforms in the future.</p>
+    <p>We are currently in open beta with rolling updates.</p>
+  </div>
 
   <div id='home-page-features'>
     <h2>Current Features</h2>
