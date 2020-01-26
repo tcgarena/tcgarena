@@ -517,6 +517,13 @@ form div {
   flex-direction: column;
 }
 
+.cockatrice-name-field {
+  background-color: rgb(202, 202, 202);
+  border-radius: 6px;
+  margin: 4px;
+  font-size: 16px;
+}
+
 #lobby-navbar {
   display: flex;
   flex-direction: column;
@@ -995,6 +1002,17 @@ a {
   display: flex;
   justify-content: center;
   align-content: center;
+  align-items: center;
+}
+
+#set-cocka-name {
+  background-color: rgb(33, 32, 33);
+  width: 100%;
+  overflow: auto;
+  display: flex;
+
+  flex-direction: column;
+
   align-items: center;
 }
 

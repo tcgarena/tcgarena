@@ -27,18 +27,18 @@ class SetCockatriceName extends React.Component {
     window.alert('That name is already taken!')
   }
 
-  
+
   async userNameCheck() {
     const {data: existingUser} = await axios.get(`/api/users/${this.state.cockatriceName}`)
     existingUser
       ? this.reject()
       : this.accept()
   }
-  
+
   handleChange(event) {
     this.setState({cockatriceName: event.target.value})
   }
-  
+
   handleSubmit(event) {
     event.preventDefault()
     this.userNameCheck()
@@ -46,16 +46,16 @@ class SetCockatriceName extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>Set your cockatrice username to continue...</h3>
+      <div id='set-cocka-name'>
+        <h3>Set your cockatrice username to continue to the lobby...</h3>
         <form className='cockatrice-name-form' onSubmit={this.handleSubmit}>
           <input className='cockatrice-name-field' type='text' onChange={this.handleChange} value={this.state.cockatriceName} />
-          <input type="submit" value="Submit" />
+          <input className='global-button' type="submit" value="Submit" />
         </form>
       </div>
     )
   }
-  
+
 }
 
 const mapDispatchToProps = {
