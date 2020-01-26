@@ -2,10 +2,10 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink, withRouter} from 'react-router-dom'
-import {toggleHBmenu} from '../store'
+import {toggleHBmenu, chooseSidebar} from '../store'
 import {Search} from './index'
 
-const Navbar = ({toggleHB, isLoggedIn, isAdmin, history}) => {
+const Navbar = ({toggleHB, isLoggedIn, isAdmin, history, setSidebar}) => {
   const fixLogoWidth = () => {
     const sidebar = document
       .getElementById('sidebar-container')
@@ -26,7 +26,10 @@ const Navbar = ({toggleHB, isLoggedIn, isAdmin, history}) => {
   return (
     <div id="main-navbar">
       <div className="row">
-        <div onClick={()=>history.push('/')} id="main-navbar-logo">tcgarena</div>
+        <div onClick={()=>{
+          history.push('/')
+          setSidebar('About')
+        }} id="main-navbar-logo">tcgarena</div>
         <Search />
       </div>
       {isLoggedIn ? (
@@ -60,6 +63,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   toggleHB() {
     dispatch(toggleHBmenu())
+  },
+  setSidebar(sidebar) {
+    dispatch(chooseSidebar(sidebar))
   }
 })
 

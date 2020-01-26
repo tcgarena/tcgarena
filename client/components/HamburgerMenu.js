@@ -9,46 +9,50 @@ const HamburgerMenu = ({visible, isLoggedIn, handleLogout, handleMouseLeave}) =>
       .getBoundingClientRect()
 
     const hamburgerMenu = document.getElementById('hamburger-menu')
-    const hamburgerMenuBox = hamburgerMenu.getBoundingClientRect()
 
     const posX = navbar.right - 100
-    const posY = navbar.bottom
+    const posY = navbar.top
 
     hamburgerMenu.style.left = posX +'px'
     hamburgerMenu.style.top = posY +'px'
+    hamburgerMenu.style.paddingTop = navbar.bottom +'px'
+  }
+
+  const closeHB = m => {
+    const hamburgerMenu = document.getElementById('hamburger-menu')
+    if (!hamburgerMenu.hidden) {
+      const hamburgerMenuBox = hamburgerMenu.getBoundingClientRect()
+      if (m.clientX < hamburgerMenuBox.left) handleMouseLeave()
+      if (m.clientX > hamburgerMenuBox.right) handleMouseLeave()
+      if (m.clientY < hamburgerMenuBox.top) handleMouseLeave()
+      if (m.clientY > hamburgerMenuBox.bottom) handleMouseLeave()
+    }
   }
 
   useEffect(() => {
     if (document.getElementById('hamburger-button') && visible)
       positionSelf()
+    window.addEventListener('resize', positionSelf)
+    window.addEventListener('mousemove', m => closeHB(m))
+    return () => {
+      window.removeEventListener('resize', positionSelf)
+      window.removeEventListener('mousemove', m => closeHB(m))
+    }
   })
 
+  return <div hidden={!visible} id="hamburger-menu">
+    <div
+      className='hamburger-menu-button'
+      onClick={handleLogout}
+    >logout</div>
+  </div>
 
-  return isLoggedIn ? (
-    <div hidden={visible} id="hamburger-menu"
-      onMouseLeave={handleMouseLeave}
-    >
-      <div
-        className='hamburger-menu-button'
-        onClick={handleLogout}
-      >logout</div>
-    </div>
-  ) : (
-    <div hidden={visible} id="hamburger-menu">
-      <div
-        className='hamburger-menu-button'
-        onClick={()=>{
-
-        }}
-      >login</div>
-    </div>
-  )
 }
 
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.email,
-    visible: !state.user.showHBmenu
+    visible: !!state.user.showHBmenu
   }
 }
 

@@ -850,6 +850,7 @@ a {
   height: 4vh;
   min-height: 40px;
   width: 100vw;
+  z-index: 1;
 }
 
 #main-navbar-logo {
@@ -1024,13 +1025,15 @@ a {
 #hamburger-menu {
   position: absolute;
   width: 100px;
-  background-color: rgb(58, 58, 58);
+  background-color: rgba(179, 49, 49, 0);
+  z-index: 0;
 }
 
 .hamburger-menu-button {
   padding: 2px;
   border: solid black 1px;
   color: rgb(144, 144, 144);
+  background-color: rgb(58, 58, 58);
   display: flex;
   justify-content: center;
 }

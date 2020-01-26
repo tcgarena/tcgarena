@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {chooseSidebar} from '../store'
 
-const Sidebar = ({isLoggedIn, isAdmin, username, history, selected, setSelected}) => {
+const Sidebar = ({isLoggedIn, hasCockaName, isAdmin, username, history, selected, setSelected}) => {
   const [collapsed, doCollapse] = useState(false)
 
   const setLogo = () => {
@@ -43,7 +43,7 @@ const Sidebar = ({isLoggedIn, isAdmin, username, history, selected, setSelected}
   return (
     <div id="sidebar-container">
       <div id="main-sidebar">
-        {isLoggedIn && createButton('Profile', `/user/${username}`)}
+        {hasCockaName && createButton('Profile', `/user/${username}`)}
         {isLoggedIn && createButton('Lobby')}
         {isLoggedIn && createButton('Decks')}
         {isLoggedIn && createButton('Settings')}
@@ -73,6 +73,7 @@ const mapState = state =>  ({
   isLoggedIn: !!state.user.email,
   isAdmin: state.user.accessLevel >= 5,
   username: state.user.cockatriceName,
+  hasCockaName: !!state.user.cockatriceName,
   selected: state.user.sidebar
 })
 

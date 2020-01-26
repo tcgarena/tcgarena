@@ -61,7 +61,7 @@ export const auth = (email, password, method) => async dispatch => {
   }
 
   try {
-    history.push('/')
+    history.push('/lobby')
     // dispatch(getUser(res.data))
     dispatch(me())
     dispatch(fetchDecks())

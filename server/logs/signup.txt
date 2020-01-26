@@ -1,2 +1,4 @@
 Fri Jan 24 2020: test@test.com joined the arena as role user
 Fri Jan 24 2020: new@new.com joined the arena as role user
+Sat Jan 25 2020: testagain@email.com joined the arena as role user
+Sat Jan 25 2020: testies@email.com joined the arena as role user
