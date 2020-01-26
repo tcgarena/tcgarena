@@ -1,1 +1,31 @@
-{}
+{
+  "4e6ec644-fdb7-4acd-9f9b-e96315356517": {
+    "pairings": {},
+    "results": {},
+    "users": {},
+    "uuid": "4e6ec644-fdb7-4acd-9f9b-e96315356517",
+    "participantsHash": 0,
+    "pairingsHash": 0,
+    "resultsHash": 0,
+    "clientData": {
+      "uuid": "4e6ec644-fdb7-4acd-9f9b-e96315356517",
+      "format": "standard",
+      "type": "single elimination",
+      "state": "open",
+      "timePerRoundMins": 45,
+      "round": 0,
+      "createdAt": 1579999551441,
+      "maxPlayers": 4,
+      "judge": "morphiac",
+      "participants": {},
+      "pairings": {},
+      "results": {}
+    },
+    "format": "standard",
+    "type": "single elimination",
+    "timePerRoundMins": 45,
+    "maxPlayers": 4,
+    "judgeId": 4,
+    "judgeName": "morphiac"
+  }
+}

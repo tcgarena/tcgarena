@@ -46,11 +46,11 @@ class JoinMiniForm extends React.Component {
   render() {
     return this.state.isAdding
       ? (
-        <div>
-          {this.props.hasDecks && <button onClick={this.toggleAdd}>
+        <div className='temp'>
+          {this.props.hasDecks && <button className='global-button' onClick={this.toggleAdd}>
             Cancel
           </button>}
-          <h5>No valid deck for this format, please add one.</h5>
+          {!this.props.hasDecks && <h5>No valid deck for this format, please add one.</h5>}
           <AddDeckForm
             redirect={this.toggleAdd}
             showFormat={false}
@@ -58,8 +58,8 @@ class JoinMiniForm extends React.Component {
         </div>
       ) : (
         <div className='decks-menu-main'>
-          <button onClick={this.toggleAdd} style={{margin:5}}>
-            Add New Deck
+          <button className='global-button' onClick={this.toggleAdd} style={{margin:5}}>
+            new deck
           </button>
           <DecksList actionButton={this.joinButton} />
         </div>

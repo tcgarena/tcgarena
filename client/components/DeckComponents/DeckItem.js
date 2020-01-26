@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {selectDeck, deleteDeck, deselectDeck} from '../../store'
+import {selectDeck, deleteDeck, deselectDeck, chooseSidebar} from '../../store'
 import {ConfirmAction} from '../index'
 
 class DeckItem extends React.Component {
@@ -34,7 +34,7 @@ class DeckItem extends React.Component {
   }
 
   showButtons() {
-    const {deck, history, actionButton} = this.props
+    const {deck, history, actionButton, setSidebar} = this.props
     const {isDeleting} = this.state
     return (
       <div>
@@ -63,7 +63,10 @@ class DeckItem extends React.Component {
             <button
               className='global-button'
               type="button"
-              onClick={() => history.push(`/decks/${deck.id}/edit`)}
+              onClick={() => {
+                history.push(`/decks/${deck.id}/edit`)
+                setSidebar('Decks')
+              }}
             >
               Edit
             </button>
@@ -105,10 +108,16 @@ const mapState = ({decks, user: {selectedFormat}}) => ({
   selectedFormat
 })
 
-const mapDispatch = {
-  selectDeck,
-  deleteDeck,
-  deselectDeck
-}
+const mapDispatch = dispatch => ({
+  deleteDeck(id) {
+    dispatch(deleteDeck(id))
+  },
+  deselectDeck() {
+    dispatch(deselectDeck())
+  },
+  setSidebar(name) {
+    dispatch(chooseSidebar(name))
+  }
+})
 
 export default connect(mapState, mapDispatch)(DeckItem)

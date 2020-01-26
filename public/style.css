@@ -447,7 +447,8 @@ form div {
   align-items: center;
   align-content: center;
   flex-direction: column;
-  width: 60%
+  width: 60%;
+  min-width: 300px;
 }
 .new-deck-form select {
   font-size: 16px;
@@ -1000,9 +1001,10 @@ a {
   width: 100%;
   overflow: auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-content: center;
   align-items: center;
+  padding-bottom: 20px;
 }
 
 #set-cocka-name {
