@@ -6,7 +6,7 @@ import SeedDB from './SeedDB'
 
 const AdminTools = ({name}) => {
   return (
-    <div>
+    <div className='temp'>
       <div>
         <h1>Welcome {name}!</h1>
       </div>
