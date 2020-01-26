@@ -65,6 +65,7 @@ export const auth = (email, password, method) => async dispatch => {
     // dispatch(getUser(res.data))
     dispatch(me())
     dispatch(fetchDecks())
+    chooseSidebar('Lobby')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
