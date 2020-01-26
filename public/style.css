@@ -711,7 +711,7 @@ form div {
   justify-content: space-between;
   width: 9em;
   height: 60px;
-  padding: 2px;
+  padding: 6px;
   margin: 3px;
   border: solid 1px black;
   border-radius: 8px;
@@ -721,8 +721,8 @@ form div {
   font-size: 18px;
 }
 .deck-item-container p {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
   align-self: center;
 }
 
@@ -765,6 +765,7 @@ form div {
   border-radius: 4px;
   padding-bottom: 16px;
   width: 40%;
+  min-width: 300px;
 }
 
 #mini-list-container p {
@@ -813,16 +814,33 @@ a {
   font-size: 12px;
 }
 
-.table {
+#edit-users-table {
+  margin-top: 20px;
   display: table;
   border-collapse: separate;
   border-spacing: 2px;
+  background-color: rgb(114, 114, 114);
+  /* width: 100%; */
+  /* overflow: auto; */
+  /* display: flex; */
+  /* flex-direction: column;
+  padding-bottom: 20px; */
 }
+.edit-user-button {
+  border-radius: 8px;
+  padding: 1px;
+  font-size: 0.9em;
+  outline: none;
+  border: solid black 1px;
+  margin: 2px;
+  color: rgb(148, 148, 148);
+  background-color: rgb(68, 69, 69);
+}
+
 .thead {
   display: table-header-group;
-  color: white;
   font-weight: bold;
-  background-color: grey;
+  background-color: rgb(116, 116, 116);
 }
 .tbody {
   display: table-row-group;
@@ -834,6 +852,7 @@ a {
   display: table-cell;
   border: 1px solid black;
   padding: 1px;
+  color: black;
 }
 .tr.editing .td input {
   width: 100px;

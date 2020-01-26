@@ -86,6 +86,7 @@ class EditUserRoles extends React.Component {
           <div className="td">{user.role}</div>
           <div className="td">
             <select
+              className='deck-format-field'
               name={user.id}
               value={this.state.users[user.id].targetRole}
               onChange={this.handleChange}
@@ -98,7 +99,7 @@ class EditUserRoles extends React.Component {
             </select>
           </div>
           <div className="td">
-            <button type="button" onClick={() => this.handleSubmit(user)}>
+            <button className='edit-user-button' type="button" onClick={() => this.handleSubmit(user)}>
               Submit
             </button>
           </div>
@@ -111,17 +112,19 @@ class EditUserRoles extends React.Component {
     const showUsers = Object.keys(this.state.users).length > 0
     return (
       showUsers && (
-        <div className="table">
-          <div className="thead">
-            <div className="tr">
-              <div className="td">Cockatrice Name</div>
-              <div className="td">Email</div>
-              <div className="td">User Role</div>
-              <div className="td">New Role</div>
-              <div className="td" />
+        <div className='temp'>
+          <div id="edit-users-table">
+            <div className="thead">
+              <div className="tr">
+                <div className="td">Cockatrice Name</div>
+                <div className="td">Email</div>
+                <div className="td">User Role</div>
+                <div className="td">New Role</div>
+                <div className="td" />
+              </div>
             </div>
+            <div className="tbody">{this.userForms()}</div>
           </div>
-          <div className="tbody">{this.userForms()}</div>
         </div>
       )
     )
