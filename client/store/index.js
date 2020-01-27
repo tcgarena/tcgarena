@@ -27,7 +27,8 @@ store.subscribe( () => {
     user: {
       selectedFormat: store.getState().user.selectedFormat,
       selectedDeck: store.getState().user.selectedDeck,
-      sidebar: store.getState().user.sidebar
+      sidebar: store.getState().user.sidebar,
+      collapseSB: store.getState().user.collapseSB
     },
     decks: store.getState().decks
   })

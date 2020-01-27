@@ -1,11 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {chooseSidebar} from '../store'
+import {chooseSidebar, collapseSidebar} from '../store'
 
-const Sidebar = ({isLoggedIn, hasCockaName, isAdmin, username, history, selected, setSelected}) => {
-  const [collapsed, doCollapse] = useState(false)
-
+const Sidebar = ({collapsed, doCollapse, isLoggedIn, hasCockaName, isAdmin, username, history, selected, setSelected}) => {
   const setLogo = () => {
     const logo = document.getElementById('main-navbar-logo')
     const sidebar = document
@@ -74,13 +72,17 @@ const mapState = state =>  ({
   isAdmin: state.user.accessLevel >= 5,
   username: state.user.cockatriceName,
   hasCockaName: !!state.user.cockatriceName,
-  selected: state.user.sidebar
+  selected: state.user.sidebar,
+  collapsed:  state.user.collapseSB
 })
 
 
 const mapDispatch = dispatch => ({
   setSelected(name) {
     dispatch(chooseSidebar(name))
+  },
+  doCollapse(bool) {
+    dispatch(collapseSidebar(bool))
   }
 })
 

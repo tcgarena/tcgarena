@@ -14,6 +14,7 @@ const SET_UUID = 'SET_UUID'
 const TOGGLE_HB_MENU = 'TOGGLE_HB_MENU'
 const MOUSE_LEAVE_HB = 'MOUSE_LEAVE_HB'
 const CHOOSE_SIDEBAR = 'CHOOSE_SIDEBAR'
+const COLLAPSE_SB = 'COLLAPSE_SB'
 
 /**
  * INITIAL STATE
@@ -22,7 +23,8 @@ const defaultUser = {
   selectedFormat: 'standard',
   showHBmenu: false,
   mouseInHBmenu: false,
-  sidebar: 'Lobby'
+  sidebar: 'Lobby',
+  collapseSB: false,
 }
 
 /**
@@ -37,6 +39,7 @@ export const setUuid = uuid => ({type: SET_UUID, uuid})
 export const toggleHBmenu = () => ({type: TOGGLE_HB_MENU})
 export const closeHBmenu = () => ({type: MOUSE_LEAVE_HB})
 export const chooseSidebar = sidebar => ({type: CHOOSE_SIDEBAR, sidebar})
+export const collapseSidebar = bool => ({type: COLLAPSE_SB, bool})
 
 /**
  * THUNK CREATORS
@@ -106,6 +109,8 @@ export default function(state = defaultUser, action) {
       return {...state, showHBmenu: false}
     case CHOOSE_SIDEBAR:
       return {...state, sidebar: action.sidebar}
+    case COLLAPSE_SB:
+      return {...state, collapseSB: action.bool}
     default:
       return state
   }
