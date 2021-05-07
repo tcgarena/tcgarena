@@ -50,7 +50,7 @@
     "history": "^4.10.1",
     "js-sha1": "^0.6.0",
     "jsbn": "^1.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "morgan": "^1.9.1",
     "nodemailer": "^5.1.1",
     "passport": "^0.3.2",
