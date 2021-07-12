@@ -9,7 +9,7 @@ export default () => <div id='home-page'>
     <p>Magic-league was incepted in 2002, and in its prime attracted hundreds of competitive REL players, as well as many professional REL players.</p>
     <p>Our goal is to create a friendly, yet competitive community where players can participate in ranked tournaments and single matches.</p>
     <p>Just like magic-league, TCGArena will have weekly trial tournaments, and larger free-to-enter monthly tournaments with cash prizes.</p>
-    <p>We will be using cockatrice (rooster ranges server) as we develop the core features of our app, but we plan to support other platforms in the future.</p>
+    <p>We will be using cockatrice (rooster ranges server) as we develop the core features of our app, but we plan to support other platforms in the future. (Arena)</p>
     <p>We are currently in open beta with rolling updates.</p>
   </div>
 
@@ -23,6 +23,7 @@ export default () => <div id='home-page'>
 
     <h2>Future updates</h2>
 
+    <p>- Arena support</p>
     <p>- Leaderboards</p>
     <p>- User pages (match history, elo changes etc)</p>
     <p>- Weekly trial tournaments (can earn byes for masters)</p>
